@@ -1,10 +1,14 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { imgUrl } from "helpers/path";
+import useLogout from "hooks/useLogout";
 
 const DashboardSidebar = () => {
+
   const navigate = useNavigate();
   const location = useLocation();
+  const logout = useLogout()
+
 
   return (
     <div className="py-5">
@@ -52,7 +56,7 @@ const DashboardSidebar = () => {
           Orders
         </p>
 
-        <p className="font-Josefin text-[20px] hover:text-primary hover:cursor-pointe">
+        <p className="font-Josefin text-[20px] hover:text-primary hover:cursor-pointe" onClick={logout}>
           Log Out
         </p>
       </div>

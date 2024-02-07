@@ -8,18 +8,25 @@ export const LoginSchema = (type) => {
 
   if (type === "company") {
     schema = schema.shape({
-      email: yup.string().email("😠 Please enter a valid email.").required("😠 Please enter an email."),
+      email: yup
+        .string()
+        .email("😠 Please enter a valid email.")
+        .required("😠 Please enter an email."),
     });
   } else if (type === "farmer" || type === "vendor") {
     schema = schema.shape({
-      phone: yup.string().required("😠 Please enter your phone.").matches(/^\d{10}$/, "😠 Please enter your phone in the format: 3000000000"),
+      phone: yup
+        .string()
+        .required("😠 Please enter your phone.")
+        .matches(
+          /^\d{10}$/,
+          "😠 Please enter your phone in the format: 3000000000"
+        ),
     });
   }
 
   return schema;
 };
-
-
 
 export const otpSchema = yup.object().shape({
   otp: yup
@@ -30,4 +37,9 @@ export const otpSchema = yup.object().shape({
       if (!value) return true;
       return String(value).length === 4;
     }),
+});
+
+export const userRegisterSchema = yup.object().shape({
+  firstName: yup.string().required("Please enter first name."),
+  lastName: yup.string().required("Please enter last name."),
 });

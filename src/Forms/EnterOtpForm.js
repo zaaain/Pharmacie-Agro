@@ -6,7 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import { otpSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
 
-const EnterPhoneEmailForm = ({ onSubmit, num ,err}) => {
+const EnterPhoneEmailForm = ({ onSubmit, num, email}) => {
   const {
     control,
     register,
@@ -25,7 +25,7 @@ const {otpLoader} = authReducer
         <span className="font-bold text-primary font-JosefinBold text-[18px]">
           Note:{" "}
         </span>{" "}
-        {`We can send otp code in this number (0${num})`}
+        {num ? `We can send otp code in this number (0${num})` : `We can send otp code in this email (${email})`}
       </p>
       <div className="mt-5">
         <Controller
@@ -41,9 +41,6 @@ const {otpLoader} = authReducer
             />
           )}
         />
-        {err && (
-         <p className="text-red-600 font-Catamaran text-[16px] mt-2">{err}</p>
-        )}
         <div className="mt-10 flex justify-center items-center">
           <Button
             width={200}

@@ -4,7 +4,7 @@ import EnterPhoneEmailForm from "Forms/EnterPhoneEmailForm";
 import EnterOtpForm from "Forms/EnterOtpForm"
 import { imgUrl } from "helpers/path";
 import { roles } from "helpers/constant";
-import { enterOtp } from "../redux/slices/authSlice/authAction";
+import { enterOtp, getProfile } from "../redux/slices/authSlice/authAction";
 import { useDispatch } from "react-redux";
 import { IconButton, Tooltip } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -22,6 +22,7 @@ const Login = () => {
   const [otpFlag, setOtpFlag] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
   const [userNum,setUserNum] = useState("")
+  const [userEmail,setUserEmail] = useState("")
   const [userId,setUserId] = useState("")
 
   const handleLogin = (val) => {
@@ -34,8 +35,11 @@ const Login = () => {
     if(selectedRole !== "company" && val.phone){
       setUserNum(val.phone)
     }
+    if(selectedRole == "company" && val.email){
+      setUserEmail(val.email)
+    }
     api
-      .post("/api/auth/password/less/login", payload)
+      .post(selectedRole === "company" ? "/api/auth/password/less/login" : "/api/auth/password/less/login", payload)
       .then((res) => {
         const response = res.data && res.data.data
         setLoader(false);
@@ -57,12 +61,14 @@ const Login = () => {
     .unwrap()
     .then((res)=>{
       console.log("response", res)
-      const response= res.data && res.data.data ? res.data.data : {}
+      const response= res.data ? res.data : {}
       localStorage.setItem("jwt", response.token);
       navigate("/")
+      if(response.firstName && response.lastName){
+        dispatch(getProfile())
+      }
     })
     .catch((err)=>{
-      console.log("err", err.response)
       eSnack(err.message ? err.message : "Sorry something is went wrong")
     })
   }
@@ -120,7 +126,7 @@ const Login = () => {
           
         )}
         {selectedRole && otpFlag && (
-          <EnterOtpForm onSubmit={handleEnterOtp} num={userNum} />
+          <EnterOtpForm onSubmit={handleEnterOtp} num={userNum} email={userEmail}/>
          )} 
       </div>
     </div>
