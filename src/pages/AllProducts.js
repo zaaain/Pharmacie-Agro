@@ -4,6 +4,7 @@ import Filter from "components/allProducts/Filter";
 import Card from "components/allProducts/Card";
 import { imgUrl } from "helpers/path";
 
+
 const data = [
   {
     id: 1,
@@ -14,21 +15,21 @@ const data = [
   },
   {
     id: 2,
-    img: imgUrl + "/agripro.jpg",
+    img: imgUrl + "/pro2.jpg",
     category: "Vegetables",
     price: 1500,
     name: "Lambda",
   },
   {
     id: 3,
-    img: imgUrl + "/agripro.jpg",
+    img: imgUrl + "/pro3.jpg",
     category: "Fruits",
     price: 1000,
     name: "Lambda",
   },
   {
     id: 4,
-    img: imgUrl + "/agripro.jpg",
+    img: imgUrl + "/pro4.jpg",
     category: "Fertilizers",
     price: 1200,
     name: "Lambda",

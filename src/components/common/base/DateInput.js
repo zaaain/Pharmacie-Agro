@@ -1,31 +1,31 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-const TextAreaInput = ({
+const FormInput = forwardRef(({
   onChange,
   disabled,
   placeholder,
   value,
   error,
   defaultValue,
-  rows = 3, 
   ...rest
-}) => {
+}, ref) => {
   return (
     <>
-      <textarea
-        className="w-full bg-[#f5f6f7] rounded-2xl outline-none p-5 font-Catamaran text-[16px]"
+      <input
+        className="min-w-full bg-[#f5f6f7] h-[60px] text-[#000] rounded-2xl outline-none p-5 font-Catamaran text-[16px]"
         style={{ width: "100%" }}
-        value={value}
+        type="date"
+        value={value ? value : {}}
+        ref={ref}
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
         defaultValue={defaultValue}
-        rows={rows} // Set the number of rows
         {...rest}
       />
       {error && <p className="text-red-600 font-Catamaran text-[12px] mt-2">{error}</p>}
     </>
   );
-};
+});
 
-export default TextAreaInput;
+export default FormInput;

@@ -2,6 +2,7 @@ import React from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import TextAreaInput from "components/common/base/TextAreaInput";
+import DateInput from "components/common/base/DateInput"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -13,7 +14,7 @@ import {
 } from "helpers/constant";
 import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
-// import { otpSchema } from "helpers/schema";
+import { FruitsFormSchema } from "helpers/schema";
 
 const FruitsForm = ({ onSubmit }) => {
   const {
@@ -22,9 +23,9 @@ const FruitsForm = ({ onSubmit }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(otpSchema),
-    // defaultValues,
+    resolver: yupResolver(FruitsFormSchema),
   });
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-3 gap-4">
@@ -35,7 +36,7 @@ const FruitsForm = ({ onSubmit }) => {
             render={({ field }) => (
               <FormInput
                 {...register("name")}
-                placeholder="Enter Product Name"
+                placeholder="Enter Commodity Name"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 error={errors?.name && errors.name.message}
@@ -45,7 +46,7 @@ const FruitsForm = ({ onSubmit }) => {
         </div>
         <div className="col-span-1">
           <Controller
-            name="packagingType"
+            name="pkgType"
             control={control}
             defaultValue={null}
             render={({ field }) => (
@@ -54,7 +55,7 @@ const FruitsForm = ({ onSubmit }) => {
                 options={packagingType}
                 placeholder="Select Packaging Type"
                 value={field.value}
-                error={errors?.packagingType && errors.packagingType.message}
+                error={errors?.pkgType && errors.pkgType.message}
               />
             )}
           />
@@ -77,7 +78,7 @@ const FruitsForm = ({ onSubmit }) => {
         </div>
         <div className="col-span-1">
           <Controller
-            name="packageWeight"
+            name="pkgWeight"
             control={control}
             render={({ field }) => (
               <FormInput
@@ -86,14 +87,14 @@ const FruitsForm = ({ onSubmit }) => {
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.packageWeight && errors.packageWeight.message}
+                error={errors?.pkgWeight && errors.pkgWeight.message}
               />
             )}
           />
         </div>
         <div className="col-span-1">
           <Controller
-            name="packageQuantity"
+            name="pkgQuantity"
             control={control}
             render={({ field }) => (
               <FormInput
@@ -102,25 +103,23 @@ const FruitsForm = ({ onSubmit }) => {
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                error={
-                  errors?.packageQuantity && errors.packageQuantity.message
-                }
+                error={errors?.pkgQuantity && errors.pkgQuantity.message}
               />
             )}
           />
         </div>
         <div className="col-span-1">
           <Controller
-            name="packagePrice"
+            name="price"
             control={control}
             render={({ field }) => (
               <FormInput
                 {...register("name")}
-                placeholder="Enter Package Price"
+                placeholder="Enter Price Per Package"
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.packagePrice && errors.packagePrice.message}
+                error={errors?.price && errors.price.message}
               />
             )}
           />
@@ -173,14 +172,61 @@ const FruitsForm = ({ onSubmit }) => {
             )}
           />
         </div>
+        <div className="col-span-1">
+          <Controller
+            name="shelfLifeStart"
+            control={control}
+            defaultValue={null}
+            render={({ field }) => (
+              <FormInput
+                {...register("shelfLifeStart")}
+                placeholder="Select Shelf Life Start Date"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                error={errors?.shelfLifeStart && errors.shelfLifeStart.message}
+              />
+            )}
+          />
+        </div>
+        <div className="col-span-1">
+          <Controller
+            name="shelfLifeEnd"
+            control={control}
+            defaultValue={null}
+            render={({ field }) => (
+              <FormInput
+                {...register("shelfLifeEnd")}
+                placeholder="Select Shelf Life End Date"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                error={errors?.shelfLifeEnd && errors.shelfLifeEnd.message}
+              />
+            )}
+          />
+        </div>
+        <div className="col-span-1">
+          <Controller
+            name="availableFrom"
+            control={control}
+            defaultValue={null}
+            render={({ field }) => (
+              <FormInput
+                {...register("availableFrom")}
+                placeholder="Select Available From"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                error={errors?.availableFrom && errors.availableFrom.message}
+              />
+            )}
+          />
+        </div>
         <div className="col-span-3">
           <Controller
             name="description"
             control={control}
             render={({ field }) => (
               <TextAreaInput
-                {...register("description")}
-                placeholder="Enter Product description"
+                placeholder="Enter Product Description"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 error={errors?.description && errors.description.message}

@@ -55,6 +55,14 @@ const DashboardSidebar = () => {
         >
           Orders
         </p>
+        <p
+         onClick={()=>navigate("/orders")}
+          className={`font-Josefin text-[20px] hover:text-primary hover:cursor-pointer ${
+            location.pathname === "/orders" ? "text-primary" : ""
+          }`}
+        >
+          Bids
+        </p>
 
         <p className="font-Josefin text-[20px] hover:text-primary hover:cursor-pointe" onClick={logout}>
           Log Out

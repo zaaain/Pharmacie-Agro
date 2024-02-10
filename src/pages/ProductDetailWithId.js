@@ -5,14 +5,13 @@ import { Button } from "components/common/base/button";
 import { imgUrl } from "helpers/path";
 
 const data = {
-  img: imgUrl + "/detailImg.jpg",
+  img: imgUrl + "/patatoo.jpg",
   price: "1500",
   ship: "Free",
-  name: "Zarva",
+  name: "Patato",
   address: "Piplan, Mianwali, Punjab",
   quantity: "100 plastic",
-  description:
-    "Zinc plays a crucial role in plant growth as an essential micronutrient. It is a cofactor for various enzymes involved in metabolic processes, aiding in photosynthesis and energy production. Zinc also contributes to the formation of plant hormones, influencing growth and development. Adequate zinc levels enhance plant resistance to stress factors such as diseases and drought. However, an imbalance in zinc availability can negatively impact plant health, emphasizing the importance of maintaining proper zinc levels in soil for optimal crop growth.",
+  description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 };
 
 const ProductDetailWithId = () => {
@@ -70,7 +69,24 @@ const ProductDetailWithId = () => {
               height={45}
               width={140}
               font="Josefin"
-              disabled={quantity <= 0}
+              // disabled={quantity <= 0}
+            />
+          </div>
+          <div className="max-w-[200px] mt-2">
+            <FormInput
+              placeholder="Enter Bid Price"
+              type="number"
+              value={quantity}
+              onChange={(e) => handleChange(e.target.value)}
+            />
+          </div>
+          <div className="mt-4">
+            <Button
+              value="Bid Now"
+              height={45}
+              width={140}
+              font="Josefin"
+              // disabled={quantity <= 0}
             />
           </div>
         </div>

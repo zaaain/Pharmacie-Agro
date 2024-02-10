@@ -30,7 +30,7 @@ const CustomSelect = ({ onChange, value, options, placeholder, error }) => {
         className="font-Catamaran rounded-2xl"
         placeholder={placeholder} // Use placeholder prop here
       />
-      {error && <p>{error}</p>}
+      {error && <p className="text-red-600 font-Catamaran text-[12px] mt-2">{error}</p>}
     </div>
   );
 };

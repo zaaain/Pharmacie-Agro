@@ -101,6 +101,16 @@ const AddNewProduct = () => {
   };
 
   const handleAddNew = (val) => {
+
+    Object.assign(val,{
+      ProductType:selectedCategory,
+      bidding:val.bidding.label,
+      pkgType:val.pkgType.label,
+      shipping:val.shipping.label,
+      tax:val.tax.label,
+      weightUnit:val.weightUnit.label,
+      discount:"no"
+    })
     console.log("value", val)
   };
 
@@ -131,7 +141,7 @@ const AddNewProduct = () => {
             </div>
           </>
         )}
-        {selectedCategory && !newProductFlag && (
+        {/* {selectedCategory && !newProductFlag && (
           <>
             <p className="font-Josefin text-primary text-[24px] mt-5">
               Do you want to search for a product ?
@@ -146,8 +156,8 @@ const AddNewProduct = () => {
               <Button value="Yes" width={150} height={50} onClick={() => setNewProductFlag(true)} />
             </div>
           </>
-        )}
-        {newProductFlag && selectedCategory && getCategoryComponent(selectedCategory, handleAddNew)}
+        )} */}
+        {selectedCategory && getCategoryComponent(selectedCategory, handleAddNew)}
       </div>
     </Layout>
   );

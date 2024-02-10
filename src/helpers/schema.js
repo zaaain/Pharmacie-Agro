@@ -43,3 +43,19 @@ export const userRegisterSchema = yup.object().shape({
   firstName: yup.string().required("Please enter first name."),
   lastName: yup.string().required("Please enter last name."),
 });
+
+export const FruitsFormSchema = yup.object().shape({
+  name: yup.string().required("Please enter name."),
+  pkgType: yup.object().required("Please select package type."),
+  weightUnit: yup.object().required("Please select weight unit."),
+  pkgWeight: yup.string().required("Please enter weight weight."),
+  pkgQuantity: yup.string().required("Please enter package quantity."),
+  price: yup.string().required("Please enter price."),
+  bidding: yup.object().required("Please select bidding."),
+  tax: yup.object().required("Please select tax."),
+  shipping: yup.object().required("Please select shipping type."),
+  shelfLifeStart: yup.string().required("Please select shelf start date."),
+  shelfLifeEnd: yup.string().required("Please select shelf end date."),
+  availableFrom: yup.string().required("Please select available from."),
+  description: yup.string().required("Please enter description."),
+});
