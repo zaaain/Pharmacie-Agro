@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import TextField from '@mui/material/TextField';
 
 const FormInput = forwardRef(({
   onChange,
@@ -8,17 +9,17 @@ const FormInput = forwardRef(({
   error,
   type,
   defaultValue,
+  label,
   ...rest
 }, ref) => {
   return (
     <>
-      <input
-        className="min-w-full bg-[#f5f6f7] h-[60px] text-[#000] rounded-2xl outline-none p-5 font-Catamaran text-[16px]"
-        style={{ width: "100%" }}
+      <TextField
+        style={{ width: "100%"}}
         type={type}
         value={value}
         ref={ref}
-        placeholder={placeholder}
+        label={placeholder}
         onChange={onChange}
         disabled={disabled}
         defaultValue={defaultValue}

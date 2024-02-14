@@ -11,6 +11,7 @@ import MachinaryToolsForm from "components/dashboard/ProductForms/MachinaryTools
 import FormInput from "components/common/base/FormInput";
 import { Button } from "components/common/base/button";
 import { imgUrl } from "helpers/path";
+import moment from "moment"
 
 const categoryData = [
   {
@@ -63,10 +64,10 @@ const categoryData = [
   },
 ];
 
-function getCategoryComponent(val, handleAddNew) {
+function getCategoryComponent(val, handleAddNew,images, handleImagesChange, ) {
   if (!val) return null;
   if (val === "Fruits") {
-    return <FruitsForm onSubmit={handleAddNew} />;
+    return <FruitsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
   }
   if (val === "Vegetables") {
     return <VegetablesForm />;
@@ -92,23 +93,28 @@ function getCategoryComponent(val, handleAddNew) {
 }
 
 const AddNewProduct = () => {
+
   const [selectedCategory, setSelectedCategory] = useState("");
   const [newProductFlag, setNewProductFlag] = useState(false);
+  const [images,setImages] = useState([])
 
   const handleSelectCategory = (val) => {
     if (!val) return;
     setSelectedCategory(val);
   };
 
+  const handleImagesChange = (files) => {
+    const imageName = files.length > 0 ? files[0].name : null;
+    setImages([...images, imageName]);
+  };
+
   const handleAddNew = (val) => {
 
     Object.assign(val,{
       ProductType:selectedCategory,
-      bidding:val.bidding.label,
-      pkgType:val.pkgType.label,
-      shipping:val.shipping.label,
-      tax:val.tax.label,
-      weightUnit:val.weightUnit.label,
+      shelfLifeStart: val.shelfLifeStart && moment(val.shelfLifeStart, "YYYY-MM-DD").format("DD/MM/YYYY"),
+      shelfLifeEnd: val.shelfLifeEnd && moment(val.shelfLifeEnd, "YYYY-MM-DD").format("DD/MM/YYYY"),
+      availableFrom: val.availableFrom && moment(val.availableFrom, "YYYY-MM-DD").format("DD/MM/YYYY"),
       discount:"no"
     })
     console.log("value", val)
@@ -157,7 +163,7 @@ const AddNewProduct = () => {
             </div>
           </>
         )} */}
-        {selectedCategory && getCategoryComponent(selectedCategory, handleAddNew)}
+        {selectedCategory && getCategoryComponent(selectedCategory, handleAddNew, images, handleImagesChange)}
       </div>
     </Layout>
   );

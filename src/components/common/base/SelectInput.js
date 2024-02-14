@@ -1,37 +1,28 @@
 import React from "react";
-import Select from "react-select";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
-const customStyles = {
-  control: (provided) => ({
-    ...provided,
-    border: "none",
-    color: "#f5f6f7",
-    minWidth: "100%",
-    height: "60px",
-    outline: "none",
-    borderRadius: "18px",
-    backgroundColor: "#f5f6f7",
-    boxShadow: "none",
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected ? "#668968" : "white", // Change background color of selected option
-  }),
-};
 
-const CustomSelect = ({ onChange, value, options, placeholder, error }) => {
+const CustomSelect = ({ onChange, value, options, placeholder, disabled, error }) => {
   return (
-    <div style={{ position: "relative" }}>
-      <Select
-        options={options}
-        styles={customStyles}
-        onChange={onChange}
-        value={value}
-        className="font-Catamaran rounded-2xl"
-        placeholder={placeholder} // Use placeholder prop here
-      />
+    <>
+      <FormControl fullWidth>
+        <InputLabel id="select-label">{placeholder}</InputLabel>
+        <Select
+          labelId="select-label"
+          value={value}
+          onChange={onChange}
+          label={placeholder}
+          disabled={disabled}
+        >
+          {options && options.length > 0 && options.map((item) => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       {error && <p className="text-red-600 font-Catamaran text-[12px] mt-2">{error}</p>}
-    </div>
+      </>
   );
 };
 

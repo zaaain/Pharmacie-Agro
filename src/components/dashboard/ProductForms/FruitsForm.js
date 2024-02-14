@@ -16,7 +16,7 @@ import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { FruitsFormSchema } from "helpers/schema";
 
-const FruitsForm = ({ onSubmit }) => {
+const FruitsForm = ({ onSubmit, onImages, images }) => {
   const {
     control,
     register,
@@ -25,6 +25,8 @@ const FruitsForm = ({ onSubmit }) => {
   } = useForm({
     resolver: yupResolver(FruitsFormSchema),
   });
+
+  console.log("images", images)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -178,7 +180,7 @@ const FruitsForm = ({ onSubmit }) => {
             control={control}
             defaultValue={null}
             render={({ field }) => (
-              <FormInput
+              <DateInput
                 {...register("shelfLifeStart")}
                 placeholder="Select Shelf Life Start Date"
                 value={field.value}
@@ -194,7 +196,7 @@ const FruitsForm = ({ onSubmit }) => {
             control={control}
             defaultValue={null}
             render={({ field }) => (
-              <FormInput
+              <DateInput
                 {...register("shelfLifeEnd")}
                 placeholder="Select Shelf Life End Date"
                 value={field.value}
@@ -210,7 +212,7 @@ const FruitsForm = ({ onSubmit }) => {
             control={control}
             defaultValue={null}
             render={({ field }) => (
-              <FormInput
+              <DateInput
                 {...register("availableFrom")}
                 placeholder="Select Available From"
                 value={field.value}
@@ -226,6 +228,7 @@ const FruitsForm = ({ onSubmit }) => {
             control={control}
             render={({ field }) => (
               <TextAreaInput
+                {...register("description")}
                 placeholder="Enter Product Description"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
@@ -235,22 +238,21 @@ const FruitsForm = ({ onSubmit }) => {
           />
         </div>
         <div className="col-span-3">
-          <Controller
-            name="img"
-            control={control}
-            render={({ field }) => (
               <ImageInput
-                onChange={(e) => {
-                  field.onChange(e);
-                }}
-                value={field.value}
-                error={errors?.img && errors.img.message}
-                {...register("img")}
-                placeholder="Enter Product Image"
+              placeholder="Enter Product Image"
+              onChange={onImages}            
               />
-            )}
-          />
         </div>
+        {images && images.length > 0 && (
+        <div className="col-span-3">
+          {images.map((item) =>(
+            <div className=" col-span-1 flex">
+            <img src={item} alt="img" className=" h-[150px] max-w-full"/>
+            </div>
+          ))}
+     
+       </div>
+        )}
         <div className="col-span-3 flex mx-auto">
           <Button
             value="Submit"

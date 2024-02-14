@@ -1,4 +1,5 @@
 import React from "react";
+import TextField from '@mui/material/TextField';
 
 const TextAreaInput = ({
   onChange,
@@ -7,21 +8,25 @@ const TextAreaInput = ({
   value,
   error,
   defaultValue,
+  label,
+  ref,
   rows = 3, 
   ...rest
 }) => {
   return (
     <>
-      <textarea
-        className="w-full bg-[#f5f6f7] rounded-2xl outline-none p-5 font-Catamaran text-[16px]"
-        style={{ width: "100%" }}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
-        disabled={disabled}
-        defaultValue={defaultValue}
-        rows={rows} // Set the number of rows
-        {...rest}
+      <TextField
+         style={{ width: "100%"}}
+         value={value}
+         varriant="outline"
+         ref={ref}
+         label={placeholder}
+         onChange={onChange}
+         disabled={disabled}
+         defaultValue={defaultValue}
+         multiline
+         rows={3}
+         {...rest}
       />
       {error && <p className="text-red-600 font-Catamaran text-[12px] mt-2">{error}</p>}
     </>
