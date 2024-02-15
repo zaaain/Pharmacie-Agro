@@ -12,6 +12,7 @@ import FormInput from "components/common/base/FormInput";
 import { Button } from "components/common/base/button";
 import { imgUrl } from "helpers/path";
 import moment from "moment"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const categoryData = [
   {
@@ -70,10 +71,10 @@ function getCategoryComponent(val, handleAddNew,images, handleImagesChange, ) {
     return <FruitsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
   }
   if (val === "Vegetables") {
-    return <VegetablesForm />;
+    return <VegetablesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange}/>;
   }
   if (val === "Fertilizers") {
-    return <FertilizersForm />;
+    return <FertilizersForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange}/>;
   }
   if (val === "Fiber & Oil Seed Crops") {
     return <FiberOilSeedCropsForm />;
@@ -103,22 +104,34 @@ const AddNewProduct = () => {
     setSelectedCategory(val);
   };
 
-  const handleImagesChange = (files) => {
-    const imageName = files.length > 0 ? files[0].name : null;
-    setImages([...images, imageName]);
+  const handleImagesChange = (file) => {
+    const img = file[0]
+    setImages([...images, img]);
   };
+
+  const handleGoBack = () => {
+    setSelectedCategory("")
+    setImages([])
+  }
 
   const handleAddNew = (val) => {
 
-    Object.assign(val,{
-      ProductType:selectedCategory,
+    if(selectedCategory === "Fruits" || selectedCategory === "Vegetables"){
+      Object.assign(val,{
       shelfLifeStart: val.shelfLifeStart && moment(val.shelfLifeStart, "YYYY-MM-DD").format("DD/MM/YYYY"),
       shelfLifeEnd: val.shelfLifeEnd && moment(val.shelfLifeEnd, "YYYY-MM-DD").format("DD/MM/YYYY"),
       availableFrom: val.availableFrom && moment(val.availableFrom, "YYYY-MM-DD").format("DD/MM/YYYY"),
+      })
+    }
+
+    Object.assign(val,{
+      ProductType:selectedCategory,
       discount:"no"
     })
     console.log("value", val)
   };
+
+
 
   return (
     <Layout>
@@ -163,7 +176,16 @@ const AddNewProduct = () => {
             </div>
           </>
         )} */}
-        {selectedCategory && getCategoryComponent(selectedCategory, handleAddNew, images, handleImagesChange)}
+        {selectedCategory && (
+          <>
+          <div className="flex mb-2 z-10 bg-white sticky ">
+            <div className="shadow-dashboard p-2 rounded-lg flex items-center cursor-pointer" onClick={handleGoBack}>
+            <ArrowBackIcon/> 
+            </div>
+          </div>
+          {getCategoryComponent(selectedCategory, handleAddNew, images, handleImagesChange)}
+          </>
+        )}
       </div>
     </Layout>
   );

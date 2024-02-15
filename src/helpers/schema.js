@@ -59,3 +59,17 @@ export const FruitsFormSchema = yup.object().shape({
   availableFrom: yup.string().required("Please select available from."),
   description: yup.string().required("Please enter description."),
 });
+
+
+export const FertilizersFormSchema = yup.object().shape({
+  name: yup.string().required("Please enter name."),
+  pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
+  weightUnit: yup.string().required("Please select weight unit."),
+  pkgWeight: yup.string().required("Please enter weight weight."),
+  pkgQuantity: yup.string().required("Please enter package quantity."),
+  price: yup.string().required("Please enter price."),
+  bidding: yup.string().required("Please select bidding."),
+  tax: yup.string().required("Please select tax."),
+  shipping: yup.string().required("Please select shipping type."),
+  description: yup.string().required("Please enter description."),
+});

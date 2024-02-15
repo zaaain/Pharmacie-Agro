@@ -244,14 +244,14 @@ const FruitsForm = ({ onSubmit, onImages, images }) => {
               />
         </div>
         {images && images.length > 0 && (
-        <div className="col-span-3">
-          {images.map((item) =>(
-            <div className=" col-span-1 flex">
-            <img src={item} alt="img" className=" h-[150px] max-w-full"/>
-            </div>
-          ))}
-     
-       </div>
+        <>
+          {images.map((img, index) => (
+          <div className="col-span-1">
+          <img key={index} src={URL.createObjectURL(img)} alt={img.name} className="object-contain h-[150px]  rounded-2xl"/>
+          </div>
+       ))}
+            </>
+
         )}
         <div className="col-span-3 flex mx-auto">
           <Button
