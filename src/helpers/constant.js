@@ -51,3 +51,15 @@ export const shippingOption = [
   { id: 1, label: "Free", value: "free" },
   { id: 2, label: "Amount", value: "amount" },
 ]
+
+export const seedTypeOption = [
+  { id: 1, label: "Hybrid", value: "hybrid" },
+  { id: 2, label: "Synthetic", value: "synthetic" },
+  { id: 2, label: "Organic", value: "organic" },
+]
+
+export const seedRegionOption = [
+  { id: 1, label: "Irrigated", value: "irrigated" },
+  { id: 2, label: "Rainfed", value: "rainfed" },
+  { id: 2, label: "Drought", value: "drought" },
+]

@@ -1,36 +1,35 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import TextField from '@mui/material/TextField';
 
-const TextAreaInput = ({
+const TextAreaInput = forwardRef(({
   onChange,
   disabled,
   placeholder,
   value,
   error,
+  type,
   defaultValue,
   label,
-  ref,
-  rows = 3, 
   ...rest
-}) => {
+}, ref) => {
   return (
     <>
       <TextField
-         style={{ width: "100%"}}
-         value={value}
-         varriant="outline"
-         ref={ref}
-         label={placeholder}
-         onChange={onChange}
-         disabled={disabled}
-         defaultValue={defaultValue}
-         multiline
-         rows={3}
-         {...rest}
+        style={{ width: "100%"}}
+        type={type}
+        value={value}
+        ref={ref}
+        label={placeholder}
+        onChange={onChange}
+        disabled={disabled}
+        defaultValue={defaultValue}
+        multiline
+        rows={3}
+        {...rest}
       />
       {error && <p className="text-red-600 font-Catamaran text-[12px] mt-2">{error}</p>}
     </>
   );
-};
+});
 
 export default TextAreaInput;

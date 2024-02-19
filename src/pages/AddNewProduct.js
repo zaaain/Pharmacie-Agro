@@ -77,19 +77,19 @@ function getCategoryComponent(val, handleAddNew,images, handleImagesChange, ) {
     return <FertilizersForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange}/>;
   }
   if (val === "Fiber & Oil Seed Crops") {
-    return <FiberOilSeedCropsForm />;
+    return <FiberOilSeedCropsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
   }
   if (val === "Grains & Cereals") {
-    return <GrainsCerealsForm />;
+    return <GrainsCerealsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
   }
   if (val === "Plant Pathology & Entomology") {
-    return <PlantPathologyEntomologyForm />;
+    return <PlantPathologyEntomologyForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
   }
   if (val === "Seed Varieties") {
-    return <SeedVarietiesForm />;
+    return <SeedVarietiesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
   }
   if (val === "Machinary & Tools") {
-    return <MachinaryToolsForm />;
+    return <MachinaryToolsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
   }
 }
 
@@ -116,7 +116,9 @@ const AddNewProduct = () => {
 
   const handleAddNew = (val) => {
 
-    if(selectedCategory === "Fruits" || selectedCategory === "Vegetables"){
+    const formFlag = selectedCategory === "Fruits" || selectedCategory === "Vegetables" || selectedCategory === "Fiber & Oil Seed Crops" || selectedCategory === "Grains & Cereals"
+
+    if(formFlag){
       Object.assign(val,{
       shelfLifeStart: val.shelfLifeStart && moment(val.shelfLifeStart, "YYYY-MM-DD").format("DD/MM/YYYY"),
       shelfLifeEnd: val.shelfLifeEnd && moment(val.shelfLifeEnd, "YYYY-MM-DD").format("DD/MM/YYYY"),
