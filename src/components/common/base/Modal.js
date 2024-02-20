@@ -22,7 +22,7 @@ const Modal = ({ isOpen, toggle, title, children, fullWidth }) => {
         <div className="fixed top-0 bottom-0 right-0 left-0 z-150 bg-modal ">
           <div className="flex justify-center items-center h-full">
             <div className={`relative border-0 flex flex-col bg-white rounded-2xl shadow-dashboard 
-            max-h-[70%] xs:max-h-[90%]
+            max-h-[80%] xs:max-h-[90%]
             xs:max-w-[95%] xs:min-w-[95%] max-w-[80%] ${fullWidth && `min-w-[60%]`}
             `}
             >
@@ -34,7 +34,7 @@ const Modal = ({ isOpen, toggle, title, children, fullWidth }) => {
                 </div>
                 )}
               </div>
-              <div className="overflow-y-auto flex items-center justify-center grow flex-1 p-5">{children}</div>
+              <div className="overflow-y-auto p-5">{children}</div>
             </div>
           </div>
         </div>

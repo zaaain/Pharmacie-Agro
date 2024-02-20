@@ -1,9 +1,10 @@
 import axios from "axios";
+import AsynStorage from "helpers/asyncLocalStorage";
 
 export default class Client {
-  constructor(token) {
-    this.token = token;
-    this.url = "http://3.145.62.145:4000"; // Added 'http://' before the IP address
+  constructor() {
+    this.token = AsynStorage.getItem("jwt");
+    this.url = "http://3.145.62.145:4000";
     this.client = axios.create({
       baseURL: this.url,
       headers: {
@@ -11,6 +12,7 @@ export default class Client {
       },
     });
     this.client.interceptors.request.use((config) => {
+      this.token = localStorage.getItem("jwt") ? localStorage.getItem("jwt")  : "";
       if (this.token) {
         config.headers.Authorization = `Bearer ${this.token}`;
       }

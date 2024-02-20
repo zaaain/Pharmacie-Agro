@@ -1,10 +1,7 @@
-import ApiClient from 'Api/index';
-
-const token = localStorage.getItem("jwt");
+import ApiClient from "Api/index";
 
 export default function useClient() {
-  // const authReducer = useSelector(state => state.auth);
-  // const token = authReducer && !isEmpty(authReducer.token) ? authReducer.token : "";
-  const api = new ApiClient(token);
+  const api = new ApiClient();
   return { api };
 }
+

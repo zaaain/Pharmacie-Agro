@@ -1,12 +1,12 @@
-import React from "react";
+import React,{useState} from "react";
+import { isEmpty } from "lodash";
 import FormInput from "components/common/base/FormInput";
 import { Button } from "components/common/base/button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { userRegisterSchema } from "helpers/schema";
-
-// import GooglePlacesAutocomplete from "../common/GooglePlacesAutocomplete"
+import Map from "components/common/Map"
 
 const SignUpForm = ({onSubmit}) => {
   const {
@@ -20,11 +20,17 @@ const SignUpForm = ({onSubmit}) => {
   });
 
   const loader = useSelector((state) => state.auth.registerProfileLoader);
+  const [address, setAddress] = useState(null)
+
+  const Submit = (val) => {
+    Object.assign(val,{location:address})
+    onSubmit(val)
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="min-w-[500px] ">
-        <div className="grid grid-cols-1 space-y-3">
+    <form onSubmit={handleSubmit(Submit)}>
+      <div className="min-w-[500px]">
+        <div className="grid grid-cols-1 gap-5">
           <div className="col-span-1">
             <Controller
               name="firstName"
@@ -55,8 +61,11 @@ const SignUpForm = ({onSubmit}) => {
               )}
             />
           </div>
+          <div className="col-span-1">
+            <Map setAddress={setAddress}/>
+          </div>
           <div className="col-span-1 flex items-center justify-center">
-            <Button value="Submit" type="submit" variant="primary" width={140} height={45} disabled={false} loader={false}/>
+            <Button value="Submit" type="submit" variant="primary" width={140} height={45} disabled={loader || isEmpty(address)} loader={false}/>
           </div>
         </div>
       </div>

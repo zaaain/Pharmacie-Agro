@@ -21,6 +21,13 @@
   border-radius: 5px;
 }
 
+/* .mapboxgl-canvas{
+  display: none;
+} */
+.mapboxgl-ctrl-attrib-inner{
+  display: none;
+}
+
 @font-face {
   font-family: "Josefin";
   font-weight: 100 1000;

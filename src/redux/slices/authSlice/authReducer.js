@@ -7,7 +7,8 @@ const initialState = {
   },
   otpLoader: false,
   profileLoader: false,
-  registerProfileLoader:false
+  registerProfileLoader: false,
+  token: ""
 };
 
 // Actual Slice
@@ -25,6 +26,8 @@ export const authSlice = createSlice({
     });
     builder.addCase(enterOtp.fulfilled, (state, { payload }) => {
       state.otpLoader = false;
+      state.token = payload.data.token
+      localStorage.setItem("jwt", payload.data.token);
     });
     builder.addCase(enterOtp.rejected, (state, { payload }) => {
       state.otpLoader = false;
