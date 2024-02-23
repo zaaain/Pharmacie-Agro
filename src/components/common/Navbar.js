@@ -1,6 +1,5 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { createBrowserHistory } from 'history';
 import { Button } from "./base/button";
 
 const Navbar = () => {
@@ -8,7 +7,6 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
-  const history = createBrowserHistory()
 
   const handleClick = () =>{
     if(jwt){
@@ -38,7 +36,7 @@ const Navbar = () => {
         <p
           onClick={() => navigate("/products/all", { replace: true })}
           className={`font-Josefin text-[18px] cursor-pointer hover:text-primary mr-6 ${
-            location.pathname === "/products/all" ? "text-primary" : ""
+            location.pathname.includes("/products") ? "text-primary" : ""
           }`}
         >
           Products

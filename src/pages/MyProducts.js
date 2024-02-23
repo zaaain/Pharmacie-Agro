@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import withAuth from "Hoc/withAuth";
 import Layout from "layout/DashboardLayout"
 import ProductCard from "components/dashboard/ProductCard";
 import { Button } from "components/common/base/button";
@@ -20,7 +21,7 @@ const Products = () => {
     setLoader(true)
     api.get(`/api/product/my?skip=${skip}`)
     .then((res)=>{
-      console.log("myPro", res.data)
+      setData(res.data && res.data.data)
       setLoader(false)
     })
     .catch((err)=>{
@@ -32,6 +33,7 @@ const Products = () => {
     if(!jwt) return
     handleGetMyProducts()
   },[])
+
 
   return (
     <Layout>
@@ -48,17 +50,17 @@ const Products = () => {
       <div className="grid grid-cols-3 gap-8">
         {loader && (
           <div className="col-span-3 flex items-center justify-center">
-            <CircularProgress size={36}/>
+            <CircularProgress size={36} style={{color:"#668968"}}/>
           </div>
         )}
         {!loader && data && data.length === 0 && (
           <div className="col-span-3 flex items-center justify-center">
-            <p className="font-Josefin text-[18px]">You have not added currenta any product !</p>
+            <p className="font-Josefin text-[18px]">You have not added current any product !</p>
           </div>
         )}
         {!loader && data && data.length > 0 && data.map((item) => (
           <div className="col-span-1" key={item}>
-            <ProductCard data={item}/>
+            <ProductCard data={item} />
           </div>
         ))}
       </div>
@@ -67,4 +69,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withAuth(Products);

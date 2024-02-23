@@ -38,7 +38,7 @@ const Login = () => {
     if (selectedRole !== "company" && val.phone) {
       setUserNum(val.phone);
     }
-    if (selectedRole == "company" && val.email) {
+    if (selectedRole === "company" && val.email) {
       setUserEmail(val.email);
     }
     api
@@ -78,7 +78,8 @@ const Login = () => {
         })
       })
       .catch((err) => {
-        eSnack(err.response ? err.response.data.message : "Sorry something is went wrong");
+        console.log("2",err)
+        eSnack(err.message ? err.message : "Sorry something is went wrong");
       });
   };
 

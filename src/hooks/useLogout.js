@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { logoutAuth } from "../redux/slices/authSlice/authReducer";
+import {logoutProducts} from "../redux/slices/productsSlice/productsReducer";
 import { useNavigate } from "react-router-dom";
 
 const useLogout = () => {
@@ -9,9 +10,9 @@ const useLogout = () => {
 
   const logout = () => {
     dispatch(logoutAuth());
+    dispatch(logoutProducts());
     localStorage.removeItem("jwt");
     navigate("/auth/login");
-    window.location.reload();
   };
 
   return logout;

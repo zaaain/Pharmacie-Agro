@@ -5,22 +5,22 @@ export const roles = [
 ];
 
 export const category = [
-  { id: 1, label: "Fruits", value: "fruits" },
+  { id: 1, label: "Fruits", value: "Fruits" },
   { id: 2, label: "Vegetables", value: "vegetables" },
-  { id: 3, label: "Fertilizers", value: "fertilizers" },
+  { id: 3, label: "Fertilizers", value: "Fertilizers" },
   {
     id: 4,
     label: "Fiber & Oil Seed Crops",
-    value: "fiberOilSeedCrops",
+    value: "Fiber&Oil",
   },
-  { id: 5, label: "Grains & Cereals", value: "grainsCereals" },
+  { id: 5, label: "Grains & Cereals", value: "Grains&Cereals" },
   {
     id: 6,
     label: "Plant Pathology & Entomology",
-    value: "plantPathologyEntomology",
+    value: "PlantPathology&Entomology",
   },
-  { id: 7, label: "Seed Varieties", value: "seedVarieties" },
-  { id: 8, label: "Machinary & Tools", value: "machinaryTools" },
+  { id: 7, label: "Seed Varieties", value: "Seed" },
+  { id: 8, label: "Machinary & Tools", value: "Machinary" },
 ];
 
 export const packagingType = [

@@ -1,4 +1,5 @@
 import React from "react";
+import withAuth from "Hoc/withAuth";
 import Layout from "layout/DashboardLayout";
 import OrderCard from "components/dashboard/OrderCard";
 
@@ -16,4 +17,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default withAuth(Order);

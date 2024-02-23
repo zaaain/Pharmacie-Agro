@@ -4,7 +4,9 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 const MapWithAutocomplete = ({setAddress}) => {
+
     const mapContainerRef = useRef(null);
+
     useEffect(() => {
         mapboxgl.accessToken = 'pk.eyJ1Ijoic3RhZmZnZW5peCIsImEiOiJjbGlieGZnNHIwZmNyM3FtbnRrcTZkOWxoIn0.JwcB7EHafp8ENPMCVwZbBQ';
         const map = new mapboxgl.Map({
@@ -16,10 +18,18 @@ const MapWithAutocomplete = ({setAddress}) => {
 
         const geocoder = new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl
+            placeholder: "Search Your City Name",
+            width:"100%"
+            // mapboxgl: mapboxgl
         });
 
         map.addControl(geocoder);
+
+        const geocoderInput = document.querySelector('.mapboxgl-ctrl-geocoder');
+        if (geocoderInput) {
+            geocoderInput.style.width = '100%';
+            geocoderInput.style.maxWidth = '100%';
+        }
 
         geocoder.on('result', (e) => {
             const res = e.result ? e.result : {}
@@ -44,7 +54,7 @@ const MapWithAutocomplete = ({setAddress}) => {
 
     return (
         <div>
-            <div ref={mapContainerRef} className="map-container" style={{width:"100%"}}/>
+            <div ref={mapContainerRef} className="map-container" style={{maxWidth:"100%"}}/>
         </div>
     );
 };

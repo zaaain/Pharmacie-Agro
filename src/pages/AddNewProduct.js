@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import withAuth from "Hoc/withAuth";
 import Layout from "layout/DashboardLayout"
 import FruitsForm from "components/dashboard/ProductForms/FruitsForm";
 import VegetablesForm from "components/dashboard/ProductForms/VegetablesForm";
@@ -13,6 +14,10 @@ import { Button } from "components/common/base/button";
 import { imgUrl } from "helpers/path";
 import moment from "moment"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from "react-redux";
+import {addNewProduct} from "../redux/slices/productsSlice/productsAction"
+import { useNavigate } from "react-router-dom";
+import useSnackMsg from "hooks/useSnackMsg";
 
 const categoryData = [
   {
@@ -98,6 +103,10 @@ const AddNewProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [newProductFlag, setNewProductFlag] = useState(false);
   const [images,setImages] = useState([])
+  console.log("images", images)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {eSnack, sSnack} = useSnackMsg()
 
   const handleSelectCategory = (val) => {
     if (!val) return;
@@ -118,19 +127,35 @@ const AddNewProduct = () => {
 
     const formFlag = selectedCategory === "Fruits" || selectedCategory === "Vegetables" || selectedCategory === "Fiber & Oil Seed Crops" || selectedCategory === "Grains & Cereals"
 
-    if(formFlag){
-      Object.assign(val,{
-      shelfLifeStart: val.shelfLifeStart && moment(val.shelfLifeStart, "YYYY-MM-DD").format("DD/MM/YYYY"),
-      shelfLifeEnd: val.shelfLifeEnd && moment(val.shelfLifeEnd, "YYYY-MM-DD").format("DD/MM/YYYY"),
-      availableFrom: val.availableFrom && moment(val.availableFrom, "YYYY-MM-DD").format("DD/MM/YYYY"),
-      })
-    }
+    // if(formFlag){
+    //   Object.assign(val,{
+    //   shelfLifeStart: val.shelfLifeStart && moment(val.shelfLifeStart, "YYYY-MM-DD").format("DD/MM/YYYY"),
+    //   shelfLifeEnd: val.shelfLifeEnd && moment(val.shelfLifeEnd, "YYYY-MM-DD").format("DD/MM/YYYY"),
+    //   availableFrom: val.availableFrom && moment(val.availableFrom, "YYYY-MM-DD").format("DD/MM/YYYY"),
+    //   })
+    // }
 
     Object.assign(val,{
       ProductType:selectedCategory,
-      discount:"no"
+      discount:"no",
     })
-    console.log("value", val)
+    const formData = new FormData();
+    Object.keys(val).forEach((key) => {
+        formData.append(key, val[key]);
+    });
+    images.forEach((image, index) => {
+        formData.append(`images`, image);
+    });
+
+    dispatch(addNewProduct(formData)).unwrap()
+    .then((res)=>{
+      sSnack("Successfully new product added !")
+      navigate("/products/my")
+    })
+    .catch((err)=>{
+      console.log("err", err)
+      eSnack("Sorry Something is went wrong")
+    })
   };
 
 
@@ -193,4 +218,4 @@ const AddNewProduct = () => {
   );
 };
 
-export default AddNewProduct;
+export default withAuth(AddNewProduct);

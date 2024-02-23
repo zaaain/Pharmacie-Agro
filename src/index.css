@@ -27,6 +27,10 @@
 .mapboxgl-ctrl-attrib-inner{
   display: none;
 }
+.mapboxgl-ctrl-geocoder{
+  width: "100%";
+  max-width: "500px";
+}
 
 @font-face {
   font-family: "Josefin";

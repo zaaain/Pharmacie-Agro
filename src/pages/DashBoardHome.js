@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "layout/DashboardLayout"
+import withAuth from "Hoc/withAuth";
 
 const HomeDashboard = () => {
   return (
@@ -32,4 +33,4 @@ const HomeDashboard = () => {
   );
 };
 
-export default HomeDashboard;
+export default withAuth(HomeDashboard);

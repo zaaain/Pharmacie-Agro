@@ -6,6 +6,8 @@ import { SnackbarProvider } from "notistack";
 import "./App.css";
 import AppRouter from "./routes/index";
 import { persistor, store } from "./redux/store";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 
 const snackIcons = {

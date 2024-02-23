@@ -25,6 +25,7 @@ const BioInfoForm = () => {
     resolver: yupResolver(userRegisterSchema),
     defaultValues,
   });
+  
   return (
     <form>
       <div className="grid grid-cols-2 gap-5 p-3">

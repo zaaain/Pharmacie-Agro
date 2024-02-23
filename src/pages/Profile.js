@@ -1,4 +1,5 @@
 import React from "react";
+import withAuth from "Hoc/withAuth";
 import Layout from "layout/DashboardLayout";
 import BioInfoForm from "Forms/BioInfoForm";
 import { Button } from "components/common/base/button";
@@ -9,6 +10,7 @@ const Profile = () => {
   const authReducer = useSelector((state) => state.auth);
   const { profileData } = authReducer;
   const { address } = profileData;
+  
   return (
     <Layout>
       <div className="p-4">
@@ -64,4 +66,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withAuth(Profile);

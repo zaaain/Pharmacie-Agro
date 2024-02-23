@@ -2,50 +2,43 @@ import React from "react";
 import Layout from "layout/BaseLayout";
 import Filter from "components/allProducts/Filter";
 import Card from "components/allProducts/Card";
-import { imgUrl } from "helpers/path";
-
-
-const data = [
-  {
-    id: 1,
-    img: imgUrl + "/agripro.jpg",
-    category: "Fertilizers",
-    price: 1500,
-    name: "Lambda",
-  },
-  {
-    id: 2,
-    img: imgUrl + "/pro2.jpg",
-    category: "Vegetables",
-    price: 1500,
-    name: "Lambda",
-  },
-  {
-    id: 3,
-    img: imgUrl + "/pro3.jpg",
-    category: "Fruits",
-    price: 1000,
-    name: "Lambda",
-  },
-  {
-    id: 4,
-    img: imgUrl + "/pro4.jpg",
-    category: "Fertilizers",
-    price: 1200,
-    name: "Lambda",
-  },
-];
+import { getAllProduct, getProductWithCategory } from "../redux/slices/productsSlice/productsAction";
+import { useSelector, useDispatch } from "react-redux";
+import { CircularProgress } from "@mui/material";
 
 const AllProducts = () => {
+
+  const dispatch = useDispatch()
+  const {allProductLoader, productWithCategoryLoader, productsData, productMsg} = useSelector((state)=> state.products)
+
+  const handleGetAllPro = () => {
+    dispatch(getAllProduct())
+  }
+
+  const handleGetCategoryPro = (val) => {
+    if(!val.category) return
+    dispatch(getProductWithCategory(val.category))
+  }
+
   return (
     <Layout>
       <div className="w-[95%] mx-auto my-10">
         <div>
-          <Filter />
+          <Filter handleGetAllPro={handleGetAllPro} handleGetCategoryPro={handleGetCategoryPro}/>
         </div>
         <div className="grid grid-cols-4 gap-5 mt-[60px]">
-          {data &&
-            data.map((item) => (
+          {(allProductLoader || productWithCategoryLoader ) && (
+            <div className="col-span-4 flex justify-center">
+              <CircularProgress size={42} style={{color:"#668968"}}/>
+            </div>
+          )}
+          {(!allProductLoader && !productWithCategoryLoader && productMsg !== "") && (
+            <div className="col-span-4 flex justify-center">
+              <p className="font-Josefin text-[18px]">{productMsg}</p>
+            </div>
+          )}
+          {!allProductLoader && !productWithCategoryLoader && productsData && productsData.length > 0 &&
+            productsData.map((item) => (
               <div className="col-span-1" key={item.id}>
                 <Card data={item} />
               </div>

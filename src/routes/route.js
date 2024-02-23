@@ -60,7 +60,7 @@ const RoutesMain = () => {
         <Route exact path="/auth/login" element={<Login />} />
         <Route exact path="/products/all" element={<AllProducts />} />
         <Route exact path="/agri-network" element={<AgriNetwork />} />
-        <Route exact path="/products/:id" element={<ProductDetailWithId />} />
+        <Route exact path="/products/details" element={<ProductDetailWithId />} />
         <Route
           exact
           path="/agri-network/:id"
