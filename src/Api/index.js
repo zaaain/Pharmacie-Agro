@@ -4,7 +4,7 @@ import AsynStorage from "helpers/asyncLocalStorage";
 export default class Client {
   constructor() {
     this.token = AsynStorage.getItem("jwt");
-    this.url = "http://13.60.43.119:4000";
+    this.url = "https://agronomics.vercel.app";
     this.client = axios.create({
       baseURL: this.url,
       headers: {
