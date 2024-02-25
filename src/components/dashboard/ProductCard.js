@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 
 
 const ProductCard = ({data}) => {
-  console.log("cardData", data)
   const settings = {
     dots: true,
     infinite: true,
@@ -43,14 +42,14 @@ const ProductCard = ({data}) => {
         </p>
       </div>
 
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <button className="h-[50px] w-[120px] text-white font-CatamaranBold rounded-bl-xl rounded-tr-xl bg-primary">
           Delete
         </button>
         <button className="h-[50px] w-[120px] text-white font-CatamaranBold rounded-br-xl rounded-tl-xl bg-primary">
           Update
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

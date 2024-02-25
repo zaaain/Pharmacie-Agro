@@ -1,6 +1,6 @@
 import React from 'react'
 
-const OrderCard = ({data, seeOrder}) => {
+const BidCard = ({data, seeBider}) => {
 
   return (
     <div className="w-full bg-white border-2 border-l-primary border-r-primary border-t-secondary border-b-secondary  rounded-2xl">
@@ -22,18 +22,18 @@ const OrderCard = ({data, seeOrder}) => {
         <span className="text-black font-Catamaran  ">{`${data.price && data.price} PRs`}</span>
       </p>
       <p className="font-CatamaranBold text-primary text-[16px] truncate">
-        Total Order:{" "}
-        <span className="text-black font-Catamaran  ">{data.buyers && data.buyers.length}</span>
+        Total Bids:{" "}
+        <span className="text-black font-Catamaran  ">{data.bidders && data.bidders.length}</span>
       </p>
     </div>
 
     
-      <button onClick={() => seeOrder(data.buyers)} className="h-[50px] w-full text-white font-CatamaranBold rounded-b-xl bg-primary">
-        See Buyers
+      <button onClick={() => seeBider(data.bidders)} className="h-[50px] w-full text-white font-CatamaranBold rounded-b-xl bg-primary">
+        See Bider
       </button>
 
   </div>
   )
 }
 
-export default OrderCard
+export default BidCard

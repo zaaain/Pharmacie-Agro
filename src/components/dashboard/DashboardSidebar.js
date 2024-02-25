@@ -1,21 +1,22 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { imgUrl } from "helpers/path";
+import { imgUrl , imgPath} from "helpers/path";
 import useLogout from "hooks/useLogout";
+import { useSelector } from "react-redux";
 
 const DashboardSidebar = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
   const logout = useLogout()
-
+  const {profileData} = useSelector((state)=> state.auth)
 
   return (
     <div className="py-5">
       <img
         className="rounded-full mx-auto pb-3 w-[120] h-[120px]"
         draggable={false}
-        src={imgUrl + "/kisan.png"}
+        src={profileData && profileData.avatar ? `${imgPath}${profileData.avatar}` : imgUrl + "/kisan.png"}
         alt="avatar"
       />
       <hr />

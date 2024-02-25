@@ -4,7 +4,7 @@ import { imgPath } from "helpers/path";
 import Chip from "components/common/base/chip";
 
 const Card = ({ data }) => {
-  console.log("data", data)
+ 
   const navigate = useNavigate();
 
   return (

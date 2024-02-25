@@ -16,6 +16,7 @@ const BioInfoForm = ({handleUpdateBio}) => {
     lastName: profileData.lastName,
     phone: profileData.phone,
     email: profileData.email,
+    description: profileData.description
   };
   const {
     control,

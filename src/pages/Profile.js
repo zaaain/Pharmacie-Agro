@@ -13,6 +13,7 @@ import Map from "components/common/Map";
 import { isEmpty } from "lodash";
 import { CircularProgress } from "@mui/material";
 import {getAllAddress, deleteAddress, addAddress} from "../redux/slices/authSlice/authAction"
+import useClient from "hooks/useClient";
 
 const Profile = () => {
 
@@ -23,6 +24,8 @@ const Profile = () => {
   const {eSnack, sSnack} = useSnackMsg()
   const [locOpen, setLocOpen] = useState(false)
   const [newAddress, setNewAddress] = useState({})
+  const [avatarLoader, setAvatarLoader] = useState(false)
+  const {api} = useClient()
 
   const handleGetAllAddress = () => {
     dispatch(getAllAddress())
@@ -46,7 +49,6 @@ const Profile = () => {
 
   const handleAddNewAddress = () => {
     if(!id) return
-    // Object.assign(newAddress,{id:id})
     dispatch(addAddress(newAddress)).unwrap()
     .then((res)=>{
       handleGetAllAddress()
@@ -73,11 +75,32 @@ const Profile = () => {
     })
   }
 
+  const handleUpdateAvatar = (file) => {
+    if (!file) return;
+  
+    const img = file[0];
+    setAvatarLoader(true);
+  
+    const formData = new FormData();
+    formData.append('avatar', img);
+  
+    api.postFormData(`/api/auth/change/avatar`, formData)
+      .then((res) => {
+        setAvatarLoader(false);
+        dispatch(getProfile());
+      })
+      .catch(() => {
+        setAvatarLoader(false);
+        eSnack("Sorry something went wrong");
+      });
+  }
+  
+
   return (
     <Layout>
       <div className="p-4">
         <div className="grid grid-cols-3 gap-5">
-            <ProfileCard/>
+            <ProfileCard handleUpdateAvatar={handleUpdateAvatar} loader={avatarLoader}/>
           <div className="col-span-2 flex flex-col border-2 border-secondary rounded-3xl p-3">
             <BioInfoForm handleUpdateBio={handleUpdateBio}/>
           </div>

@@ -22,8 +22,6 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images }) => {
 
   const [proType, setProType] =useState("")
 
-  console.log("proType",proType)
-
   const {
     control,
     register,

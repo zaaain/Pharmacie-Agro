@@ -21,6 +21,9 @@ export default class Client {
     this.client.interceptors.response.use(
       (res) => res,
       (err) => {
+        if (err.response.status === 401) {
+          localStorage.removeItem("jwt");
+        }
         return Promise.reject(err);
       }
     );

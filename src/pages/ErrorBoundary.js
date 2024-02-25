@@ -11,7 +11,7 @@ const ErrorBoundary = ({ children }) => {
   };
 
   const handleOnError = (error, errorInfo) => {
-    console.error("Error caught by ErrorBoundary:", error, errorInfo);
+  
     setHasError(true);
   };
 

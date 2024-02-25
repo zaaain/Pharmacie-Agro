@@ -32,3 +32,8 @@ export const addAddress = createAsyncThunk("address/add", async (payload) => {
   const response = await api.post("/api/auth/update/address", payload);
   return response.data;
 });
+
+export const uploadAvatar = createAsyncThunk("avatar/change", async (payload) => {
+  const response = await api.postFormData("/api/auth/change/avatar", payload);
+  return response.data;
+});

@@ -192,7 +192,7 @@ const AddNewProduct = () => {
             </div>
           </>
         )} */}
-        {selectedCategory && (
+        {selectedCategory &&  (
           <>
           <div className="flex mb-2 z-10 bg-white sticky ">
             <div className="shadow-dashboard p-2 rounded-lg flex items-center cursor-pointer" onClick={handleGoBack}>

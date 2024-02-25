@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails} from "./productsAction";
+import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails, getProductsAnalytic} from "./productsAction";
 
 // Initial state
 const initialState = {
@@ -7,9 +7,11 @@ const initialState = {
   allProductLoader: false,
   productWithCategoryLoader: false,
   productDetailLoader: false,
+  productAnalyticLoader: false,
   productsData:[],
   productMsg:"Please Search Product",
-  productDetailData:{}
+  productDetailData:{},
+  productAnalyticData:{},
 };
 
 // Actual Slice
@@ -74,6 +76,18 @@ export const productSlice = createSlice({
     builder.addCase(getProductDetails.rejected, (state) => {
       state.productDetailLoader = false;
     });
+        //Product Analytic
+        builder.addCase(getProductsAnalytic.pending, (state) => {
+          state.productAnalyticLoader = true;
+          state.productAnalyticData = {}
+        });
+        builder.addCase(getProductsAnalytic.fulfilled, (state, { payload }) => {
+          state.productAnalyticLoader = false;
+          state.productAnalyticData = payload.data
+        });
+        builder.addCase(getProductsAnalytic.rejected, (state) => {
+          state.productAnalyticLoader = false;
+        });
   },
 });
 

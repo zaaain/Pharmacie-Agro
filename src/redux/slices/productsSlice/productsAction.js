@@ -23,3 +23,8 @@ export const getProductDetails = createAsyncThunk("product/details", async (id) 
   const response = await api.get(`/api/product/details/${id}`);
   return response.data;
 });
+
+export const getProductsAnalytic = createAsyncThunk("product/analytic", async () => {
+  const response = await api.get(`/api/product/analytic`);
+  return response.data;
+});

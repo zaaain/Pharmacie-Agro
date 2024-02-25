@@ -124,11 +124,15 @@ const ProductDetailWithId = () => {
           <p className="text-primary font-Josefin text-[22px]">
           Product available in these cities:
           </p>
-          {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && productDetailData.user.address.map((item)=>(
-                <p className="text-neutral-800 text-[20px] font-Catamaran">
-                {item.city}
+          <div className="grid grid-cols-4">
+          {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && productDetailData.user.address.map((item, index)=>(
+            
+                <p className="text-neutral-800 text-[20px] font-Catamaran col-span-1">
+                {`${index+ 1}.${item.city}`}
               </p>
+           
           ))}
+           </div>
             <p className="text-primary font-Josefin text-[22px]">
             Seller Name:{" "}
             <span className="text-neutral-800 text-[20px] font-Catamaran">
