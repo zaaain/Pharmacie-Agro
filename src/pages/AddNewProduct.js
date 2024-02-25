@@ -103,7 +103,6 @@ const AddNewProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [newProductFlag, setNewProductFlag] = useState(false);
   const [images,setImages] = useState([])
-  console.log("images", images)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {eSnack, sSnack} = useSnackMsg()
@@ -125,20 +124,11 @@ const AddNewProduct = () => {
 
   const handleAddNew = (val) => {
 
-    const formFlag = selectedCategory === "Fruits" || selectedCategory === "Vegetables" || selectedCategory === "Fiber & Oil Seed Crops" || selectedCategory === "Grains & Cereals"
-
-    // if(formFlag){
-    //   Object.assign(val,{
-    //   shelfLifeStart: val.shelfLifeStart && moment(val.shelfLifeStart, "YYYY-MM-DD").format("DD/MM/YYYY"),
-    //   shelfLifeEnd: val.shelfLifeEnd && moment(val.shelfLifeEnd, "YYYY-MM-DD").format("DD/MM/YYYY"),
-    //   availableFrom: val.availableFrom && moment(val.availableFrom, "YYYY-MM-DD").format("DD/MM/YYYY"),
-    //   })
-    // }
-
     Object.assign(val,{
       ProductType:selectedCategory,
       discount:"no",
     })
+   
     const formData = new FormData();
     Object.keys(val).forEach((key) => {
         formData.append(key, val[key]);
@@ -153,7 +143,6 @@ const AddNewProduct = () => {
       navigate("/products/my")
     })
     .catch((err)=>{
-      console.log("err", err)
       eSnack("Sorry Something is went wrong")
     })
   };
@@ -210,7 +199,9 @@ const AddNewProduct = () => {
             <ArrowBackIcon/> 
             </div>
           </div>
+          <div className="mt-5">
           {getCategoryComponent(selectedCategory, handleAddNew, images, handleImagesChange)}
+          </div>
           </>
         )}
       </div>

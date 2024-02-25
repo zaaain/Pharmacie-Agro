@@ -4,7 +4,7 @@ import AsynStorage from "helpers/asyncLocalStorage";
 export default class Client {
   constructor() {
     this.token = AsynStorage.getItem("jwt");
-    this.url = "http://3.145.62.145:4000";
+    this.url = "http://13.60.43.119:4000";
     this.client = axios.create({
       baseURL: this.url,
       headers: {

@@ -15,8 +15,8 @@ const Products = () => {
   const {api} = useClient()
   const jwt = localStorage.getItem("jwt");
 
-
   const handleGetMyProducts = () => {
+    if(!jwt) return
     const skip = data && data.length 
     setLoader(true)
     api.get(`/api/product/my?skip=${skip}`)
@@ -30,7 +30,6 @@ const Products = () => {
   }
 
   useEffect(()=>{
-    if(!jwt) return
     handleGetMyProducts()
   },[])
 

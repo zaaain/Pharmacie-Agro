@@ -1,25 +1,18 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState} from "react";
 import Layout from "layout/BaseLayout";
 import FormInput from "components/common/base/FormInput";
 import { Button } from "components/common/base/button";
-import { imgUrl,imgPath } from "helpers/path";
+import { imgPath } from "helpers/path";
 import { useDispatch , useSelector} from "react-redux";
 import { getProductDetails } from "../redux/slices/productsSlice/productsAction";
 import { useLocation, useNavigate } from "react-router-dom";
 import queryString from 'query-string';
 import { CircularProgress } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import useClient from "hooks/useClient";
+import useLogout from "hooks/useLogout";
+import useSnackMsg from "hooks/useSnackMsg";
 
-
-const data = {
-  img: imgUrl + "/patatoo.jpg",
-  price: "1500",
-  ship: "Free",
-  name: "Patato",
-  address: "Piplan, Mianwali, Punjab",
-  quantity: "100 plastic",
-  description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-};
 
 const ProductDetailWithId = () => {
 
@@ -28,11 +21,71 @@ const ProductDetailWithId = () => {
   const navigate = useNavigate()
   const { id } = queryString.parse(location.search);
   const {productDetailLoader, productDetailData} = useSelector((state)=> state.products)
+  const userID = useSelector((state)=> state.auth.profileData.id)
+  const {api} = useClient()
+  const logout = useLogout()
+  const {eSnack, sSnack} = useSnackMsg()
+  const jwt = localStorage.getItem("jwt");
+  const [orderLoader, setOrderLoader] = useState(false)
+  const [bidLoader, setBidLoader] = useState(false)
+  const [bidPrice, setBidPrice] = useState(null)
 
   useEffect(()=>{
     if(!id) return
     dispatch(getProductDetails(id))
   },[])
+
+  const getOwner = (idx) => {
+    if(userID === idx){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
+  const handleOrderNow = (idx) => {
+    if(!idx) return
+    if(!jwt){
+      logout()
+    }
+    if(idx && jwt){
+      const payload = {productId:idx}
+      setOrderLoader(true)
+      api.post(`/api/product/buy`, payload)
+      .then((res)=>{
+        setOrderLoader(false)
+        sSnack(`Successfully your order done seller contact you very soon`)
+        navigate(-1)
+      })
+      .catch((err)=>{
+        setOrderLoader(false)
+        eSnack(`Sorry something is went wron`)
+        navigate(-1)
+      })
+    }
+  }
+
+  const handleBidNow = (idx) => {
+    if(!idx) return
+    if(!jwt){
+      logout()
+    }
+    if(idx && jwt){
+      const payload = {productId:idx, price:bidPrice}
+      setBidLoader(true)
+      api.post(`/api/product/bid`, payload)
+      .then((res)=>{
+        setBidLoader(false)
+        sSnack(`Successfully your bid done seller contact you very soon`)
+        navigate(-1)
+      })
+      .catch((err)=>{
+        setBidLoader(false)
+        eSnack(`Sorry something is went wron`)
+      })
+    }
+  }
 
   return (
     <Layout>
@@ -47,49 +100,76 @@ const ProductDetailWithId = () => {
       <div className="w-[80%] grid grid-cols-2 items-center mx-auto gap-10">
         <div className="col-span-1">
           <img
-            src={`${imgPath}${productDetailData.image[0]}`}
+            src={productDetailData && productDetailData.image && productDetailData && productDetailData.image.length && `${imgPath}${productDetailData.image[0]}`}
             alt={productDetailData.name}
             className="rounded-2xl min-w-full max-w-full min-h-[400px] max-h-[400px]"
           />
         </div>
         <div className="col-span-1">
           <p className="text-primary font-JosefinBold text-[22px] capitalize">
-            {productDetailData.name}
+            {productDetailData.name && productDetailData.name}
           </p>
           <p className="text-primary font-Josefin text-[22px]">
-            Quantity:{" "}
+            Price:{" "}
             <span className="text-neutral-800 text-[20px] font-Catamaran">
-              {productDetailData.pkgQuantity}
+              {productDetailData.price && `${productDetailData.price} PRs ${productDetailData.tax && productDetailData.tax === "inclusive" ? "with tax" : "with out tax"}`}
             </span>
           </p>
           <p className="text-primary font-Josefin text-[22px]">
             Shipment:{" "}
             <span className="text-neutral-800 text-[20px] font-Catamaran capitalize">
-              {productDetailData.shipping}
+              {productDetailData.shipping && productDetailData.shipping === "free" ? "Free" : "Not Free"}
             </span>
           </p>
           <p className="text-primary font-Josefin text-[22px]">
-            Address:{" "}
+          Product available in these cities:
+          </p>
+          {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && productDetailData.user.address.map((item)=>(
+                <p className="text-neutral-800 text-[20px] font-Catamaran">
+                {item.city}
+              </p>
+          ))}
+            <p className="text-primary font-Josefin text-[22px]">
+            Seller Name:{" "}
             <span className="text-neutral-800 text-[20px] font-Catamaran">
-              {data.address}
+              {productDetailData && productDetailData.user && `${productDetailData.user.firstName} ${productDetailData.user.lastName}`}
             </span>
           </p>
+          {productDetailData.user && productDetailData.user.phone && (
+                     <p className="text-primary font-Josefin text-[22px]">
+                    Seller Phone:{" "}
+                     <span className="text-neutral-800 text-[20px] font-Catamaran">
+                       {productDetailData && productDetailData.user && productDetailData.user.phone}
+                     </span>
+                   </p>
+          )}
+          {productDetailData.user && productDetailData.user.email && (
+                     <p className="text-primary font-Josefin text-[22px]">
+                     Seller Email:{" "}
+                     <span className="text-neutral-800 text-[20px] font-Catamaran">
+                       {productDetailData && productDetailData.user && productDetailData.user.email}
+                     </span>
+                   </p>
+          )}
           <div className="mt-4">
             <Button
               value="Order Now"
               height={45}
               width={140}
               font="Josefin"
+              disabled={getOwner(productDetailData.user && productDetailData.user.id) || orderLoader}
+              loader={orderLoader}
+              onClick={() => handleOrderNow(productDetailData.id)}
             />
           </div>
-          {productDetailData.bidding && productDetailData.bidding === "yes" && (
+          {!getOwner(productDetailData.user && productDetailData.user.id) && productDetailData.bidding && productDetailData.bidding === "yes" && (
           <>
-          <div className="max-w-[200px] mt-2">
+          <div className="max-w-[200px] mt-4">
             <FormInput
               placeholder="Enter Bid Price"
               type="number"
-              // value={quantity}
-              // onChange={(e) => handleChange(e.target.value)}
+              value={bidPrice}
+              onChange={(e)=> setBidPrice(e.target.value)}
             />
           </div>
           <div className="mt-4">
@@ -98,6 +178,9 @@ const ProductDetailWithId = () => {
               height={45}
               width={140}
               font="Josefin"
+              onClick={() => handleBidNow(productDetailData.id)}
+              loader={bidLoader}
+              disabled={bidLoader || !bidPrice|| bidPrice <= 0}
             />
           </div>
           </>

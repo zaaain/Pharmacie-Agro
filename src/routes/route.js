@@ -17,6 +17,7 @@ import MyProducts from "pages/MyProducts";
 import AddNewProduct from "pages/AddNewProduct";
 import Profile from "pages/Profile";
 import Orders from "pages/Orders";
+import Bids from "pages/Bids";
 //
 
 const RoutesMain = () => {
@@ -41,7 +42,6 @@ const RoutesMain = () => {
       lastName: val.lastName,
       location: val.location,
     };
-    console.log("payload", payload)
     dispatch(userRegister(payload))
       .unwrap()
       .then((res) => {
@@ -63,7 +63,7 @@ const RoutesMain = () => {
         <Route exact path="/products/details" element={<ProductDetailWithId />} />
         <Route
           exact
-          path="/agri-network/:id"
+          path="/agri-network/products"
           element={<AgriNetworkPersonWithId />}
         />
         <Route exact path="/dashboard" element={<DashboardHome />} />
@@ -71,6 +71,7 @@ const RoutesMain = () => {
         <Route exact path="/products/new" element={<AddNewProduct />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/orders" element={<Orders />} />
+        <Route exact path="/bids" element={<Bids />} />
       </Routes>
       {registerFlag && (
         <Modal isOpen={open} title={`Please Enter Info`}>

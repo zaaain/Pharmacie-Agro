@@ -14,10 +14,16 @@ import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { FertilizersFormSchema } from "helpers/schema";
 import AddIcon from '@mui/icons-material/Add';
+import { useSelector } from "react-redux";
+import useSnackMsg from "hooks/useSnackMsg";
 
 const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images  }) => {
 
-  const [chem, setChem] = useState(["1"])
+  const loader = useSelector((state)=> state.products.newProductLoader)
+  const [chemicals, setChemicals] = useState([{ name: "", percentage: "" }]);
+  const [flag, setFlag] = useState(true);
+  const {eSnack} = useSnackMsg()
+  
   const {
     control,
     register,
@@ -27,89 +33,94 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images  }) => {
     resolver: yupResolver(FertilizersFormSchema),
   });
 
-  const handleAddNewChem = ()=> {
-    setChem([...chem,"1"])
-  }
+  const handleInputChange = (index, fieldName, value) => {
+    const updatedChemicals = [...chemicals];
+    updatedChemicals[index][fieldName] = value;
+    setChemicals(updatedChemicals);
+    checkEmptyFields(updatedChemicals);
+  };
 
-  console.log("errors", errors)
+  const checkEmptyFields = (chemicalsArray) => {
+    const isEmpty = chemicalsArray.some(
+      (chem) => chem.name.trim() === "" || chem.percentage.trim() === ""
+    );
+    setFlag(isEmpty);
+  };
+
+  const handleAddNewChem = () => {
+    setChemicals([...chemicals, { name: "", percentage: "" }]);
+    setFlag(true); // Reset flag when adding a new chemical
+  };
+
+  const onSubmitNow = (val) => {
+    if (flag) {
+      eSnack("Please complete formula");
+      return;
+    }
+  
+    Object.assign(val, { composition: JSON.stringify(chemicals) });
+    onSubmit(val);
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmitNow)}>
       <div className="grid grid-cols-6 gap-4 items-center">
+        <div className="col-span-3">
+          <Controller
+            name="brand"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...register("brand")}
+                placeholder="Brand brand"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                error={errors?.brand && errors.brand.message}
+              />
+            )}
+          />
+        </div>
         <div className="col-span-3">
           <Controller
             name="name"
             control={control}
+            defaultValue={null}
             render={({ field }) => (
               <FormInput
-                {...register("name")}
-                placeholder="Brand Name"
+              {...register("name")}
+                onChange={(selectedOption) => field.onChange(selectedOption)}
+                options={packagingType}
+                placeholder="Product Name"
                 value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
                 error={errors?.name && errors.name.message}
               />
             )}
           />
         </div>
-        <div className="col-span-3">
-          <Controller
-            name="pkgType"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <FormInput
-                onChange={(selectedOption) => field.onChange(selectedOption)}
-                options={packagingType}
-                placeholder="Product Name"
-                value={field.value}
-                error={errors?.pkgType && errors.pkgType.message}
-              />
-            )}
-          />
-        </div>
-        {chem && chem.map((i)=>(
+        {chemicals.map((chem, index) => (
         <>
         <div className="col-span-3">
-          <Controller
-            name="composition"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
+ 
               <FormInput
-              {...register("composition")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={packagingType}
-                placeholder="Chemical Name"
-                value={field.value}
+                placeholder="Composition Name"
+                value={chem.name}
+                onChange={(e) => handleInputChange(index, "name", e.target.value)}
                 error={errors?.composition && errors.composition.message}
               />
-            )}
-          />
+    
         </div>
         <div className="col-span-2">
-          <Controller
-            name="compositionPercent"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
+  
               <FormInput
-              {...register("compositionPercent")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
+                type="number"
                 placeholder="Enter Percentage"
-                value={field.value}
-                error={errors?.compositionPercent && errors.compositionPercent.message}
+                value={chem.percentage}
+                onChange={(e) => handleInputChange(index, "percentage", e.target.value)}
               />
-            )}
-          />
+      
         </div>
         <div className="grid grid-cols-1 justify-end">
-              {/* <Button
-                width={140}
-                height={40}
-                value="Add Chemical"
-                variant="primary"
-                onClick={handleAddNewChem}
-              /> */}
               <div className="bg-primary p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer" onClick={handleAddNewChem}>
                 <AddIcon style={{color:"white"}}/>
               </div>
@@ -122,7 +133,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images  }) => {
             control={control}
             render={({ field }) => (
               <FormInput
-                {...register("name")}
+                {...register("pkgWeight")}
                 placeholder="Enter Package Weight"
                 value={field.value}
                 type="number"
@@ -134,17 +145,17 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images  }) => {
         </div>
         <div className="col-span-2">
           <Controller
-            name="pkgQuantity"
+            name="pkgType"
             control={control}
             render={({ field }) => (
               <SelectInput
-                {...register("pkgQuantity")}
+                {...register("pkgType")}
                 placeholder="Packaging Type"
                 value={field.value}
                 options={packagingType}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.pkgQuantity && errors.pkgQuantity.message}
+                error={errors?.pkgType && errors.pkgType.message}
               />
             )}
           />
@@ -271,6 +282,8 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images  }) => {
             height={45}
             variant="primary"
             type="submit"
+            loader={loader}
+            disabled={(images && images.length <= 0) || loader}
           />
         </div>
       </div>

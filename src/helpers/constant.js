@@ -63,3 +63,13 @@ export const seedRegionOption = [
   { id: 2, label: "Rainfed", value: "rainfed" },
   { id: 2, label: "Drought", value: "drought" },
 ]
+
+export const machinaryToolsOption = [
+  { id: 1, label: "Tool", value: "Tool" },
+  { id: 2, label: "Machinary", value: "Machinary" },
+]
+
+export const toolCondition = [
+  { id: 1, label: "New", value: "new" },
+  { id: 2, label: "Used", value: "used" },
+]

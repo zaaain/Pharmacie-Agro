@@ -1,20 +1,21 @@
 import React from "react";
-import { isEmpty } from "lodash";
 import FormInput from "components/common/base/FormInput";
 import { Button } from "components/common/base/button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { userRegisterSchema } from "helpers/schema";
+import { BioUpdateSchema } from "helpers/schema";
 
-const BioInfoForm = () => {
+const BioInfoForm = ({handleUpdateBio}) => {
   const authReducer = useSelector((state) => state.auth);
-  const { profileData } = authReducer;
-  console.log("profileData", profileData)
+  const { profileData , registerProfileLoader} = authReducer;
+  const {type} = profileData
+
   const defaultValues = {
     firstName: profileData.firstName,
     lastName: profileData.lastName,
     phone: profileData.phone,
+    email: profileData.email,
   };
   const {
     control,
@@ -22,12 +23,14 @@ const BioInfoForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(userRegisterSchema),
+    resolver: yupResolver(BioUpdateSchema),
     defaultValues,
   });
-  
+
+
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(handleUpdateBio)}>
       <div className="grid grid-cols-2 gap-5 p-3">
         <div className="col-span-1">
           <Controller
@@ -59,6 +62,7 @@ const BioInfoForm = () => {
             )}
           />
         </div>
+        {type && type !== "company" ?
         <div className="col-span-2">
           <Controller
             name="phone"
@@ -74,6 +78,42 @@ const BioInfoForm = () => {
               />
             )}
           />
+        </div>
+        :
+        <div className="col-span-2">
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <FormInput
+              {...register("email")}
+              placeholder="Enter email"
+              value={field.value}
+              disabled={true}
+              onChange={(e) => field.onChange(e.target.value)}
+              error={errors?.email && errors.email.message}
+            />
+          )}
+        />
+      </div>
+        }
+        <div className="col-span-2">
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...register("description")}
+                placeholder="Enter description"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                error={errors?.description && errors.description.message}
+              />
+            )}
+          />
+        </div>
+        <div className="col-span-2 flex justify-center">
+              <Button value="Update Bio" width={150} height={45} type="submit" loader={registerProfileLoader} disabled={registerProfileLoader}/>
         </div>
       </div>
     </form>

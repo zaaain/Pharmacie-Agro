@@ -78,7 +78,6 @@ const Login = () => {
         })
       })
       .catch((err) => {
-        console.log("2",err)
         eSnack(err.message ? err.message : "Sorry something is went wrong");
       });
   };

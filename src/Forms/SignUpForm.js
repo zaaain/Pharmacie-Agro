@@ -29,7 +29,8 @@ const SignUpForm = ({onSubmit}) => {
 
   return (
     <form onSubmit={handleSubmit(Submit)}>
-      <div className="min-w-[500px]">
+      <div className="w-[100%
+      ]">
         <div className="grid grid-cols-1 gap-5">
           <div className="col-span-1">
             <Controller

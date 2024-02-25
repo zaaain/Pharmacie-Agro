@@ -131,6 +131,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("pkgType")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={packagingType}
                 placeholder="Select Packaging Type"
@@ -147,6 +148,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("weightUnit")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={weightUnitType}
                 placeholder="Select Unit Type"
@@ -178,7 +180,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             control={control}
             render={({ field }) => (
               <FormInput
-                {...register("name")}
+                {...register("pkgQuantity")}
                 placeholder="Enter Package Quantity"
                 value={field.value}
                 type="number"
@@ -194,7 +196,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             control={control}
             render={({ field }) => (
               <FormInput
-                {...register("name")}
+                {...register("price")}
                 placeholder="Enter Price Per Package"
                 value={field.value}
                 type="number"
@@ -211,6 +213,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("tax")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={taxOpt}
                 placeholder="Select Tax Type"
@@ -227,6 +230,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("shipping")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={shippingOption}
                 placeholder="Select Shipping Type"

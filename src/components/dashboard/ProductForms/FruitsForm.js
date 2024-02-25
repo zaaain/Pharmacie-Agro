@@ -29,7 +29,6 @@ const FruitsForm = ({ onSubmit, onImages, images }) => {
 
   const loader = useSelector((state)=> state.products.newProductLoader)
 
-  console.log("images", images)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

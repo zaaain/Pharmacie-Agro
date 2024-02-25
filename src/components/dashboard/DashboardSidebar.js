@@ -56,9 +56,9 @@ const DashboardSidebar = () => {
           Orders
         </p>
         <p
-         onClick={()=>navigate("/orders")}
+         onClick={()=>navigate("/bids")}
           className={`font-Josefin text-[20px] hover:text-primary hover:cursor-pointer ${
-            location.pathname === "/orders" ? "text-primary" : ""
+            location.pathname === "/bids" ? "text-primary" : ""
           }`}
         >
           Bids

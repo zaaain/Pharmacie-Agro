@@ -62,9 +62,10 @@ export const FruitsFormSchema = yup.object().shape({
 
 export const FertilizersFormSchema = yup.object().shape({
   name: yup.string().required("Please enter name."),
-  pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
-  weightUnit: yup.string().required("Please select weight unit."),
+  brand: yup.string().required("Please enter brand name."),
   pkgWeight: yup.string().required("Please enter weight weight."),
+  pkgType: yup.string().required("Please select package type."),
+  weightUnit: yup.string().required("Please select weight unit."), 
   pkgQuantity: yup.string().required("Please enter package quantity."),
   price: yup.string().required("Please enter price."),
   tax: yup.string().required("Please select tax."),
@@ -79,7 +80,7 @@ export const SeedFormSchema = yup.object().shape({
   seedType: yup.string().required("Please select seed type."),
   suitableRegion: yup.string().required("Please select region."),
   seedWeight: yup.string().required("Please enter seed weight."),
-  pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
+  pkgType: yup.string().required("Please select package type."),
   weightUnit: yup.string().required("Please select weight unit."),
   pkgWeight: yup.string().required("Please enter weight weight."),
   pkgQuantity: yup.string().required("Please enter package quantity."),
@@ -89,23 +90,44 @@ export const SeedFormSchema = yup.object().shape({
   description: yup.string().required("Please enter description."),
 });
 
-export const MachinaryFormSchema = yup.object().shape({
-  brand: yup.string().required("Please enter brand."),
-  seed: yup.string().required("Please enter seed name."),
-  seedVariety: yup.string().required("Please enter seed variety."),
-  seedType: yup.string().required("Please select seed type."),
-  suitableRegion: yup.string().required("Please select region."),
-  seedWeight: yup.string().required("Please enter seed weight."),
-  pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
-  weightUnit: yup.string().required("Please select weight unit."),
-  pkgWeight: yup.string().required("Please enter weight weight."),
-  pkgQuantity: yup.string().required("Please enter package quantity."),
-  price: yup.string().required("Please enter price."),
-  tax: yup.string().required("Please select tax."),
-  shipping: yup.string().required("Please select shipping type."),
-  description: yup.string().required("Please enter description."),
-});
+
+export const MachinaryFormSchema = (type) => {
+  let schema = yup.object().shape({
+    condition: yup.string(),
+    horsePower: yup.string(),
+    description: yup.string().required("Please enter description."),
+    ProductType: yup.string().required("Please enter description."),
+    name: yup.string().required("Please enter description."),
+    model: yup.string().required("Please enter description."),
+    price: yup.string().required("Please enter price."),
+  });
+
+  if (type === "Tool" || type === "Machinary") {
+    schema = schema.shape({
+      condition: yup
+        .string()
+        .required("Please select condition."),
+    });
+  }
+
+  if (type === "Machinary") {
+    schema = schema.shape({
+      horsePower: yup
+        .string()
+        .required("Please enter horse power."),
+    });
+  }
+
+  return schema;
+};
 
 export const productsCategorySchema = yup.object().shape({
   category: yup.string().required("😠 Please select category."),
+});
+
+
+export const BioUpdateSchema = yup.object().shape({
+  firstName: yup.string().required("😠 Please enter first name."),
+  lastName: yup.string().required("😠 Please enter first name."),
+  description: yup.string().required("😠 Please enter description."),
 });

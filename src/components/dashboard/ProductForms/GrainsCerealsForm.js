@@ -15,6 +15,7 @@ import {
 import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { FruitsFormSchema } from "helpers/schema";
+import { useSelector } from "react-redux";
 
 const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
   const {
@@ -26,7 +27,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
     resolver: yupResolver(FruitsFormSchema),
   });
 
-  console.log("errors", errors)
+  const loader = useSelector((state)=> state.products.newProductLoader)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -53,6 +54,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("pkgType")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={packagingType}
                 placeholder="Select Packaging Type"
@@ -69,6 +71,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("weightUnit")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={weightUnitType}
                 placeholder="Select Unit Type"
@@ -84,7 +87,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             control={control}
             render={({ field }) => (
               <FormInput
-                {...register("name")}
+                {...register("pkgWeight")}
                 placeholder="Enter Package Weight"
                 value={field.value}
                 type="number"
@@ -100,7 +103,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             control={control}
             render={({ field }) => (
               <FormInput
-                {...register("name")}
+                {...register("pkgQuantity")}
                 placeholder="Enter Package Quantity"
                 value={field.value}
                 type="number"
@@ -116,7 +119,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             control={control}
             render={({ field }) => (
               <FormInput
-                {...register("name")}
+                {...register("price")}
                 placeholder="Enter Price Per Package"
                 value={field.value}
                 type="number"
@@ -133,6 +136,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("bidding")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={yesNoOption}
                 placeholder="Select Bidding Type"
@@ -149,6 +153,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("tax")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={taxOpt}
                 placeholder="Select Tax Type"
@@ -165,6 +170,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
+              {...register("shipping")}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={shippingOption}
                 placeholder="Select Shipping Type"
@@ -230,7 +236,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
               <TextAreaInput
                 {...register("description")}
                 placeholder="Enter Product Description"
-                value={field.value ? field.value : ""}
+                value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
                 error={errors?.description && errors.description.message}
               />
@@ -258,6 +264,8 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             value="Submit"
             width={150}
             height={45}
+            disabled={(images && images.length <= 0) || loader}
+            loader={loader}
             variant="primary"
             type="submit"
           />
