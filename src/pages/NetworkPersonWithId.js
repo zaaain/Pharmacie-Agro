@@ -28,7 +28,7 @@ const PersonProductPage = () => {
     <Layout>
       <div className="w-[90%] mx-auto my-10">
         {firstName && lastName && (
-        <p className="text-[32px] font-JosefinBold text-primary text-center">
+        <p className="text-[32px] xs:text-[22px] font-JosefinBold text-primary text-center capitalize">
           {`${firstName} ${lastName} Products`}
         </p>
         )}
@@ -37,16 +37,16 @@ const PersonProductPage = () => {
           alt="leaf"
           className="mx-auto mt-5"
         />
-        <div className="grid grid-cols-4 gap-5 mt-[60px]">
+        <div className="grid grid-cols-12 gap-5 mt-[60px]">
           {personProductLoader && (
-            <div className="col-span-4 flex justify-center">
+            <div className="col-span-12 flex justify-center">
               <CircularProgress size={42} style={{ color: "#668968" }} />
             </div>
           )}
           {!personProductLoader &&
             personProducts &&
             personProducts.length === 0 && (
-              <div className="col-span-4 flex justify-center">
+              <div className="col-span-12 flex justify-center">
                 <p className="font-Josefin text-[18px]">
                   No products added in this person!
                 </p>
@@ -56,7 +56,7 @@ const PersonProductPage = () => {
             personProducts &&
             personProducts.length > 0 &&
             personProducts.map((item, index) => (
-              <div key={item.id} className="col-span-1">
+              <div key={item.id} className="2xl:col-span-3 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6 xs:col-span-12">
                 <Card data={item} />
               </div>
             ))}

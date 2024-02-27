@@ -11,7 +11,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useSnackMsg from "hooks/useSnackMsg";
 import { useNavigate } from "react-router-dom";
 import AsynStorage from "helpers/asyncLocalStorage";
-import Cookies from "js-cookie";
+
 
 const Login = () => {
   const { api } = useClient();
@@ -98,7 +98,7 @@ const Login = () => {
           <img
             alt="logo"
             src={imgUrl + "/logo.png"}
-            className="w-[200px] h-[60px] object-cover"
+            className="w-[200px] h-[60px] object-cover xs:max-w-[150px] xs:max-h-[45px]"
           />
           {selectedRole && (
             <Tooltip arrow placement="top" title="Go Back">

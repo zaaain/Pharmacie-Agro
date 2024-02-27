@@ -13,12 +13,12 @@ const Card = ({data}) => {
       </div>
       <div className='flex flex-col items-center justify-center'>
         <img src={data.avatar ? `${imgPath}${data.avatar}` : `${imgUrl}/kisan.png` } alt="person" className='min-w-[150px] max-w-[150px] max-h-[150px] min-h-[150px] rounded-full'/>
-        <p className='text-[18px] font-JosefinBold mt-5 text-primary'>{`${data.firstName} ${data.lastName}`}</p>
+        <p className='text-[18px] font-JosefinBold mt-5 text-primary truncate capitalize'>{`${data.firstName} ${data.lastName}`}</p>
         {data.phone && (
-        <p className='text-[16px] font-CatamaranBold mt-1'>{data.phone}</p>
+        <p className='text-[16px] font-CatamaranBold mt-1 truncate'>{data.phone}</p>
         )}
-            {data.email && (
-        <p className='text-[16px] font-CatamaranBold mt-1'>{data.email}</p>
+          {data.email && (
+        <p className='text-[16px] font-CatamaranBold mt-1 truncate flex max-w-[95%]'>{data.email}</p>
         )}
         {/* <p className='text-[16px] font-Catamaran mt-1 truncate'>{data.address}</p> */}
       </div>

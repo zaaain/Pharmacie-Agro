@@ -26,20 +26,20 @@ const AllProducts = () => {
         <div>
           <Filter handleGetAllPro={handleGetAllPro} handleGetCategoryPro={handleGetCategoryPro}/>
         </div>
-        <div className="grid grid-cols-4 gap-5 mt-[60px]">
+        <div className="grid grid-cols-12 gap-5 mt-[60px]">
           {(allProductLoader || productWithCategoryLoader ) && (
-            <div className="col-span-4 flex justify-center">
+            <div className="col-span-12 flex justify-center">
               <CircularProgress size={42} style={{color:"#668968"}}/>
             </div>
           )}
           {(!allProductLoader && !productWithCategoryLoader && productMsg !== "") && (
-            <div className="col-span-4 flex justify-center">
+            <div className="col-span-12 flex justify-center">
               <p className="font-Josefin text-[18px]">{productMsg}</p>
             </div>
           )}
           {!allProductLoader && !productWithCategoryLoader && productsData && productsData.length > 0 &&
             productsData.map((item) => (
-              <div className="col-span-1" key={item.id}>
+              <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6 xs:col-span-12" key={item.id}>
                 <Card data={item} />
               </div>
             ))}

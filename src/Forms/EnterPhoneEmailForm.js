@@ -4,6 +4,7 @@ import FormInput from "components/common/base/FormInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { LoginSchema } from "helpers/schema";
+import {useWindowSize} from 'react-use';
 
 const EnterPhoneEmailForm = ({ onSubmit, loader , role }) => {
   const {
@@ -14,6 +15,8 @@ const EnterPhoneEmailForm = ({ onSubmit, loader , role }) => {
   } = useForm({
     resolver: yupResolver(LoginSchema(role)),
   });
+
+  const {width} = useWindowSize()
   
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -50,7 +53,7 @@ const EnterPhoneEmailForm = ({ onSubmit, loader , role }) => {
         )}
         <div className="mt-10 flex justify-center items-center">
           <Button
-            width={200}
+            width={width > 400 ? 200 : 150}
             height={50}
             variant="primary"
             value="Sign In"

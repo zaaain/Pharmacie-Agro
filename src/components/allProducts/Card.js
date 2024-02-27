@@ -15,8 +15,8 @@ const Card = ({ data }) => {
         className="min-w-full max-w-full min-h-[150px] max-h-[150px] object-cover rounded-t-2xl"
       />
       <div className="text-center py-3">
-        <p className="text-[16px] font-Catamaran">{data.ProductType}</p>
-        <p className="text-[16px] font-Catamaran">{data.name}</p>
+        <p className="text-[16px] font-Catamaran truncate capitalize">{data.ProductType}</p>
+        <p className="text-[16px] font-Catamaran truncate capitalize">{data.name ? data.name : data.brand ? data.brand : ""}</p>
         <p className="text-[16px] font-CatamaranBold">{`PKR: ${data.price}`}</p>
       </div>
       <div

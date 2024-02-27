@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { otpSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
+import {useWindowSize} from 'react-use';
 
 const EnterPhoneEmailForm = ({ onSubmit, num, email}) => {
   const {
@@ -18,6 +19,7 @@ const EnterPhoneEmailForm = ({ onSubmit, num, email}) => {
   });
 const authReducer = useSelector((state)=> state.auth)
 const {otpLoader} = authReducer
+const {width} = useWindowSize()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,7 +45,7 @@ const {otpLoader} = authReducer
         />
         <div className="mt-10 flex justify-center items-center">
           <Button
-            width={200}
+            width={width > 400 ? 200 : 150}
             height={50}
             variant="primary"
             value="Sign In"
