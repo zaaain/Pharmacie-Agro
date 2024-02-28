@@ -67,7 +67,7 @@ const MobileNavBar = () => {
                             className="rounded-full mx-auto pb-3 w-[100] h-[100px]"
                         />
                         {jwt && profileData && !isEmpty(profileData) && profileData.firstName && profileData.lastName && (
-                        <p className='text-primary font-Josefin text-[24px] pb-2 text-center font-extrabold'>
+                        <p className='text-primary font-Roboto text-[24px] pb-2 text-center font-extrabold'>
                             {profileData.firstName && profileData.lastName && `${profileData.firstName} ${profileData.lastName}`}
                         </p>
                         )}
@@ -77,31 +77,31 @@ const MobileNavBar = () => {
           value={jwt ? "Dashboard" : "Sign In"}
           width={120}
           height={40}
-          font="Josefin"
+          font="Roboto"
           onClick={handleClick}
         />
-                            <p className={`text-[16px] font-CatamaranBold pt-3 pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/" && "text-primary"}`}
+                            <p className={`text-[16px] font-RobotoBold pt-3 pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/" && "text-primary"}`}
                                 onClick={()=>handleRoute("")}
                             >
                                 Home
                             </p>
-                            <p className={`text-[16px] font-CatamaranBold pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/products/all" && "text-primary"}`}
+                            <p className={`text-[16px] font-RobotoBold pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/products/all" && "text-primary"}`}
                                 onClick={()=>handleRoute("products/all")}
                             >
                                 Productus
                             </p>
-                            <p className={`text-[16px] font-CatamaranBold pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/agri-network" && "text-primary"}`}
+                            <p className={`text-[16px] font-RobotoBold pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/agri-network" && "text-primary"}`}
                                 onClick={()=>handleRoute("agri-network")}
                             >
                                 Agri Network
                             </p>
                             {jwt && (
                             <div>
-                                            <p className={`text-[16px] font-CatamaranBold pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/profile" && "text-primary"}`}
+                                            <p className={`text-[16px] font-RobotoBold pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/profile" && "text-primary"}`}
                                 onClick={()=>handleRoute("profile")}
                             >
                                 Profile
-                                <p className={`text-[16px] font-CatamaranBold pt-1 hover:text-primary hover:cursor-pointer`}
+                                <p className={`text-[16px] font-RobotoBold pt-1 hover:text-primary hover:cursor-pointer`}
                                 onClick={logout}
                             >
                                 Log Out

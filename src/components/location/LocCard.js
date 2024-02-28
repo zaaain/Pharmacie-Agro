@@ -9,8 +9,8 @@ const LocCard = ({data, handleDeleteAddress, countFlag}) => {
 
   return (
     <div className="w-full flex p-5 flex-col shadow-card  rounded-2xl">
-    <p className="font-Catamaran text-[16px] truncate">
-      <span className="font-Josefin text-primary text-[18px]">
+    <p className="font-Roboto text-[16px] truncate">
+      <span className="font-Roboto text-primary text-[18px]">
         Addreess:
       </span>{" "}
       {data.address && data.address}

@@ -23,7 +23,7 @@ const DashboardSidebar = () => {
       <div className="pt-5 pl-5 leading-10">
         <p
         onClick={()=>navigate("/dashboard")}
-          className={`font-Josefin text-[20px] hover:text-primary hover:cursor-pointer ${
+          className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
             location.pathname === "/dashboard" ? "text-primary" : ""
           }`}
         >
@@ -32,7 +32,7 @@ const DashboardSidebar = () => {
 
         <p
          onClick={()=>navigate("/products/my")}
-          className={`font-Josefin text-[20px] hover:text-primary hover:cursor-pointer ${
+          className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
             location.pathname.includes("/products") ? "text-primary" : ""
           }`}
         >
@@ -41,7 +41,7 @@ const DashboardSidebar = () => {
 
         <p
         onClick={()=>navigate("/profile")}
-          className={`font-Josefin text-[20px] hover:text-primary hover:cursor-pointer ${
+          className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
             location.pathname === "/profile" ? "text-primary" : ""
           }`}
         >
@@ -50,7 +50,7 @@ const DashboardSidebar = () => {
 
         <p
          onClick={()=>navigate("/orders")}
-          className={`font-Josefin text-[20px] hover:text-primary hover:cursor-pointer ${
+          className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
             location.pathname === "/orders" ? "text-primary" : ""
           }`}
         >
@@ -58,14 +58,14 @@ const DashboardSidebar = () => {
         </p>
         <p
          onClick={()=>navigate("/bids")}
-          className={`font-Josefin text-[20px] hover:text-primary hover:cursor-pointer ${
+          className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
             location.pathname === "/bids" ? "text-primary" : ""
           }`}
         >
           Bids
         </p>
 
-        <p className="font-Josefin text-[20px] hover:text-primary hover:cursor-pointe" onClick={logout}>
+        <p className="font-Roboto text-[20px] hover:text-primary hover:cursor-pointe" onClick={logout}>
           Log Out
         </p>
       </div>

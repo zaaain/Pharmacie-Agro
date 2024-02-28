@@ -10,13 +10,13 @@ const ReviewCard = ({ data }) => {
           className="max-w-[50px] min-h-[50px] max-h-[50px] min-w-[50px] rounded-full"
         />
         <div className="ml-5">
-          <p className="font-CatamaranBold text-[18px]">{data.name}</p>
-          <p className="font-JosefinBold text-[18px] text-primary">
+          <p className="font-RobotoBold text-[18px]">{data.name}</p>
+          <p className="font-RobotoBold text-[18px] text-primary">
             {data.rating}
           </p>
         </div>
       </div>
-      <p className="text-[16px] font-Catamaran">{data.reviewText}</p>
+      <p className="text-[16px] font-Roboto">{data.reviewText}</p>
     </div>
   );
 };

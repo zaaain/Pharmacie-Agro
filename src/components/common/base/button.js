@@ -51,7 +51,7 @@ export function Button({
       {...rest}
       className={`inline-flex justify-center ${
         variant === "outline" ? "text-primary" : "text-white"
-      } font-CatamaranSmall items-center rounded-2xl font-[600]	text-lg  w-full  hover:bg-['#05484F'] hover:font-bold hover:shadow-btn`}
+      } font-RobotoSmall items-center rounded-2xl font-[600]	text-lg  w-full  hover:bg-['#05484F'] hover:font-bold hover:shadow-btn`}
       style={{
         background: getColor(variant || "primary", disabled || false),
         width: `${width}px`,

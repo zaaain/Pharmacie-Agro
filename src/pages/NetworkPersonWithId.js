@@ -28,7 +28,7 @@ const PersonProductPage = () => {
     <Layout>
       <div className="w-[90%] mx-auto my-10">
         {firstName && lastName && (
-        <p className="text-[32px] xs:text-[22px] font-JosefinBold text-primary text-center capitalize">
+        <p className="text-[32px] xs:text-[22px] font-RobotoBold text-primary text-center capitalize">
           {`${firstName} ${lastName} Products`}
         </p>
         )}
@@ -47,7 +47,7 @@ const PersonProductPage = () => {
             personProducts &&
             personProducts.length === 0 && (
               <div className="col-span-12 flex justify-center">
-                <p className="font-Josefin text-[18px]">
+                <p className="font-Roboto text-[18px]">
                   No products added in this person!
                 </p>
               </div>

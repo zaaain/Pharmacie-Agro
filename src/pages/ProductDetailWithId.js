@@ -101,15 +101,15 @@ const getPkgType = (type) => {
       <div className="mx-auto w-[90%] xs:w-[95%]">
         <div className="shadow-dashboard p-2 flex items-center w-[90px] justify-center mb-5 rounded-lg cursor-pointer" onClick={()=>navigate(-1)}>
           <ArrowBackIcon className="text-primary"/>
-          <p className="ml-2 font-CatamaranBold text-[16px]">Back</p>
+          <p className="ml-2 font-RobotoBold text-[16px]">Back</p>
         </div>
       </div>
       {productDetailLoader ? <CircularProgress size={42} style={{color:"#668968", display:"flex", margin:"0 auto"}}/> :
-      <div className="w-[90%] xs:w-[95%] grid grid-cols-12 mx-auto gap-10">
+      <div className="w-[90%] grid grid-cols-12 mx-auto gap-10 xs:gap-0 xs:space-y-3">
         
         <div className="col-span-3 xs:col-span-12">
           <div  className="w-full h-full flex flex-col items-center justify-center border-primary border-2 p-5 rounded-2xl">
-            <p className="text-primary  font-JosefinBold text-[22px] text-center"> Seller Information</p>
+            <p className="text-primary  font-RobotoBold text-[22px] text-center"> Seller Information</p>
             <div className="mt-5 flex flex-col items-center justify-center">
             <img
             src={productDetailData && productDetailData.user && productDetailData.user.avatar ?`${imgPath}${productDetailData.user.avatar}` : `${imgUrl}/kisan.png`}
@@ -117,72 +117,72 @@ const getPkgType = (type) => {
             className="rounded-full w-[100px] h-[100px] bg-cover"
           />
           {productDetailData && productDetailData.user && productDetailData.user.firstName && productDetailData.user.lastName && (
-            <p className="text-primary font-JosefinBold text-[22px] pt-2">{productDetailData.user.firstName && productDetailData.user.lastName && `${productDetailData.user.firstName} ${productDetailData.user.lastName}`}</p>
+            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.firstName && productDetailData.user.lastName && `${productDetailData.user.firstName} ${productDetailData.user.lastName}`}</p>
           )}
                {productDetailData && productDetailData.user && productDetailData.user.phone && (
-            <p className="text-primary font-JosefinBold text-[22px] pt-2">{productDetailData.user.phone && productDetailData.user.phone}</p>
+            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.phone && productDetailData.user.phone}</p>
           )}
                    {productDetailData && productDetailData.user && productDetailData.user.email && (
-            <p className=" font-CatamaranBold text-[16px] pt-2">{productDetailData.user.email && productDetailData.user.email}</p>
+            <p className=" font-RobotoBold text-[16px] pt-2">{productDetailData.user.email && productDetailData.user.email}</p>
           )}
             </div>
           </div>
         </div>
         <div className="col-span-6 xs:col-span-12">
           <div className="w-full h-full flex flex-col shadow-dashboard rounded-xl bg-white p-5">
-          <p className="text-primary font-JosefinBold text-[22px] text-center">Product Information</p>
+          <p className="text-primary font-RobotoBold text-[22px] text-center">Product Information</p>
           <div className="mt-3">
             {productDetailData.ProductType && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Product Type: <span className="text-black font-Catamaran capitalize">{productDetailData.ProductType && productDetailData.ProductType}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Product Type: <span className="text-black font-Roboto capitalize">{productDetailData.ProductType && productDetailData.ProductType}</span>
             </p>
             )}
             {productDetailData.name && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Product Name: <span className="text-black font-Catamaran capitalize">{productDetailData.name && productDetailData.name}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Product Name: <span className="text-black font-Roboto capitalize">{productDetailData.name && productDetailData.name}</span>
             </p>
             )}
             {productDetailData.brand && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Product Brand: <span className="text-black font-Catamaran capitalize">{productDetailData.brand && productDetailData.brand}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Product Brand: <span className="text-black font-Roboto capitalize">{productDetailData.brand && productDetailData.brand}</span>
             </p>
             )}
             {productDetailData.pkgQuantity && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Package Quantity: <span className="text-black font-Catamaran capitalize">{productDetailData.pkgQuantity && productDetailData.pkgQuantity}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Package Quantity: <span className="text-black font-Roboto capitalize">{productDetailData.pkgQuantity && productDetailData.pkgQuantity}</span>
             </p>
             )}
             {productDetailData.pkgWeight && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Package Weight: <span className="text-black font-Catamaran capitalize">{productDetailData.pkgWeight && productDetailData.pkgWeight}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Package Weight: <span className="text-black font-Roboto capitalize">{productDetailData.pkgWeight && productDetailData.pkgWeight}</span>
             </p>
             )}
             {productDetailData.pkgType && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Package Type: <span className="text-black font-Catamaran capitalize">{productDetailData.pkgType && getPkgType(productDetailData.pkgType)}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Package Type: <span className="text-black font-Roboto capitalize">{productDetailData.pkgType && getPkgType(productDetailData.pkgType)}</span>
             </p>
             )}
             {productDetailData.availableFrom && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Available From: <span className="text-black font-Catamaran capitalize">{productDetailData.availableFrom && productDetailData.availableFrom}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Available From: <span className="text-black font-Roboto capitalize">{productDetailData.availableFrom && productDetailData.availableFrom}</span>
             </p>
             )}
                    {productDetailData.shelfLifeStart && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Shelf Life Start: <span className="text-black font-Catamaran capitalize">{productDetailData.shelfLifeStart && productDetailData.shelfLifeStart}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Shelf Life Start: <span className="text-black font-Roboto capitalize">{productDetailData.shelfLifeStart && productDetailData.shelfLifeStart}</span>
             </p>
             )}
             {productDetailData.shelfLifeEnd && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Shelf Life End: <span className="text-black font-Catamaran capitalize">{productDetailData.shelfLifeEnd && productDetailData.shelfLifeEnd}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Shelf Life End: <span className="text-black font-Roboto capitalize">{productDetailData.shelfLifeEnd && productDetailData.shelfLifeEnd}</span>
             </p>
             )}
              {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && (
             <div className="mt-2 bg-[#f5f6f7] rounded-lg">
-              <p className=" text-[18px] text-primary font-Josefin">Product available in these cities:</p>
+              <p className=" text-[18px] text-primary font-Roboto">Product available in these cities:</p>
                  {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && 
            productDetailData.user.address.map((item, index)=>(
-            <p className="text-[18px] text-black font-Catamaran capitalize">
+            <p className="text-[18px] text-black font-Roboto capitalize">
             {`${index+ 1}. ${item.city}`}
           </p>
             ))}
@@ -194,16 +194,16 @@ const getPkgType = (type) => {
         </div>
         <div className="col-span-3 xs:col-span-12">
           <div  className="w-full h-full flex flex-col items-center justify-center bg-[#f5f6f7] p-5 rounded-2xl border-4 border-dashed">
-            <p className="text-primary font-JosefinBold text-[22px] text-center">Pricing</p>
+            <p className="text-primary font-RobotoBold text-[22px] text-center">Pricing</p>
             <div className="flex flex-col justify-center items-center">
             {productDetailData.tax && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Tax: <span className="text-black font-Catamaran capitalize">{productDetailData.tax && productDetailData.tax}</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Tax: <span className="text-black font-Roboto capitalize">{productDetailData.tax && productDetailData.tax}</span>
             </p>
             )}
             {productDetailData.price && (
-            <p className=" text-[18px] text-primary font-Josefin">
-              Price: <span className="text-black font-Catamaran capitalize">{productDetailData.price && productDetailData.price} PRs</span>
+            <p className=" text-[18px] text-primary font-Roboto">
+              Price: <span className="text-black font-Roboto capitalize">{productDetailData.price && productDetailData.price} PRs</span>
             </p>
             )}
           <div className="mt-1">
@@ -211,7 +211,7 @@ const getPkgType = (type) => {
               value="Order Now"
               height={45}
               width={140}
-              font="Josefin"
+              font="Roboto"
               disabled={getOwner(productDetailData.user && productDetailData.user.id) || orderLoader}
               loader={orderLoader}
               onClick={() => handleOrderNow(productDetailData.id)}
@@ -232,7 +232,7 @@ const getPkgType = (type) => {
               value="Bid Now"
               height={45}
               width={140}
-              font="Josefin"
+              font="Roboto"
               onClick={() => handleBidNow(productDetailData.id)}
               loader={bidLoader}
               disabled={bidLoader || !bidPrice|| bidPrice <= 0}
@@ -245,16 +245,16 @@ const getPkgType = (type) => {
           
         </div>
         <div className="col-span-12 mt-2">
-        <p className="font-JosefinBold text-[22px] text-primary  cursor-pointer">
+        <p className="font-RobotoBold text-[22px] text-primary  cursor-pointer">
             Product Images
             <hr className="my-2" />
-            <div className="w-full grid grid-cols-12 gap-5">
+            <div className="w-full grid grid-cols-12 gap-5 xs:gap-0 xs:space-y-3">
   {productDetailData && productDetailData.image && productDetailData.image.length > 0 && productDetailData.image.map((item, index) => (
-    <div key={index} className="col-span- h-48 ">
+    <div key={index} className="col-span-4 xs:col-span-12 h-48 ">
       <img 
         alt={item} 
         src={`${imgPath}${item}`} 
-        className="max-w-full h-full object-cover rounded-2xl"
+        className="max-w-full min-w-full h-full object-cover rounded-2xl"
       />
     </div>
   ))}
@@ -269,51 +269,51 @@ const getPkgType = (type) => {
           />
         </div>
         <div className="col-span-1">
-          <p className="text-primary font-JosefinBold text-[22px] capitalize">
+          <p className="text-primary font-RobotoBold text-[22px] capitalize">
             {productDetailData.name && productDetailData.name}
           </p>
-          <p className="text-primary font-Josefin text-[22px]">
+          <p className="text-primary font-Roboto text-[22px]">
             Price:{" "}
-            <span className="text-neutral-800 text-[20px] font-Catamaran">
+            <span className="text-neutral-800 text-[20px] font-Roboto">
               {productDetailData.price && `${productDetailData.price} PRs ${productDetailData.tax && productDetailData.tax === "inclusive" ? "with tax" : "with out tax"}`}
             </span>
           </p>
-          <p className="text-primary font-Josefin text-[22px]">
+          <p className="text-primary font-Roboto text-[22px]">
             Shipment:{" "}
-            <span className="text-neutral-800 text-[20px] font-Catamaran capitalize">
+            <span className="text-neutral-800 text-[20px] font-Roboto capitalize">
               {productDetailData.shipping && productDetailData.shipping === "free" ? "Free" : "Not Free"}
             </span>
           </p>
-          <p className="text-primary font-Josefin text-[22px]">
+          <p className="text-primary font-Roboto text-[22px]">
           Product available in these cities:
           </p>
           <div className="grid grid-cols-4">
           {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && productDetailData.user.address.map((item, index)=>(
             
-                <p className="text-neutral-800 text-[20px] font-Catamaran col-span-1">
+                <p className="text-neutral-800 text-[20px] font-Roboto col-span-1">
                 {`${index+ 1}.${item.city}`}
               </p>
            
           ))}
            </div>
-            <p className="text-primary font-Josefin text-[22px]">
+            <p className="text-primary font-Roboto text-[22px]">
             Seller Name:{" "}
-            <span className="text-neutral-800 text-[20px] font-Catamaran">
+            <span className="text-neutral-800 text-[20px] font-Roboto">
               {productDetailData && productDetailData.user && `${productDetailData.user.firstName} ${productDetailData.user.lastName}`}
             </span>
           </p>
           {productDetailData.user && productDetailData.user.phone && (
-                     <p className="text-primary font-Josefin text-[22px]">
+                     <p className="text-primary font-Roboto text-[22px]">
                     Seller Phone:{" "}
-                     <span className="text-neutral-800 text-[20px] font-Catamaran">
+                     <span className="text-neutral-800 text-[20px] font-Roboto">
                        {productDetailData && productDetailData.user && productDetailData.user.phone}
                      </span>
                    </p>
           )}
           {productDetailData.user && productDetailData.user.email && (
-                     <p className="text-primary font-Josefin text-[22px]">
+                     <p className="text-primary font-Roboto text-[22px]">
                      Seller Email:{" "}
-                     <span className="text-neutral-800 text-[20px] font-Catamaran">
+                     <span className="text-neutral-800 text-[20px] font-Roboto">
                        {productDetailData && productDetailData.user && productDetailData.user.email}
                      </span>
                    </p>
@@ -323,7 +323,7 @@ const getPkgType = (type) => {
               value="Order Now"
               height={45}
               width={140}
-              font="Josefin"
+              font="Roboto"
               disabled={getOwner(productDetailData.user && productDetailData.user.id) || orderLoader}
               loader={orderLoader}
               onClick={() => handleOrderNow(productDetailData.id)}
@@ -344,7 +344,7 @@ const getPkgType = (type) => {
               value="Bid Now"
               height={45}
               width={140}
-              font="Josefin"
+              font="Roboto"
               onClick={() => handleBidNow(productDetailData.id)}
               loader={bidLoader}
               disabled={bidLoader || !bidPrice|| bidPrice <= 0}
@@ -354,11 +354,11 @@ const getPkgType = (type) => {
           )}
         </div> */}
         <div className="col-span-12">
-          <p className="font-JosefinBold text-[22px] text-primary  cursor-pointer">
+          <p className="font-RobotoBold text-[22px] text-primary  cursor-pointer">
             Description
           </p>
           <hr className="my-2" />
-          <p className="font-Catamaran text-[18px] capitalize">{productDetailData.description}</p>
+          <p className="font-Roboto text-[18px] capitalize">{productDetailData.description}</p>
         </div>
       </div>
       } 

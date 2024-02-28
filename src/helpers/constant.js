@@ -1,7 +1,6 @@
 export const roles = [
-  { name: "Farmer", id: "2", type: "farmer" },
-  { name: "Vendor", id: "3", type: "vendor" },
-  { name: "Company", id: "1", type: "company" },
+  { name: "Seller", id: "1", type: "seller" },
+  { name: "Buyer", id: "2", type: "buyer" },
 ];
 
 export const category = [

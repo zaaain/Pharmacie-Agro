@@ -21,7 +21,7 @@ const NavbarDashboard = () => {
                 variant="primary"
                 width={180}
                 height={55}
-                font="Josefin"
+                font="Roboto"
                 onClick={()=> navigate("/")}
             />
         </div>

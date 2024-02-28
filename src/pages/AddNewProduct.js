@@ -154,7 +154,7 @@ const AddNewProduct = () => {
       <div className="p-4">
         {!selectedCategory && (
           <>
-            <p className="font-Josefin text-primary text-[24px]">
+            <p className="font-Roboto text-primary text-[24px]">
               Select your product category before adding a product !
             </p>
             <div className="grid grid-cols-4 gap-5 mt-5">
@@ -170,7 +170,7 @@ const AddNewProduct = () => {
                     draggable={false}
                     className="rounded-xl max-h-[150px] object-cover min-h-[150px] min-w-[150px]"
                   />
-                  <p className="mt-5 font-Catamaran text-[16px]">{item.name}</p>
+                  <p className="mt-5 font-Roboto text-[16px]">{item.name}</p>
                 </div>
               ))}
             </div>
@@ -178,13 +178,13 @@ const AddNewProduct = () => {
         )}
         {/* {selectedCategory && !newProductFlag && (
           <>
-            <p className="font-Josefin text-primary text-[24px] mt-5">
+            <p className="font-Roboto text-primary text-[24px] mt-5">
               Do you want to search for a product ?
             </p>
             <div className="mt-5">
               <FormInput placeholder="Search Product" />
             </div>
-            <p className="font-Josefin text-primary text-[24px] mt-10">
+            <p className="font-Roboto text-primary text-[24px] mt-10">
               Are you interested in adding a new product ?
             </p>
             <div className="mt-5">

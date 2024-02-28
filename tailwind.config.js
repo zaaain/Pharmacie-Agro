@@ -30,12 +30,8 @@ module.exports = {
           auth:`url("./public/authbuyer_bg.png")`,
       },
       fontFamily: {
-        Catamaran: ["Catamaran", "sans-serif"],
-        CatamaranBold: ["CatamaranBold", "sans-serif"],
-        CatamaranSmall: ["CatamaranSmall", "sans-serif"],
-        CatamaranBlack: ["CatamaranBlack", "sans-serif"],
-        Josefin: ["Josefin", "sans-serif"],
-        JosefinBold: ["JosefinBold", "sans-serif"],
+        Roboto: ["Roboto"],
+        RobotoBold: ["RobotoBold"],
       },
       colors: {
         primary: "#668968",

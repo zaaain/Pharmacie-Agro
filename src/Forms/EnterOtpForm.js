@@ -23,11 +23,12 @@ const {width} = useWindowSize()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <p className="font-Catamaran text-[16px] mt-5">
-        <span className="font-bold text-primary font-JosefinBold text-[18px]">
+      <p className="font-Roboto text-[16px] mt-5">
+        <span className="font-bold text-primary font-RobotoBold text-[18px]">
           Note:{" "}
         </span>{" "}
-        {num ? `We can send otp code in this number (0${num})` : `We can send otp code in this email (${email})`}
+        {/* {num ? `We can send otp code in this number (0${num})` : `We can send otp code in this email (${email})`} */}
+        {num && `We can send otp code in this number (0${num})`}
       </p>
       <div className="mt-5">
         <Controller

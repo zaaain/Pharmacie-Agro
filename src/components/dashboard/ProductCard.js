@@ -24,29 +24,29 @@ const ProductCard = ({data}) => {
         alt="avatar"
       /> 
       <div className="p-3 leading-6">
-        <p className="font-CatamaranBold text-primary text-[16px] truncate">
+        <p className="font-RobotoBold text-primary text-[16px] truncate">
           Product Name:{" "}
-          <span className="text-black font-Catamaran  ">
+          <span className="text-black font-Roboto  ">
             This is a product name
           </span>
         </p>
-        <p className="font-CatamaranBold text-primary text-[16px] truncate">
+        <p className="font-RobotoBold text-primary text-[16px] truncate">
           Product Category:{" "}
-          <span className="text-black font-Catamaran  ">
+          <span className="text-black font-Roboto  ">
             {data.ProductType && data.ProductType}
           </span>
         </p>
-        <p className="font-CatamaranBold text-primary text-[16px] truncate">
+        <p className="font-RobotoBold text-primary text-[16px] truncate">
           Product Price:{" "}
-          <span className="text-black font-Catamaran  ">{data.price && `${data.price} PRs`}</span>
+          <span className="text-black font-Roboto  ">{data.price && `${data.price} PRs`}</span>
         </p>
       </div>
 
       {/* <div className="flex justify-between">
-        <button className="h-[50px] w-[120px] text-white font-CatamaranBold rounded-bl-xl rounded-tr-xl bg-primary">
+        <button className="h-[50px] w-[120px] text-white font-RobotoBold rounded-bl-xl rounded-tr-xl bg-primary">
           Delete
         </button>
-        <button className="h-[50px] w-[120px] text-white font-CatamaranBold rounded-br-xl rounded-tl-xl bg-primary">
+        <button className="h-[50px] w-[120px] text-white font-RobotoBold rounded-br-xl rounded-tl-xl bg-primary">
           Update
         </button>
       </div> */}

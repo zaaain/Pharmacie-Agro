@@ -54,7 +54,7 @@ const Products = () => {
         )}
         {!loader && data && data.length === 0 && (
           <div className="col-span-3 flex items-center justify-center">
-            <p className="font-Josefin text-[18px]">You have not added current any product !</p>
+            <p className="font-Roboto text-[18px]">You have not added current any product !</p>
           </div>
         )}
         {!loader && data && data.length > 0 && data.map((item) => (

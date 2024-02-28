@@ -32,7 +32,7 @@ const Modal = ({ isOpen, toggle, title, children, fullWidth }) => {
             `}
             >
               <div className="bg-gradient min-h-[60px] max-h-[60px] rounded-t-xl flex justify-between px-3 items-center">
-                <p className="text-white font-JosefinBold text-[20px]">{title}</p>
+                <p className="text-white font-RobotoBold text-[20px]">{title}</p>
                 {toggle && (
                 <div className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100 cursor-pointer" onClick={toggle}>
                   <CloseIcon color="#668968" />

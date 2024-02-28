@@ -8,7 +8,7 @@ const ServiceCard = ({ data }) => {
         alt={data.name}
         className="max-w-[50px] max-h-[50px] object-cover"
       />
-      <p className="font-Josefin text-[20px] mt-5">{data.name}</p>
+      <p className="font-Roboto text-[20px] mt-5">{data.name}</p>
     </div>
   );
 };

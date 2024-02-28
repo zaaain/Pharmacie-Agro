@@ -24,6 +24,9 @@ export default class Client {
         if (err.response.status === 401) {
           localStorage.removeItem("jwt");
         }
+        if (err.response && err.response) {
+          return Promise.reject(err.response.data);
+        }
         return Promise.reject(err);
       }
     );
@@ -41,7 +44,7 @@ export default class Client {
   }
 
   postFormData(url, payload) {
-    // Modified the way of setting headers for FormData
+    
     const formDataHeaders = {
       headers: {
         "Content-Type": "multipart/form-data",

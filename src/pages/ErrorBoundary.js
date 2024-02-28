@@ -19,7 +19,7 @@ const ErrorBoundary = ({ children }) => {
     return (
       <div className="w-full h-screen bg-gradient flex items-center justify-center">
         <div className="w-[400px] h-[400px]  bg-white rounded-[100%] flex flex-col items-center justify-center">
-          <h1 className="text-primary font-Josefin text-[24px]">
+          <h1 className="text-primary font-Roboto text-[24px]">
             Something went wrong.
           </h1>
           <Button

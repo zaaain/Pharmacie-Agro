@@ -28,12 +28,12 @@ const ImageInput = forwardRef(({ onChange, disabled, placeholder, error, ...rest
       />
      
       <div
-        className="min-w-full bg-[#f5f6f7] border-2 border-dashed h-[120px] rounded-2xl outline-none p-5 font-Catamaran text-[16px] flex items-center justify-center cursor-pointer"
+        className="min-w-full bg-[#f5f6f7] border-2 border-dashed h-[120px] rounded-2xl outline-none p-5 font-Roboto text-[16px] flex items-center justify-center cursor-pointer"
         onClick={handleClick}
       >
          <span>{placeholder}</span>
       </div>
-      {error && <p className="text-red-600 font-Catamaran text-[12px] mt-2">{error}</p>}
+      {error && <p className="text-red-600 font-Roboto text-[12px] mt-2">{error}</p>}
     </>
   );
 });

@@ -20,7 +20,7 @@ const AgriNetwork = () => {
   return (
     <Layout>
       <div className="my-10">
-        <p className="text-center font-JosefinBold text-primary text-[32px]">
+        <p className="text-center font-RobotoBold text-primary text-[32px]">
           Agri Network
         </p>
         <img
@@ -37,7 +37,7 @@ const AgriNetwork = () => {
           )}
           {!usersLoader && users && users.length === 0 &&  (
             <div className="col-span-6 flex justify-center">
-              <p className="font-Josefin text-[18px]">No users register !</p>
+              <p className="font-Roboto text-[18px]">No users register !</p>
             </div>
           )}
            {!usersLoader && users && users.length > 0 && users.map((item, index)=>(

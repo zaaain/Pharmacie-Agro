@@ -13,7 +13,7 @@ const EnterPhoneEmailForm = ({ onSubmit, loader , role }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(LoginSchema(role)),
+    resolver: yupResolver(LoginSchema),
   });
 
   const {width} = useWindowSize()
@@ -21,7 +21,7 @@ const EnterPhoneEmailForm = ({ onSubmit, loader , role }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mt-5">
-        {(role === "farmer" || role === "vendor") && (
+        {/* {(role === "farmer" || role === "vendor") && ( */}
           <Controller
             name="phone"
             control={control}
@@ -35,8 +35,8 @@ const EnterPhoneEmailForm = ({ onSubmit, loader , role }) => {
               />
             )}
           />
-        )}
-        {role === "company" && (
+        {/* )} */}
+        {/* {role === "company" && (
           <Controller
             name="email"
             control={control}
@@ -50,7 +50,7 @@ const EnterPhoneEmailForm = ({ onSubmit, loader , role }) => {
               />
             )}
           />
-        )}
+        )} */}
         <div className="mt-10 flex justify-center items-center">
           <Button
             width={width > 400 ? 200 : 150}

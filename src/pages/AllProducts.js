@@ -34,7 +34,7 @@ const AllProducts = () => {
           )}
           {(!allProductLoader && !productWithCategoryLoader && productMsg !== "") && (
             <div className="col-span-12 flex justify-center">
-              <p className="font-Josefin text-[18px]">{productMsg}</p>
+              <p className="font-Roboto text-[18px]">{productMsg}</p>
             </div>
           )}
           {!allProductLoader && !productWithCategoryLoader && productsData && productsData.length > 0 &&

@@ -137,17 +137,17 @@ const Home = () => {
             />
           </div>
           <div className="flex flex-col col-span-1 xs:justify-center xs:items-center">
-            <p className="text-secondary font-CatamaranBold text-[16px]">
+            <p className="text-secondary font-RobotoBold text-[16px]">
               {content.subTite}
             </p>
-            <p className="text-primary font-JosefinBold sm:text-[32px] xs:text-[22px] mt-5">
+            <p className="text-primary font-RobotoBold sm:text-[32px] xs:text-[22px] mt-5">
               {content.title}
             </p>
-            <p className=" font-Catamaran text-[18px] mt-2 xs:text-center">
+            <p className=" font-Roboto text-[18px] mt-2 xs:text-center">
               {content.text}
             </p>
             <div className="mt-5">
-              <Button value="Shop Now" width={160} height={40} font="Josefin" onClick={()=> navigate("/products/all")}/>
+              <Button value="Shop Now" width={160} height={40} font="Roboto" onClick={()=> navigate("/products/all")}/>
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@ const Home = () => {
         </div>
         {/*Container 3*/}
         {/* <div className="w-[90%] mx-auto grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-1 my-10 gap-10">
-          <p className="text-canter xs:text-[22px] 2xl:col-span-4 xl:col-span-4 lg:col-span-4 md:col-span-2 sm:col-span-2 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 font-JosefinBold text-[28px]">
+          <p className="text-canter xs:text-[22px] 2xl:col-span-4 xl:col-span-4 lg:col-span-4 md:col-span-2 sm:col-span-2 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 font-RobotoBold text-[28px]">
             Best Selling Products
           </p>
           {Selling &&
@@ -193,11 +193,11 @@ const Home = () => {
         {/*Container 5*/}
         <div className="bg-gradient py-10 mt-[70px]">
           <div className="flex justify-around w-[80%] mx-auto h-full items-center flex-wrap">
-            <p className="text-white font-JosefinBold text-[32px] xs:text-[22px] sm:text-[28px] text-center">
+            <p className="text-white font-RobotoBold text-[32px] xs:text-[22px] sm:text-[28px] text-center">
               Get 25% Off On Your First Purchase!
             </p>
             <Button
-              font="Josefin"
+              font="Roboto"
               value="Shop Now"
               variant="outline"
               width={150}
@@ -208,7 +208,7 @@ const Home = () => {
         </div>
         {/*Container 6*/}
         {/* <div className="w-[90%] mx-auto grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-1 my-10 gap-10">
-          <p className="text-canter text-[28px] 2xl:col-span-4 xl:col-span-4 lg:col-span-4 md:col-span-2 sm:col-span-2 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 font-JosefinBold xs:text-[22px]">
+          <p className="text-canter text-[28px] 2xl:col-span-4 xl:col-span-4 lg:col-span-4 md:col-span-2 sm:col-span-2 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 font-RobotoBold xs:text-[22px]">
             Trending Products
           </p>
           {Selling &&
@@ -220,7 +220,7 @@ const Home = () => {
         </div> */}
         {/*Container 7*/}
         <div className="w-[90%] mx-auto grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 xs:grid-cols-1 my-10 gap-3">
-          <p className="text-canter 2xl:col-span-3 xl:col-span-3 sm:text-[28px] lg:col-span-3 md:col-span-3 sm:col-span-1 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 mb-[50px] xs:mb-[20px] xs:text-[22px] font-JosefinBold">
+          <p className="text-canter 2xl:col-span-3 xl:col-span-3 sm:text-[28px] lg:col-span-3 md:col-span-3 sm:col-span-1 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 mb-[50px] xs:mb-[20px] xs:text-[22px] font-RobotoBold">
             Customer Reviews
           </p>
           {Reviews &&

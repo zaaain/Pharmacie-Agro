@@ -14,13 +14,12 @@ import AsynStorage from "helpers/asyncLocalStorage";
 
 
 const Login = () => {
+
   const { api } = useClient();
   const dispatch = useDispatch();
   const { eSnack } = useSnackMsg();
   const navigate = useNavigate();
-
   const [loader, setLoader] = useState(false);
-  const [otpLoader, setOtpLoader] = useState(false);
   const [otpFlag, setOtpFlag] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
   const [userNum, setUserNum] = useState("");
@@ -32,22 +31,16 @@ const Login = () => {
       type: selectedRole,
       phone:
         selectedRole !== "company" && val.phone ? `92${val.phone}` : undefined,
-      email: selectedRole === "company" && val.email ? val.email : undefined,
+      // email: selectedRole === "company" && val.email ? val.email : undefined,
     };
     setLoader(true);
-    if (selectedRole !== "company" && val.phone) {
+    // if (selectedRole !== "company" && val.phone) {
       setUserNum(val.phone);
-    }
-    if (selectedRole === "company" && val.email) {
-      setUserEmail(val.email);
-    }
-    api
-      .post(
-        selectedRole === "company"
-          ? "/api/auth/password/less/login"
-          : "/api/auth/password/less/login",
-        payload
-      )
+    // }
+    // if (selectedRole === "company" && val.email) {
+    //   setUserEmail(val.email);
+    // }
+    api.post("/api/auth/password/less/login",payload)
       .then((res) => {
         const response = res.data && res.data.data;
         setLoader(false);
@@ -108,12 +101,12 @@ const Login = () => {
             </Tooltip>
           )}
         </div>
-        <p className="font-Josefin font-extrabold text-[42px] text-center mt-5 text-primary">
+        <p className="font-Roboto font-extrabold text-[42px] text-center mt-5 text-primary">
           Sign In
         </p>
         {!selectedRole && !otpFlag && (
           <div className="mt-5">
-            <p className="font-[18px] font-CatamaranBold text-primary ">
+            <p className="font-[18px] font-RobotoBold text-primary ">
               Please select role type ?
             </p>
             {roles &&
@@ -123,7 +116,7 @@ const Login = () => {
                   key={item.id}
                   onClick={() => setSelectedRole(item.type)}
                 >
-                  <p className="font-Josefin text-white text-[18px]">
+                  <p className="font-Roboto text-white text-[18px]">
                     {item.name}
                   </p>
                 </div>

@@ -27,7 +27,7 @@ const TextAreaInput = forwardRef(({
         rows={3}
         {...rest}
       />
-      {error && <p className="text-red-600 font-Catamaran text-[12px] mt-2">{error}</p>}
+      {error && <p className="text-red-600 font-Roboto text-[12px] mt-2">{error}</p>}
     </>
   );
 });

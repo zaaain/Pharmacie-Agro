@@ -28,7 +28,7 @@ const ImageInputButton = forwardRef(({ onChange, loader }) => {
       />
      
       <div
-        className="w-[170px] bg-primary h-[50px] rounded-2xl outline-none p-5 font-Catamaran text-[16px] flex items-center justify-center cursor-pointer"
+        className="w-[170px] bg-primary h-[50px] rounded-2xl outline-none p-5 font-Roboto text-[16px] flex items-center justify-center cursor-pointer"
         onClick={handleClick}
       >
          {!loader ? <span className="text-white	text-lg">Upload Avatar</span> : <RiseLoader color="#fff" size={14} />}

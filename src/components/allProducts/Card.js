@@ -15,15 +15,15 @@ const Card = ({ data }) => {
         className="min-w-full max-w-full min-h-[150px] max-h-[150px] object-cover rounded-t-2xl"
       />
       <div className="text-center py-3">
-        <p className="text-[16px] font-Catamaran truncate capitalize">{data.ProductType}</p>
-        <p className="text-[16px] font-Catamaran truncate capitalize">{data.name ? data.name : data.brand ? data.brand : ""}</p>
-        <p className="text-[16px] font-CatamaranBold">{`PKR: ${data.price}`}</p>
+        <p className="text-[16px] font-Roboto truncate capitalize">{data.ProductType}</p>
+        <p className="text-[16px] font-Roboto truncate capitalize">{data.name ? data.name : data.brand ? data.brand : ""}</p>
+        <p className="text-[16px] font-RobotoBold">{`PKR: ${data.price}`}</p>
       </div>
       <div
         onClick={() => navigate(`/products/details?id=${data.id}`)}
         className="bg-gradient h-[55px] rounded-b-2xl p-2 flex justify-center items-center cursor-pointer"
       >
-        <p className="text-white font-Josefin text-[18px]">Details</p>
+        <p className="text-white font-Roboto text-[18px]">Details</p>
       </div>
     </div>
   );

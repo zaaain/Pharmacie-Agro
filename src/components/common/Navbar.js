@@ -39,7 +39,7 @@ const Navbar = () => {
       <div className="2xl:flex xl:flex lg:flex md:hidden sm:hidden xs:hidden">
         <p
           onClick={() => navigate("/")}
-          className={`font-Josefin text-[18px] cursor-pointer hover:text-primary mr-6 ${
+          className={`font-Roboto text-[18px] cursor-pointer hover:text-primary mr-6 ${
             location.pathname === "/" ? "text-primary" : ""
           }`}
         >
@@ -47,7 +47,7 @@ const Navbar = () => {
         </p>
         <p
           onClick={() => navigate("/products/all", { replace: true })}
-          className={`font-Josefin text-[18px] cursor-pointer hover:text-primary mr-6 ${
+          className={`font-Roboto text-[18px] cursor-pointer hover:text-primary mr-6 ${
             location.pathname.includes("/products") ? "text-primary" : ""
           }`}
         >
@@ -55,7 +55,7 @@ const Navbar = () => {
         </p>
         <p
           onClick={() => navigate("/agri-network", { replace: true })}
-          className={`font-Josefin text-[18px] cursor-pointer hover:text-primary ${
+          className={`font-Roboto text-[18px] cursor-pointer hover:text-primary ${
             location.pathname === "/agri-network" ? "text-primary" : ""
           }`}
         >
@@ -67,7 +67,7 @@ const Navbar = () => {
           value={jwt ? "Dashboard" : "Sign In"}
           width={150}
           height={50}
-          font="Josefin"
+          font="Roboto"
           onClick={handleClick}
         />
            {jwt && (
@@ -94,25 +94,25 @@ const Navbar = () => {
           <div className="pl-3 pb-2">
           {jwt && (
           <div onClick={()=> navigate("/profile")}>
-            <p className="font-CatamaranBold text-[16px] hover:text-primary cursor-pointer">My Profile</p>
+            <p className="font-RobotoBold text-[16px] hover:text-primary cursor-pointer">My Profile</p>
           </div>
           )}
           {width < 1024 && (
             <>
              <div onClick={()=> navigate("/")}>
-             <p className="font-CatamaranBold text-[16px] hover:text-primary cursor-pointer">Home</p>
+             <p className="font-RobotoBold text-[16px] hover:text-primary cursor-pointer">Home</p>
            </div>
             <div onClick={()=> navigate("/products/all")}>
-            <p className="font-CatamaranBold text-[16px] hover:text-primary cursor-pointer">Products</p>
+            <p className="font-RobotoBold text-[16px] hover:text-primary cursor-pointer">Products</p>
           </div>
            <div onClick={()=> navigate("/agri-network")}>
-           <p className="font-CatamaranBold text-[16px] hover:text-primary cursor-pointer">Agri Network</p>
+           <p className="font-RobotoBold text-[16px] hover:text-primary cursor-pointer">Agri Network</p>
          </div>
          </>
           )}
            {jwt && (
           <div onClick={logout}>
-            <p className="font-CatamaranBold text-[16px] hover:text-primary cursor-pointer mt-2">Log out</p>
+            <p className="font-RobotoBold text-[16px] hover:text-primary cursor-pointer mt-2">Log out</p>
           </div>
            )}
         </div>

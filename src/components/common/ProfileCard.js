@@ -15,7 +15,7 @@ const ProfileCard = ({handleUpdateAvatar, loader}) => {
       src={profileData && profileData.avatar ? `${imgPath}${profileData.avatar}` : imgUrl + "/kisan.png"}
       alt="img"
     />
-    <p className="font-CatamaranBold text-[24px] my-5">{name && name}</p>
+    <p className="font-RobotoBold text-[24px] my-5">{name && name}</p>
     <ImageInputButton onChange={handleUpdateAvatar} loader={loader}/>
   </div>
   )

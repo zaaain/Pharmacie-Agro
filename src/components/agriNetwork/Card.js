@@ -13,17 +13,17 @@ const Card = ({data}) => {
       </div>
       <div className='flex flex-col items-center justify-center'>
         <img src={data.avatar ? `${imgPath}${data.avatar}` : `${imgUrl}/kisan.png` } alt="person" className='min-w-[150px] max-w-[150px] max-h-[150px] min-h-[150px] rounded-full'/>
-        <p className='text-[18px] font-JosefinBold mt-5 text-primary truncate capitalize'>{`${data.firstName} ${data.lastName}`}</p>
+        <p className='text-[18px] font-RobotoBold mt-5 text-primary truncate capitalize'>{`${data.firstName} ${data.lastName}`}</p>
         {data.phone && (
-        <p className='text-[16px] font-CatamaranBold mt-1 truncate'>{data.phone}</p>
+        <p className='text-[16px] font-RobotoBold mt-1 truncate'>{data.phone}</p>
         )}
           {data.email && (
-        <p className='text-[16px] font-CatamaranBold mt-1 truncate flex max-w-[95%]'>{data.email}</p>
+        <p className='text-[16px] font-RobotoBold mt-1 truncate flex max-w-[95%]'>{data.email}</p>
         )}
-        {/* <p className='text-[16px] font-Catamaran mt-1 truncate'>{data.address}</p> */}
+        {/* <p className='text-[16px] font-Roboto mt-1 truncate'>{data.address}</p> */}
       </div>
       <div onClick={()=>navigate(`/agri-network/products?id=${data.id}`)} className='h-[60px] bg-gradient rounded-b-xl mt-5 cursor-pointer flex items-center justify-center'>
-        <p className='text-white font-Josefin text-[20px]'>See Products</p>
+        <p className='text-white font-Roboto text-[20px]'>See Products</p>
       </div>
     </div>
   )

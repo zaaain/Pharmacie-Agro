@@ -55,7 +55,7 @@ const Order = () => {
         )}
         {!loader && data && data.length === 0 && (
           <div className="col-span-3 flex items-center justify-center">
-            <p className="font-Josefin text-[18px]">You have not recived any Order !</p>
+            <p className="font-Roboto text-[18px]">You have not recived any Order !</p>
           </div>
         )}
         {!loader && data && data.length > 0 && data.map((item, index) => (
@@ -71,18 +71,18 @@ const Order = () => {
               {item.user && (
                 <div className="bg-[#f5f6f7] p-5 rounded-2xl mb-2">
                   {item.user.firstName && item.user.lastName && (
-                    <p className="font-Josefin text-[16px] truncate text-primary">
-                    Name: <span className="font-Catamaran text-black">{`${item.user.firstName} ${item.user.lastName}`}</span>
+                    <p className="font-Roboto text-[16px] truncate text-primary">
+                    Name: <span className="font-Roboto text-black">{`${item.user.firstName} ${item.user.lastName}`}</span>
                     </p>
                   )}
                   {item.user.email && (
-                    <p className="font-Josefin text-[16px] truncate text-primary">
-                    Email: <span className="font-Catamaran text-black">{item.user.email}</span>
+                    <p className="font-Roboto text-[16px] truncate text-primary">
+                    Email: <span className="font-Roboto text-black">{item.user.email}</span>
                     </p>
                   )}
                            {item.user.phone && (
-                    <p className="font-Josefin text-[16px] truncate text-primary">
-                    Phone: <span className="font-Catamaran text-black">{item.user.phone}</span>
+                    <p className="font-Roboto text-[16px] truncate text-primary">
+                    Phone: <span className="font-Roboto text-black">{item.user.phone}</span>
                     </p>
                   )}
                 </div>

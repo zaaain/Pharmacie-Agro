@@ -108,7 +108,7 @@ const Profile = () => {
 
         <div className="grid grid-cols-3 gap-5 mt-10">
           <div className="col-span-3 flex justify-between items-center">
-            <p className="font-JosefinBold text-primary text-[28px]">
+            <p className="font-RobotoBold text-primary text-[28px]">
               My Location
             </p>
             <Button
@@ -125,7 +125,7 @@ const Profile = () => {
             </div>
           )}
           {!allAddressLoader && allAddressData && allAddressData.length === 0 && (
-           <p className="col-span-3  font-Josefin text-[18px]">You have not added any address !</p>
+           <p className="col-span-3  font-Roboto text-[18px]">You have not added any address !</p>
           )}
           {!allAddressLoader && allAddressData && allAddressData.length > 0 && allAddressData.map((item)=>(
             <div>
