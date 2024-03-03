@@ -18,6 +18,7 @@ import { isEmpty } from "lodash";
 import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
+import AddressInput from "components/common/base/AddressInput";
 
 const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
 
@@ -252,6 +253,22 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
             )}
           />
         </div>
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
+          <Controller
+            name="addressId"
+            control={control}
+            defaultValue={null}
+            render={({ field }) => (
+              <AddressInput
+              {...register("addressId")}
+                placeholder="Select Address"
+                value={field.value ? field.value : []}
+                onChange={(selectedOption) => field.onChange(selectedOption)}
+                error={errors?.addressId && errors.addressId.message}
+              />
+            )}
+          />
+        </div> 
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="description"

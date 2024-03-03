@@ -199,17 +199,24 @@ console.log("productDetailData", productDetailData)
             ))}
             </div>
             )}
-             {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && (
+          {productDetailData.user && productDetailData.address && productDetailData.address.length > 0 && (
             <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
-              <p className=" text-[18px] text-primary font-Roboto">Product available in these cities:</p>
-                 {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && 
-           productDetailData.user.address.map((item, index)=>(
-            <p className="text-[18px] text-black font-Roboto capitalize">
-            {`${index+ 1}. ${item.city}`}
-          </p>
+              <p className=" text-[18px] text-primary font-Roboto">Product Location:</p>
+              <div className="grid grid-cols-2 gap-3">
+            {productDetailData.address && productDetailData.address.length > 0 && productDetailData.address.map((item, index)=>(
+            //  <p className="text-[18px] text-black font-Roboto capitalize">
+            //   {`${index+ 1}. ${item.address}, ${item.tehsil}, ${item.city}, ${item.district}`}
+            //   </p>
+            <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2 xs:col-span-2 p-2 bg-white shadow-card rounded-lg">
+              <p className="text-primary font-bold text-[14px]">City: <span className="text-black font-normal">{item.city}</span></p>
+              <p className="text-primary font-bold text-[14px]">District: <span className="text-black font-normal">{item.district}</span></p>
+              <p className="text-primary font-bold text-[14px]">Tehsil: <span className="text-black font-normal">{item.tehsil}</span></p>
+              <p className="text-primary font-bold text-[14px]">Address: <span className="text-black font-normal">{item.address}</span></p>
+              </div>
             ))}
             </div>
-            )}
+            </div>
+          )}
           </div>
           </div>
         </div>

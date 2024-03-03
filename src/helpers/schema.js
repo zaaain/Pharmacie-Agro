@@ -55,15 +55,16 @@ export const FruitsFormSchema = yup.object().shape({
   pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
   weightUnit: yup.string().required("Please select weight unit."),
   pkgWeight: yup.string().required("Please enter package weight."),
-  // pkgQuantity: yup.string().required("Please enter package quantity."),
   price: yup.string().required("Please enter price."),
   bidding: yup.string().required("Please select bidding."),
-  // tax: yup.string().required("Please select tax."),
-  // shipping: yup.string().required("Please select shipping type."),
   shelfLifeStart: yup.string().required("Please select shelf start date."),
   shelfLifeEnd: yup.string().required("Please select shelf end date."),
   availableFrom: yup.string().required("Please select available from."),
   description: yup.string().required("Please enter description."),
+  addressId: yup.array()
+  .min(1, 'Please select address.')
+  .typeError('Please select address.').required('Please select address.')
+
 });
 
 export const FertilizersFormSchema = yup.object().shape({
@@ -77,6 +78,9 @@ export const FertilizersFormSchema = yup.object().shape({
   // tax: yup.string().required("Please select tax."),
   // shipping: yup.string().required("Please select shipping type."),
   description: yup.string().required("Please enter description."),
+  addressId: yup.array()
+  .min(1, 'Please select address.')
+  .typeError('Please select address.').required('Please select address.')
 });
 
 export const SeedFormSchema = yup.object().shape({
@@ -94,6 +98,9 @@ export const SeedFormSchema = yup.object().shape({
   // tax: yup.string().required("Please select tax."),
   // shipping: yup.string().required("Please select shipping type."),
   description: yup.string().required("Please enter description."),
+  addressId: yup.array()
+  .min(1, 'Please select address.')
+  .typeError('Please select address.').required('Please select address.')
 });
 
 export const MachinaryFormSchema = (type) => {
@@ -105,6 +112,9 @@ export const MachinaryFormSchema = (type) => {
     name: yup.string().required("Please enter name."),
     model: yup.string().required("Please enter modal."),
     price: yup.string().required("Please enter price."),
+    addressId: yup.array()
+    .min(1, 'Please select address.')
+    .typeError('Please select address.').required('Please select address.')
   });
 
   if (type === "Tool" || type === "Machinary") {

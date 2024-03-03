@@ -139,6 +139,7 @@ const AddNewProduct = () => {
 
     Object.assign(val,{
       ProductType:selectedCategory,
+      addressId: val.addressId && val.addressId.length > 0 && JSON.stringify(val.addressId.map((item)=> item.id))
     })
    
     if(!isEmpty(selectProductData)){
@@ -149,9 +150,15 @@ const AddNewProduct = () => {
     }
 
     const formData = new FormData();
+    // let address = val.addressId;
+    // delete val.addressId;
+    // for(let i = 0; i < address.length; i++){
+    //   formData.append("addressId[" + i + "]", address[i].id);
+    // }
     Object.keys(val).forEach((key) => {
         formData.append(key, val[key]);
     });
+
     images.forEach((image, index) => {
         formData.append(`images`, image);
     });

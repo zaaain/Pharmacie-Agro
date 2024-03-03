@@ -16,6 +16,7 @@ import { isEmpty } from "lodash";
 import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
+import AddressInput from "components/common/base/AddressInput";
 
 const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues }) => {
 
@@ -193,6 +194,22 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues }) => {
             )}
           />
         </div>
+        <div className="col-span-4">
+          <Controller
+            name="addressId"
+            control={control}
+            defaultValue={null}
+            render={({ field }) => (
+              <AddressInput
+              {...register("addressId")}
+                placeholder="Select Address"
+                value={field.value ? field.value : []}
+                onChange={(selectedOption) => field.onChange(selectedOption)}
+                error={errors?.addressId && errors.addressId.message}
+              />
+            )}
+          />
+        </div> 
         <div className="col-span-4 ">
           <Controller
             name="description"
