@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import withAuth from "Hoc/withAuth";
 import Layout from "layout/DashboardLayout"
 import FruitsForm from "components/dashboard/ProductForms/FruitsForm";
@@ -12,12 +12,15 @@ import MachinaryToolsForm from "components/dashboard/ProductForms/MachinaryTools
 import FormInput from "components/common/base/FormInput";
 import { Button } from "components/common/base/button";
 import { imgUrl } from "helpers/path";
-import moment from "moment"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch } from "react-redux";
 import {addNewProduct} from "../redux/slices/productsSlice/productsAction"
 import { useNavigate } from "react-router-dom";
 import useSnackMsg from "hooks/useSnackMsg";
+import useClient from "hooks/useClient";
+import debounce from 'lodash/debounce';
+import { CircularProgress } from "@mui/material";
+import { isEmpty } from "lodash";
 
 const categoryData = [
   {
@@ -70,31 +73,31 @@ const categoryData = [
   },
 ];
 
-function getCategoryComponent(val, handleAddNew,images, handleImagesChange, ) {
+function getCategoryComponent(val, handleAddNew,images, handleImagesChange, selectProductData) {
   if (!val) return null;
   if (val === "Fruits") {
-    return <FruitsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
+    return <FruitsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Vegetables") {
-    return <VegetablesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange}/>;
+    return <VegetablesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Fertilizers") {
-    return <FertilizersForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange}/>;
+    return <FertilizersForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Fiber & Oil Seed Crops") {
-    return <FiberOilSeedCropsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
+    return <FiberOilSeedCropsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Grains & Cereals") {
-    return <GrainsCerealsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
+    return <GrainsCerealsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Plant Pathology & Entomology") {
-    return <PlantPathologyEntomologyForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
+    return <PlantPathologyEntomologyForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Seed Varieties") {
-    return <SeedVarietiesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
+    return <SeedVarietiesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Machinary & Tools") {
-    return <MachinaryToolsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} />;
+    return <MachinaryToolsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
 }
 
@@ -106,6 +109,11 @@ const AddNewProduct = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {eSnack, sSnack} = useSnackMsg()
+  const {api} = useClient()
+  const [searchLoader,setSearchLoader] = useState(false)
+  const [searchData, setSearchData] = useState([])
+  const [searchMsg,setSearchMsg] = useState("")
+  const [selectProductData, setSelectProductData] = useState({})
 
   const handleSelectCategory = (val) => {
     if (!val) return;
@@ -120,15 +128,26 @@ const AddNewProduct = () => {
   const handleGoBack = () => {
     setSelectedCategory("")
     setImages([])
+    setNewProductFlag(false)
+    setSelectProductData({})
+    setSearchData([])
+    setSearchLoader(false)
+    setSearchMsg("")
   }
 
   const handleAddNew = (val) => {
 
     Object.assign(val,{
       ProductType:selectedCategory,
-      discount:"no",
     })
    
+    if(!isEmpty(selectProductData)){
+      Object.assign(val,{
+        isAlreadyExists:true,
+        productId:selectProductData.id
+      })
+    }
+
     const formData = new FormData();
     Object.keys(val).forEach((key) => {
         formData.append(key, val[key]);
@@ -147,6 +166,47 @@ const AddNewProduct = () => {
     })
   };
 
+  useEffect(()=>{
+    handleGoBack()
+  },[])
+
+  const handleSearchProduct = useMemo(() => debounce((value, category) => {
+    if(!value){
+      setSearchData([])
+      setSearchLoader(false)
+      setSearchMsg("")
+    }
+    if(!value) return
+    const payload = {
+      query:value,
+      category:category
+    }
+    setSearchData([])
+    setSearchLoader(true)
+    setSearchMsg("")
+    api.post("/api/product/search", payload)
+    .then((res)=>{
+      const response = res.data && res.data.data ? res.data.data : []
+      setSearchLoader(false)
+      setSearchData(response)
+      if(response && response.length === 0){
+      setSearchMsg("No products were found matching your search criteria.");
+      }
+    })
+    .catch((err)=>{
+      setSearchLoader(false)
+      setSearchData([])
+      setSearchMsg("")
+    })
+  }, 500), []);
+
+
+  const handleSelectedProduct = (data) => {
+    if(isEmpty(data)) return
+    setSelectProductData(data)
+    setNewProductFlag(true)
+  }
+
 
 
   return (
@@ -157,10 +217,10 @@ const AddNewProduct = () => {
             <p className="font-Roboto text-primary text-[24px]">
               Select your product category before adding a product !
             </p>
-            <div className="grid grid-cols-4 gap-5 mt-5">
+            <div className="grid grid-cols-12 gap-5 mt-5">
               {categoryData.map((item) => (
                 <div
-                  className="col-span-1 p-2 hover:border-2 cursor-pointer hover:border-primary shadow-card rounded-2xl flex flex-col justify-center items-center"
+                  className="2xl:col-span-3 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6 xs:col-span-12 p-2 hover:border-2 cursor-pointer hover:border-primary shadow-card rounded-2xl flex flex-col justify-center items-center"
                   key={item.id}
                   onClick={() => handleSelectCategory(item.name)}
                 >
@@ -176,13 +236,35 @@ const AddNewProduct = () => {
             </div>
           </>
         )}
-        {/* {selectedCategory && !newProductFlag && (
+        {selectedCategory && (
+               <div className="flex mb-2 z-10 bg-white sticky ">
+               <div className="shadow-dashboard p-2 rounded-lg flex items-center cursor-pointer" onClick={handleGoBack}>
+               <ArrowBackIcon/> 
+               </div>
+             </div>
+        )}
+        {selectedCategory && !newProductFlag && (
           <>
             <p className="font-Roboto text-primary text-[24px] mt-5">
               Do you want to search for a product ?
             </p>
-            <div className="mt-5">
-              <FormInput placeholder="Search Product" />
+            <div className="mt-5 relative">
+              <FormInput placeholder="Search Product" onChange={(e)=>handleSearchProduct(e.target.value, selectedCategory)}/>
+              {((searchLoader) || (searchData && searchData.length > 0) || (searchMsg)) && (
+              <div className="absolute top-[70px] right-0 left-0 max-h-[200px] p-5 overflow-y-auto bg-white shadow-dashboard rounded-2xl">
+                {searchLoader && (
+                <CircularProgress sze={28} style={{color:"#668968"}}/>
+                )}
+                {!searchLoader && searchMsg && searchData && searchData.length === 0 && (
+                  <p className="font-Roboto text-[16px]">{searchMsg}</p>
+                )}
+                {!searchLoader && searchData && searchData.length > 0 && searchData.map((item, index) => (
+                  <div className="hover:bg-[#f5f6f7] hover:cursor-pointer p-3" onClick={()=> handleSelectedProduct(item)}>
+                  <p className="font-Roboto text-[16px]" key={index}>{item.name && item.name}</p>
+                  </div>
+                ))}
+              </div>
+               )}
             </div>
             <p className="font-Roboto text-primary text-[24px] mt-10">
               Are you interested in adding a new product ?
@@ -191,18 +273,11 @@ const AddNewProduct = () => {
               <Button value="Yes" width={150} height={50} onClick={() => setNewProductFlag(true)} />
             </div>
           </>
-        )} */}
-        {selectedCategory &&  (
-          <>
-          <div className="flex mb-2 z-10 bg-white sticky ">
-            <div className="shadow-dashboard p-2 rounded-lg flex items-center cursor-pointer" onClick={handleGoBack}>
-            <ArrowBackIcon/> 
-            </div>
-          </div>
+        )}
+        {selectedCategory && newProductFlag && (
           <div className="mt-5">
-          {getCategoryComponent(selectedCategory, handleAddNew, images, handleImagesChange)}
+          {getCategoryComponent(selectedCategory, handleAddNew, images, handleImagesChange, selectProductData)}
           </div>
-          </>
         )}
       </div>
     </Layout>

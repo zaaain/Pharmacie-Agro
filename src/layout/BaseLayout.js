@@ -5,6 +5,7 @@ import MobileNavBar from "components/common/MobileNavBar";
 import {useWindowSize} from 'react-use';
 
 const BaseLayout = ({ children }) => {
+  
   const {width} = useWindowSize()
   return (
     <main className="min-h-screen min-w-[100%] flex flex-col">

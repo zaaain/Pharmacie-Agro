@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { enterOtp, getProfile, userRegister, getAllAddress, deleteAddress, addAddress } from "./authAction";
+import { enterOtp, getProfile, userRegister, getAllAddress, deleteAddress, addAddress , switchRole} from "./authAction";
 
 // Initial state
 const initialState = {
@@ -13,6 +13,8 @@ const initialState = {
   allAddressData:[],
   deleteAddressLoader: false,
   addAddressLoader: false,
+  roleLoader:false,
+  role:"",
 };
 
 // Actual Slice
@@ -23,6 +25,9 @@ export const authSlice = createSlice({
     logoutAuth: (state) => {
       return initialState;
     },
+    setUserRole: (state,{payload}) => {
+      state.role = payload;
+    }
   },
   extraReducers: (builder) => {
     //Enter OTP
@@ -70,27 +75,37 @@ export const authSlice = createSlice({
       state.allAddressLoader = false;
     });
     //Delete Address
-        builder.addCase(deleteAddress.pending, (state) => {
+    builder.addCase(deleteAddress.pending, (state) => {
           state.deleteAddressLoader = true;
-        });
-        builder.addCase(deleteAddress.fulfilled, (state, { payload }) => {
+    });
+    builder.addCase(deleteAddress.fulfilled, (state, { payload }) => {
           state.deleteAddressLoader = false;
-        });
-        builder.addCase(deleteAddress.rejected, (state, { payload }) => {
+    });
+    builder.addCase(deleteAddress.rejected, (state, { payload }) => {
           state.deleteAddressLoader = false;
-        });
-        //Add Address
-        builder.addCase(addAddress.pending, (state) => {
+    });
+    //Add Address
+    builder.addCase(addAddress.pending, (state) => {
           state.addAddressLoader = true;
-        });
-        builder.addCase(addAddress.fulfilled, (state, { payload }) => {
+    });
+    builder.addCase(addAddress.fulfilled, (state, { payload }) => {
           state.addAddressLoader = false;
-        });
-        builder.addCase(addAddress.rejected, (state, { payload }) => {
+    });
+    builder.addCase(addAddress.rejected, (state, { payload }) => {
           state.addAddressLoader = false;
-        });    
+    });
+      //Switch Role
+      builder.addCase(switchRole.pending, (state) => {
+        state.roleLoader = true;
+      });
+      builder.addCase(switchRole.fulfilled, (state, { payload }) => {
+        state.roleLoader = false;
+      });
+      builder.addCase(switchRole.rejected, (state, { payload }) => {
+        state.roleLoader = false;
+      });     
   },
 });
 
-export const { logoutAuth } = authSlice.actions;
+export const { logoutAuth, setUserRole } = authSlice.actions;
 export default authSlice.reducer;

@@ -7,7 +7,7 @@ import { otpSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
 import {useWindowSize} from 'react-use';
 
-const EnterPhoneEmailForm = ({ onSubmit, num, email}) => {
+const EnterPhoneEmailForm = ({ onSubmit, num}) => {
   const {
     control,
     register,
@@ -15,7 +15,6 @@ const EnterPhoneEmailForm = ({ onSubmit, num, email}) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(otpSchema),
-    // defaultValues,
   });
 const authReducer = useSelector((state)=> state.auth)
 const {otpLoader} = authReducer
@@ -27,8 +26,7 @@ const {width} = useWindowSize()
         <span className="font-bold text-primary font-RobotoBold text-[18px]">
           Note:{" "}
         </span>{" "}
-        {/* {num ? `We can send otp code in this number (0${num})` : `We can send otp code in this email (${email})`} */}
-        {num && `We can send otp code in this number (0${num})`}
+        {num && `We can send otp code in this number (${num})`}
       </p>
       <div className="mt-5">
         <Controller

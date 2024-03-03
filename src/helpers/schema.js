@@ -1,35 +1,20 @@
 import * as yup from "yup";
 
-// export const LoginSchema = (type) => {
-//   let schema = yup.object().shape({
-//     email: yup.string(),
-//     phone: yup.string(),
-//   });
-
-//   if (type === "company") {
-//     schema = schema.shape({
-//       email: yup
-//         .string()
-//         .email("😠 Please enter a valid email.")
-//         .required("😠 Please enter an email."),
-//     });
-//   } else if (type === "farmer" || type === "vendor") {
-//     schema = schema.shape({
-//       phone: yup
-//         .string()
-//         .required("😠 Please enter your phone.")
-//         .matches(
-//           /^\d{10}$/,
-//           "😠 Please enter your phone in the format: 3000000000"
-//         ),
-//     });
-//   }
-
-//   return schema;
-// };
-
 export const LoginSchema = yup.object().shape({
-  phone: yup.string().required("😠 Please enter your phone.")
+  phone: yup
+    .string()
+    .matches(/^[0-9]{11}$/, "😠 Please enter a valid 11-digit phone number.")
+    .transform(value => {
+      // Remove any non-numeric characters from the phone number
+      return value.replace(/\D/g, '');
+    })
+    .test('startsWithZeroThree', '😠 Phone number should start with "03"', value => {
+      return value.startsWith('03');
+    })
+    .test('hasCorrectLength', '😠 Phone number should be 11 digits long', value => {
+      return value.length === 11;
+    })
+    .required("😠 Please enter your phone."),
 });
 
 export const otpSchema = yup.object().shape({
@@ -43,21 +28,38 @@ export const otpSchema = yup.object().shape({
     }),
 });
 
-export const userRegisterSchema = yup.object().shape({
-  firstName: yup.string().required("Please enter first name."),
-  lastName: yup.string().required("Please enter last name."),
-});
+export const userRegisterSchema = (type) => {
+
+  let schema = yup.object().shape({
+    name: yup.string().required("Please enter name."),
+    district: yup.string(),
+    tehsil: yup.string(),
+    city: yup.string(),
+    address: yup.string(),
+  });
+
+  if (type === "seller") {
+    schema = schema.shape({
+      district: yup.string().required("Please enter district name."),
+      tehsil: yup.string().required("Please enter tehsil name."),
+      city: yup.string().required("Please enter city name."),
+      address: yup.string().required("Please enter address."),
+    });
+  }
+
+  return schema;
+}
 
 export const FruitsFormSchema = yup.object().shape({
   name: yup.string().required("Please enter name."),
   pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
   weightUnit: yup.string().required("Please select weight unit."),
   pkgWeight: yup.string().required("Please enter package weight."),
-  pkgQuantity: yup.string().required("Please enter package quantity."),
+  // pkgQuantity: yup.string().required("Please enter package quantity."),
   price: yup.string().required("Please enter price."),
   bidding: yup.string().required("Please select bidding."),
-  tax: yup.string().required("Please select tax."),
-  shipping: yup.string().required("Please select shipping type."),
+  // tax: yup.string().required("Please select tax."),
+  // shipping: yup.string().required("Please select shipping type."),
   shelfLifeStart: yup.string().required("Please select shelf start date."),
   shelfLifeEnd: yup.string().required("Please select shelf end date."),
   availableFrom: yup.string().required("Please select available from."),
@@ -70,16 +72,16 @@ export const FertilizersFormSchema = yup.object().shape({
   pkgWeight: yup.string().required("Please enter weight weight."),
   pkgType: yup.string().required("Please select package type."),
   weightUnit: yup.string().required("Please select weight unit."), 
-  pkgQuantity: yup.string().required("Please enter package quantity."),
+  // pkgQuantity: yup.string().required("Please enter package quantity."),
   price: yup.string().required("Please enter price."),
-  tax: yup.string().required("Please select tax."),
-  shipping: yup.string().required("Please select shipping type."),
+  // tax: yup.string().required("Please select tax."),
+  // shipping: yup.string().required("Please select shipping type."),
   description: yup.string().required("Please enter description."),
 });
 
 export const SeedFormSchema = yup.object().shape({
   brand: yup.string().required("Please enter brand."),
-  seed: yup.string().required("Please enter seed name."),
+  // seed: yup.string().required("Please enter seed name."),
   seedVariety: yup.string().required("Please enter seed variety."),
   seedType: yup.string().required("Please select seed type."),
   suitableRegion: yup.string().required("Please select region."),
@@ -87,22 +89,21 @@ export const SeedFormSchema = yup.object().shape({
   pkgType: yup.string().required("Please select package type."),
   weightUnit: yup.string().required("Please select weight unit."),
   pkgWeight: yup.string().required("Please enter weight weight."),
-  pkgQuantity: yup.string().required("Please enter package quantity."),
+  // pkgQuantity: yup.string().required("Please enter package quantity."),
   price: yup.string().required("Please enter price."),
-  tax: yup.string().required("Please select tax."),
-  shipping: yup.string().required("Please select shipping type."),
+  // tax: yup.string().required("Please select tax."),
+  // shipping: yup.string().required("Please select shipping type."),
   description: yup.string().required("Please enter description."),
 });
-
 
 export const MachinaryFormSchema = (type) => {
   let schema = yup.object().shape({
     condition: yup.string(),
     horsePower: yup.string(),
     description: yup.string().required("Please enter description."),
-    ProductType: yup.string().required("Please enter description."),
-    name: yup.string().required("Please enter description."),
-    model: yup.string().required("Please enter description."),
+    type: yup.string().required("Please enter product type."),
+    name: yup.string().required("Please enter name."),
+    model: yup.string().required("Please enter modal."),
     price: yup.string().required("Please enter price."),
   });
 
@@ -129,9 +130,14 @@ export const productsCategorySchema = yup.object().shape({
   category: yup.string().required("😠 Please select category."),
 });
 
-
 export const BioUpdateSchema = yup.object().shape({
-  firstName: yup.string().required("😠 Please enter first name."),
-  lastName: yup.string().required("😠 Please enter first name."),
+  name: yup.string().required("😠 Please enter name."),
   description: yup.string().required("😠 Please enter description."),
+});
+
+export const updateAddLocationSchema = yup.object().shape({
+  district: yup.string().required("Please enter district name."),
+  tehsil: yup.string().required("Please enter tehsil name."),
+  city: yup.string().required("Please enter city name."),
+  address: yup.string().required("Please enter address."),
 });

@@ -4,4 +4,3 @@ export default function useClient() {
   const api = new ApiClient();
   return { api };
 }
-

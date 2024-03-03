@@ -8,6 +8,7 @@ import AppRouter from "./routes/index";
 import { persistor, store } from "./redux/store";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ErrorBoundary from "pages/ErrorBoundary";
 
 
 const snackIcons = {
@@ -24,7 +25,9 @@ const App = () => {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <SnackbarProvider maxSnack={3} iconVariant={snackIcons}>
+            {/* <ErrorBoundary> */}
             <AppRouter />
+            {/* </ErrorBoundary> */}
           </SnackbarProvider>
         </PersistGate>
       </Provider>

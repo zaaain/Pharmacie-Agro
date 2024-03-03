@@ -9,13 +9,10 @@ import { BioUpdateSchema } from "helpers/schema";
 const BioInfoForm = ({handleUpdateBio}) => {
   const authReducer = useSelector((state) => state.auth);
   const { profileData , registerProfileLoader} = authReducer;
-  const {type} = profileData
 
   const defaultValues = {
-    firstName: profileData.firstName,
-    lastName: profileData.lastName,
-    phone: profileData.phone,
-    email: profileData.email,
+    name: profileData.name,
+    phone: profileData.phone && "0" + profileData.phone.replace(/^92/, ""),
     description: profileData.description
   };
   const {
@@ -33,37 +30,21 @@ const BioInfoForm = ({handleUpdateBio}) => {
   return (
     <form onSubmit={handleSubmit(handleUpdateBio)}>
       <div className="grid grid-cols-2 gap-5 p-3">
-        <div className="col-span-1">
+        <div className="col-span-2">
           <Controller
-            name="firstName"
+            name="name"
             control={control}
             render={({ field }) => (
               <FormInput
-                {...register("firstName")}
+                {...register("name")}
                 placeholder="Enter First Name"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.firstName && errors.firstName.message}
+                error={errors?.name && errors.name.message}
               />
             )}
           />
         </div>
-        <div className="col-span-1">
-          <Controller
-            name="lastName"
-            control={control}
-            render={({ field }) => (
-              <FormInput
-                {...register("lastName")}
-                placeholder="Enter Last Name"
-                value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.lastName && errors.lastName.message}
-              />
-            )}
-          />
-        </div>
-        {type && type !== "company" ?
         <div className="col-span-2">
           <Controller
             name="phone"
@@ -80,24 +61,6 @@ const BioInfoForm = ({handleUpdateBio}) => {
             )}
           />
         </div>
-        :
-        <div className="col-span-2">
-        <Controller
-          name="email"
-          control={control}
-          render={({ field }) => (
-            <FormInput
-              {...register("email")}
-              placeholder="Enter email"
-              value={field.value}
-              disabled={true}
-              onChange={(e) => field.onChange(e.target.value)}
-              error={errors?.email && errors.email.message}
-            />
-          )}
-        />
-      </div>
-        }
         <div className="col-span-2">
           <Controller
             name="description"

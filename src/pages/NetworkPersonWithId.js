@@ -17,7 +17,7 @@ const PersonProductPage = () => {
   const dispatch = useDispatch();
   const { personProducts, personProductLoader, users } = agriReducer;
   const uesrName = id && users && users.length > 0 && users.find((item)=> item.id == id)
-  const {firstName, lastName} = uesrName
+  const {name} = uesrName
 
   useEffect(() => {
     if (!id) return;
@@ -27,9 +27,9 @@ const PersonProductPage = () => {
   return (
     <Layout>
       <div className="w-[90%] mx-auto my-10">
-        {firstName && lastName && (
+        {name&& (
         <p className="text-[32px] xs:text-[22px] font-RobotoBold text-primary text-center capitalize">
-          {`${firstName} ${lastName} Products`}
+          {`${name} Products`}
         </p>
         )}
         <img

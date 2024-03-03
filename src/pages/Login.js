@@ -4,13 +4,14 @@ import EnterPhoneEmailForm from "Forms/EnterPhoneEmailForm";
 import EnterOtpForm from "Forms/EnterOtpForm";
 import { imgUrl } from "helpers/path";
 import { roles } from "helpers/constant";
-import { enterOtp, getProfile } from "../redux/slices/authSlice/authAction";
+import { enterOtp, getProfile , getAllAddress} from "../redux/slices/authSlice/authAction";
 import { useDispatch } from "react-redux";
 import { IconButton, Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useSnackMsg from "hooks/useSnackMsg";
 import { useNavigate } from "react-router-dom";
 import AsynStorage from "helpers/asyncLocalStorage";
+import {setUserRole } from "../redux/slices/authSlice/authReducer";
 
 
 const Login = () => {
@@ -23,23 +24,16 @@ const Login = () => {
   const [otpFlag, setOtpFlag] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
   const [userNum, setUserNum] = useState("");
-  const [userEmail, setUserEmail] = useState("");
   const [userId, setUserId] = useState("");
 
   const handleLogin = (val) => {
+    const phoneWithoutFirstDigit = val.phone && val.phone.slice(1);
     const payload = {
       type: selectedRole,
-      phone:
-        selectedRole !== "company" && val.phone ? `92${val.phone}` : undefined,
-      // email: selectedRole === "company" && val.email ? val.email : undefined,
+      phone: phoneWithoutFirstDigit ? `92${phoneWithoutFirstDigit}` : undefined,
     };
     setLoader(true);
-    // if (selectedRole !== "company" && val.phone) {
       setUserNum(val.phone);
-    // }
-    // if (selectedRole === "company" && val.email) {
-    //   setUserEmail(val.email);
-    // }
     api.post("/api/auth/password/less/login",payload)
       .then((res) => {
         const response = res.data && res.data.data;
@@ -63,11 +57,18 @@ const Login = () => {
       .then((res) => {
         AsynStorage.setItem("jwt", res.data.token).then(() => {
           const response = res.data
-          const flag = response.firstName && response.lastName;
+          const flag = response.name;
           if (flag && localStorage.getItem("jwt")) {
             dispatch(getProfile());
+            dispatch(getAllAddress())
           }
-          navigate("/");
+          dispatch(setUserRole(response.role))
+          if(response.role === "seller"){
+            navigate("/dashboard");
+          }else{
+            navigate("/");
+          }
+          
         })
       })
       .catch((err) => {
@@ -134,7 +135,6 @@ const Login = () => {
           <EnterOtpForm
             onSubmit={handleEnterOtp}
             num={userNum}
-            email={userEmail}
           />
         )}
       </div>

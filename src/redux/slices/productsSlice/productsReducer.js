@@ -43,7 +43,7 @@ export const productSlice = createSlice({
     builder.addCase(getAllProduct.fulfilled, (state, { payload }) => {
       state.allProductLoader = false;
       state.productsData = payload.data;
-      state.productMsg = payload.data && payload.data.length <= 0 ? "Sorry no products availavle" : "";
+      state.productMsg = payload.data && payload.data.length <= 0 ? "Sorry no products available" : "";
     });
     builder.addCase(getAllProduct.rejected, (state) => {
       state.allProductLoader = false;

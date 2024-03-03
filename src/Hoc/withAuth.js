@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import useLogout from "hooks/useLogout";
+import { useSelector } from 'react-redux';
 
 const withAuth = (WrappedComponent) => {
   const WithAuthComponent = (props) => {
     const logout = useLogout()
+    const {role} = useSelector((state) => state.auth)
 
     useEffect(() => {
-      const token = localStorage.getItem('jwt');
+      const isVerufy = localStorage.getItem('jwt') && role === "seller";
 
-      if (!token) {
+      if (!isVerufy) {
         logout()
       }
     }, []);

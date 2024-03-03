@@ -6,6 +6,7 @@ import { Button } from "components/common/base/button";
 import { useNavigate } from "react-router-dom";
 import useClient from "hooks/useClient";
 import { CircularProgress } from "@mui/material";
+import { useWindowSize } from "react-use";
 
 const Products = () => {
 
@@ -14,6 +15,7 @@ const Products = () => {
   const navigate = useNavigate()
   const {api} = useClient()
   const jwt = localStorage.getItem("jwt");
+  const {width} = useWindowSize()
 
   const handleGetMyProducts = () => {
     if(!jwt) return
@@ -40,25 +42,25 @@ const Products = () => {
         <Button
           variant="primary"
           value="Add New Product"
-          height={50}
-          width={200}
+          height={width < 768 ? 40 : 50}
+          width={width < 768 ? 160 : 200}
           onClick={()=>navigate("/products/new")}
         />
       </div>
       <div className="p-4">
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-6 gap-8">
         {loader && (
-          <div className="col-span-3 flex items-center justify-center">
+          <div className="col-span-6 flex items-center justify-center">
             <CircularProgress size={36} style={{color:"#668968"}}/>
           </div>
         )}
         {!loader && data && data.length === 0 && (
-          <div className="col-span-3 flex items-center justify-center">
+          <div className="col-span-6 flex items-center justify-center">
             <p className="font-Roboto text-[18px]">You have not added current any product !</p>
           </div>
         )}
         {!loader && data && data.length > 0 && data.map((item) => (
-          <div className="col-span-1" key={item}>
+          <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-3 xs:col-span-6" key={item}>
             <ProductCard data={item} />
           </div>
         ))}

@@ -4,42 +4,25 @@ import { Button } from "components/common/base/button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { userRegisterSchema } from "helpers/schema";
+import { updateAddLocationSchema } from "helpers/schema";
 
-const SignUpForm = ({onSubmit}) => {
+const AddUpdateAdddress = ({onSubmit, defaultValues}) => {
 
   const  authReducer = useSelector((state) => state.auth);
-  const {registerProfileLoader, role} = authReducer
+  const {addAddressLoader} = authReducer
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(userRegisterSchema(role)),
+    resolver: yupResolver(updateAddLocationSchema),
+    defaultValues
   });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="w-[100%]">
         <div className="grid grid-cols-1 gap-5">
-          <div className="col-span-1">
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <FormInput
-                  {...register("name")}
-                  placeholder="Enter Name"
-                  value={field.value}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  error={errors?.name && errors.name.message}
-                />
-              )}
-            />
-          </div>
-          {role && role === "seller" && (
-          <>
           <div className="col-span-1">
             <Controller
               name="district"
@@ -100,15 +83,12 @@ const SignUpForm = ({onSubmit}) => {
               )}
             />
           </div>
-          </>
-          )}
           <div className="col-span-1 flex items-center justify-center">
-            <Button value="Submit" type="submit" variant="primary" width={140} height={45} disabled={registerProfileLoader} loader={registerProfileLoader}/>
+            <Button value="Submit" type="submit" variant="primary" width={140} height={45} disabled={addAddressLoader} loader={addAddressLoader}/>
           </div>
         </div>
-      </div>
     </form>
   );
 };
 
-export default SignUpForm;
+export default AddUpdateAdddress;

@@ -24,6 +24,7 @@ const ProductDetailWithId = () => {
   const navigate = useNavigate()
   const { id } = queryString.parse(location.search);
   const {productDetailLoader, productDetailData} = useSelector((state)=> state.products)
+  const {role} = useSelector((state)=> state.auth)
   const userID = useSelector((state)=> state.auth.profileData.id)
   const {api} = useClient()
   const logout = useLogout()
@@ -47,7 +48,7 @@ const ProductDetailWithId = () => {
     }
   }
 
-  const handleOrderNow = (idx) => {
+  const handleRequestNow = (idx) => {
     if(!idx) return
     if(!jwt){
       logout()
@@ -55,15 +56,15 @@ const ProductDetailWithId = () => {
     if(idx && jwt){
       const payload = {productId:idx}
       setOrderLoader(true)
-      api.post(`/api/product/buy`, payload)
+      api.post(`/api/product/request`, payload)
       .then((res)=>{
         setOrderLoader(false)
-        sSnack(`Successfully your order done seller contact you very soon`)
+        sSnack(`Successfully your request done seller contact you very soon`)
         navigate(-1)
       })
       .catch((err)=>{
         setOrderLoader(false)
-        eSnack(`Sorry something is went wron`)
+        eSnack(err.message ? err.message :`Sorry something is went wron`)
         navigate(-1)
       })
     }
@@ -95,6 +96,8 @@ const getPkgType = (type) => {
   return val.label ? val.label : "" 
 }
 
+console.log("productDetailData", productDetailData)
+
   return (
     <Layout>
     <div className="my-10">
@@ -107,7 +110,7 @@ const getPkgType = (type) => {
       {productDetailLoader ? <CircularProgress size={42} style={{color:"#668968", display:"flex", margin:"0 auto"}}/> :
       <div className="w-[90%] grid grid-cols-12 mx-auto gap-10 xs:gap-0 xs:space-y-3">
         
-        <div className="col-span-3 xs:col-span-12">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-12 sm:col-span-12 xs:col-span-12">
           <div  className="w-full h-full flex flex-col items-center justify-center border-primary border-2 p-5 rounded-2xl">
             <p className="text-primary  font-RobotoBold text-[22px] text-center"> Seller Information</p>
             <div className="mt-5 flex flex-col items-center justify-center">
@@ -116,19 +119,16 @@ const getPkgType = (type) => {
             alt={productDetailData.name}
             className="rounded-full w-[100px] h-[100px] bg-cover"
           />
-          {productDetailData && productDetailData.user && productDetailData.user.firstName && productDetailData.user.lastName && (
-            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.firstName && productDetailData.user.lastName && `${productDetailData.user.firstName} ${productDetailData.user.lastName}`}</p>
+          {productDetailData && productDetailData.user && productDetailData.user.name && (
+            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.name && productDetailData.user.name}</p>
           )}
                {productDetailData && productDetailData.user && productDetailData.user.phone && (
-            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.phone && productDetailData.user.phone}</p>
-          )}
-                   {productDetailData && productDetailData.user && productDetailData.user.email && (
-            <p className=" font-RobotoBold text-[16px] pt-2">{productDetailData.user.email && productDetailData.user.email}</p>
+            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.phone && "0" + productDetailData.user.phone.replace(/^92/, "")}</p>
           )}
             </div>
           </div>
         </div>
-        <div className="col-span-6 xs:col-span-12">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-12 sm:col-span-12  xs:col-span-12">
           <div className="w-full h-full flex flex-col shadow-dashboard rounded-xl bg-white p-5">
           <p className="text-primary font-RobotoBold text-[22px] text-center">Product Information</p>
           <div className="mt-3">
@@ -177,8 +177,30 @@ const getPkgType = (type) => {
               Shelf Life End: <span className="text-black font-Roboto capitalize">{productDetailData.shelfLifeEnd && productDetailData.shelfLifeEnd}</span>
             </p>
             )}
+                 {productDetailData.composition && productDetailData.composition.length > 0 && (
+            <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
+              <p className=" text-[18px] text-primary font-Roboto">Product Composition:</p>
+            {productDetailData.composition && productDetailData.composition.length > 0 && productDetailData.composition.map((item, index)=>(
+              <>
+              {item.name && (
+            <p className="text-[16px] text-primary font-RobotoBold truncate">Name:
+            <span className="text-balance font-Roboto text-black">{item.name}</span>
+            
+          </p>
+          )}
+          {item.value && (
+            <p className="text-[16px] text-primary font-RobotoBold truncate">Percentage:
+            <span className="text-balance font-Roboto text-black">{item.value}</span>
+          </p>
+          )}
+          
+</>
+
+            ))}
+            </div>
+            )}
              {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && (
-            <div className="mt-2 bg-[#f5f6f7] rounded-lg">
+            <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
               <p className=" text-[18px] text-primary font-Roboto">Product available in these cities:</p>
                  {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && 
            productDetailData.user.address.map((item, index)=>(
@@ -188,33 +210,29 @@ const getPkgType = (type) => {
             ))}
             </div>
             )}
-        
           </div>
           </div>
         </div>
-        <div className="col-span-3 xs:col-span-12">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-12 sm:col-span-12  xs:col-span-12">
           <div  className="w-full h-full flex flex-col items-center justify-center bg-[#f5f6f7] p-5 rounded-2xl border-4 border-dashed">
             <p className="text-primary font-RobotoBold text-[22px] text-center">Pricing</p>
             <div className="flex flex-col justify-center items-center">
-            {productDetailData.tax && (
-            <p className=" text-[18px] text-primary font-Roboto">
-              Tax: <span className="text-black font-Roboto capitalize">{productDetailData.tax && productDetailData.tax}</span>
-            </p>
-            )}
             {productDetailData.price && (
-            <p className=" text-[18px] text-primary font-Roboto">
-              Price: <span className="text-black font-Roboto capitalize">{productDetailData.price && productDetailData.price} PRs</span>
+            <p className=" text-[18px] text-primary font-Roboto mt-3">
+              Price: <span className="text-black font-Roboto capitalize ">{productDetailData.price && productDetailData.price} PRs</span>
             </p>
             )}
+            {role && role !== "seller" && (
+            <>
           <div className="mt-1">
             <Button
-              value="Order Now"
+              value="Request Seller"
               height={45}
               width={140}
               font="Roboto"
               disabled={getOwner(productDetailData.user && productDetailData.user.id) || orderLoader}
               loader={orderLoader}
-              onClick={() => handleOrderNow(productDetailData.id)}
+              onClick={() => handleRequestNow(productDetailData.id)}
             />
           </div>
               {!getOwner(productDetailData.user && productDetailData.user.id) && productDetailData.bidding && productDetailData.bidding === "yes" && (
@@ -240,6 +258,8 @@ const getPkgType = (type) => {
           </div>
           </>
           )}
+          </>
+          )}
             </div>
           </div>
           
@@ -250,7 +270,7 @@ const getPkgType = (type) => {
             <hr className="my-2" />
             <div className="w-full grid grid-cols-12 gap-5 xs:gap-0 xs:space-y-3">
   {productDetailData && productDetailData.image && productDetailData.image.length > 0 && productDetailData.image.map((item, index) => (
-    <div key={index} className="col-span-4 xs:col-span-12 h-48 ">
+    <div key={index} className="2xl:col-span-3 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6 xs:col-span-12 h-48 ">
       <img 
         alt={item} 
         src={`${imgPath}${item}`} 
@@ -261,98 +281,6 @@ const getPkgType = (type) => {
 </div>
           </p>
         </div>
-        {/* <div className="col-span-1">
-          <img
-            src={productDetailData && productDetailData.image && productDetailData && productDetailData.image.length && `${imgPath}${productDetailData.image[0]}`}
-            alt={productDetailData.name}
-            className="rounded-2xl min-w-full max-w-full min-h-[400px] max-h-[400px]"
-          />
-        </div>
-        <div className="col-span-1">
-          <p className="text-primary font-RobotoBold text-[22px] capitalize">
-            {productDetailData.name && productDetailData.name}
-          </p>
-          <p className="text-primary font-Roboto text-[22px]">
-            Price:{" "}
-            <span className="text-neutral-800 text-[20px] font-Roboto">
-              {productDetailData.price && `${productDetailData.price} PRs ${productDetailData.tax && productDetailData.tax === "inclusive" ? "with tax" : "with out tax"}`}
-            </span>
-          </p>
-          <p className="text-primary font-Roboto text-[22px]">
-            Shipment:{" "}
-            <span className="text-neutral-800 text-[20px] font-Roboto capitalize">
-              {productDetailData.shipping && productDetailData.shipping === "free" ? "Free" : "Not Free"}
-            </span>
-          </p>
-          <p className="text-primary font-Roboto text-[22px]">
-          Product available in these cities:
-          </p>
-          <div className="grid grid-cols-4">
-          {productDetailData.user && productDetailData.user.address && productDetailData.user.address.length > 0 && productDetailData.user.address.map((item, index)=>(
-            
-                <p className="text-neutral-800 text-[20px] font-Roboto col-span-1">
-                {`${index+ 1}.${item.city}`}
-              </p>
-           
-          ))}
-           </div>
-            <p className="text-primary font-Roboto text-[22px]">
-            Seller Name:{" "}
-            <span className="text-neutral-800 text-[20px] font-Roboto">
-              {productDetailData && productDetailData.user && `${productDetailData.user.firstName} ${productDetailData.user.lastName}`}
-            </span>
-          </p>
-          {productDetailData.user && productDetailData.user.phone && (
-                     <p className="text-primary font-Roboto text-[22px]">
-                    Seller Phone:{" "}
-                     <span className="text-neutral-800 text-[20px] font-Roboto">
-                       {productDetailData && productDetailData.user && productDetailData.user.phone}
-                     </span>
-                   </p>
-          )}
-          {productDetailData.user && productDetailData.user.email && (
-                     <p className="text-primary font-Roboto text-[22px]">
-                     Seller Email:{" "}
-                     <span className="text-neutral-800 text-[20px] font-Roboto">
-                       {productDetailData && productDetailData.user && productDetailData.user.email}
-                     </span>
-                   </p>
-          )}
-          <div className="mt-4">
-            <Button
-              value="Order Now"
-              height={45}
-              width={140}
-              font="Roboto"
-              disabled={getOwner(productDetailData.user && productDetailData.user.id) || orderLoader}
-              loader={orderLoader}
-              onClick={() => handleOrderNow(productDetailData.id)}
-            />
-          </div>
-          {!getOwner(productDetailData.user && productDetailData.user.id) && productDetailData.bidding && productDetailData.bidding === "yes" && (
-          <>
-          <div className="max-w-[200px] mt-4">
-            <FormInput
-              placeholder="Enter Bid Price"
-              type="number"
-              value={bidPrice}
-              onChange={(e)=> setBidPrice(e.target.value)}
-            />
-          </div>
-          <div className="mt-4">
-            <Button
-              value="Bid Now"
-              height={45}
-              width={140}
-              font="Roboto"
-              onClick={() => handleBidNow(productDetailData.id)}
-              loader={bidLoader}
-              disabled={bidLoader || !bidPrice|| bidPrice <= 0}
-            />
-          </div>
-          </>
-          )}
-        </div> */}
         <div className="col-span-12">
           <p className="font-RobotoBold text-[22px] text-primary  cursor-pointer">
             Description

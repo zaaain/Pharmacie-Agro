@@ -1,5 +1,6 @@
 import axios from "axios";
 import AsynStorage from "helpers/asyncLocalStorage";
+import history from "utils/history";
 
 export default class Client {
   constructor() {
@@ -23,6 +24,7 @@ export default class Client {
       (err) => {
         if (err.response.status === 401) {
           localStorage.removeItem("jwt");
+          history.push("/auth/login");
         }
         if (err.response && err.response) {
           return Promise.reject(err.response.data);

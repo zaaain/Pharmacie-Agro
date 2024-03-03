@@ -12,7 +12,7 @@ const DashboardSidebar = () => {
   const {profileData} = useSelector((state)=> state.auth)
 
   return (
-    <div className="py-5">
+    <div className="py-5 w-full">
       <img
         className="rounded-full mx-auto pb-3 w-[120] h-[120px]"
         draggable={false}
@@ -29,7 +29,14 @@ const DashboardSidebar = () => {
         >
           Dashboard
         </p>
-
+        <p
+        onClick={()=>navigate("/")}
+          className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
+            location.pathname === "/" ? "text-primary" : ""
+          }`}
+        >
+          Home
+        </p>
         <p
          onClick={()=>navigate("/products/my")}
           className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
@@ -49,12 +56,12 @@ const DashboardSidebar = () => {
         </p>
 
         <p
-         onClick={()=>navigate("/orders")}
+         onClick={()=>navigate("/requests")}
           className={`font-Roboto text-[20px] hover:text-primary hover:cursor-pointer ${
-            location.pathname === "/orders" ? "text-primary" : ""
+            location.pathname === "/requests" ? "text-primary" : ""
           }`}
         >
-          Orders
+          Requests
         </p>
         <p
          onClick={()=>navigate("/bids")}

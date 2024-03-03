@@ -37,3 +37,8 @@ export const uploadAvatar = createAsyncThunk("avatar/change", async (payload) =>
   const response = await api.postFormData("/api/auth/change/avatar", payload);
   return response.data;
 });
+
+export const switchRole = createAsyncThunk("auth/switch", async (payload) => {
+  const response = await api.get("/api/auth/switch/role", payload);
+  return response.data;
+});

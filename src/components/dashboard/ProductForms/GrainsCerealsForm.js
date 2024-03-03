@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, useMemo} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import TextAreaInput from "components/common/base/TextAreaInput";
@@ -9,30 +9,71 @@ import {
   packagingType,
   weightUnitType,
   yesNoOption,
-  taxOpt,
-  shippingOption,
 } from "helpers/constant";
 import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { FruitsFormSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
+import { isEmpty } from "lodash";
+import useClient from "hooks/useClient";
+import debounce from 'lodash/debounce';
+import { CircularProgress } from "@mui/material";
 
-const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
+const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues }) => {
   const {
     control,
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(FruitsFormSchema),
+    defaultValues
   });
 
+  const [searchLoader,setSearchLoader] = useState(false)
+  const [searchNameData, setNameSearchData] = useState([])
+  const {api} = useClient()
   const loader = useSelector((state)=> state.products.newProductLoader)
+  const flag = defaultValues && isEmpty(defaultValues) ? false : true
+
+
+  const handleSearchProduct = useMemo(() => debounce((value, category) => {
+    if(!value){
+      setNameSearchData([])
+      setSearchLoader(false)
+    }
+    if(!value) return
+    const payload = {
+      query:value,
+      category:category
+    }
+    setNameSearchData([])
+    setSearchLoader(true)
+    api.post("/api/product/search", payload)
+    .then((res)=>{
+      const response = res.data && res.data.data ? res.data.data : []
+      setSearchLoader(false)
+      setNameSearchData(response)
+    })
+    .catch((err)=>{
+      setSearchLoader(false)
+      setNameSearchData([])
+    })
+  }, 500), []);
+
+
+  const handleSetName = (name) => {
+    if(!name) return
+    setValue("name", name);
+    setNameSearchData([])
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-1">
+      <div className="grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 gap-4">
+        <div className="col-span-1 relative">
+          <>
           <Controller
             name="name"
             control={control}
@@ -41,11 +82,28 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
                 {...register("name")}
                 placeholder="Enter Commodity Name"
                 value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
+                onChange={(e) => {
+                  handleSearchProduct(e.target.value)
+                  field.onChange(e.target.value)
+                }}
+                disabled={flag}
                 error={errors?.name && errors.name.message}
               />
             )}
           />
+             {((searchLoader) || (searchNameData && searchNameData.length > 0)) && (
+              <div className="absolute top-[60px] right-0 left-0 max-h-[200px] p-5 overflow-y-auto bg-white shadow-dashboard rounded-lg z-50">
+                {searchLoader && (
+                <CircularProgress sze={28} style={{color:"#668968"}}/>
+                )}
+                {!searchLoader && searchNameData && searchNameData.length > 0 && searchNameData.map((item, index) => (
+                  <div key={index} className="hover:bg-[#f5f6f7] hover:cursor-pointer p-1" onClick={()=> handleSetName(item.name)}>
+                  <p className="font-Roboto text-[16px]">{item.name && item.name}</p>
+                  </div>
+                ))}
+              </div>
+               )}
+          </>
         </div>
         <div className="col-span-1">
           <Controller
@@ -55,10 +113,11 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             render={({ field }) => (
               <SelectInput
               {...register("pkgType")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={packagingType}
                 placeholder="Select Packaging Type"
                 value={field.value}
+                onChange={(selectedOption) => field.onChange(selectedOption)}
+                disabled={flag}
                 error={errors?.pkgType && errors.pkgType.message}
               />
             )}
@@ -72,10 +131,11 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             render={({ field }) => (
               <SelectInput
               {...register("weightUnit")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={weightUnitType}
                 placeholder="Select Unit Type"
                 value={field.value}
+                onChange={(selectedOption) => field.onChange(selectedOption)}
+                disabled={flag}
                 error={errors?.weightUnit && errors.weightUnit.message}
               />
             )}
@@ -90,25 +150,10 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
                 {...register("pkgWeight")}
                 placeholder="Enter Package Weight"
                 value={field.value}
-                type="number"
                 onChange={(e) => field.onChange(e.target.value)}
+                type="number"
+                disabled={flag}
                 error={errors?.pkgWeight && errors.pkgWeight.message}
-              />
-            )}
-          />
-        </div>
-        <div className="col-span-1">
-          <Controller
-            name="pkgQuantity"
-            control={control}
-            render={({ field }) => (
-              <FormInput
-                {...register("pkgQuantity")}
-                placeholder="Enter Package Quantity"
-                value={field.value}
-                type="number"
-                onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.pkgQuantity && errors.pkgQuantity.message}
               />
             )}
           />
@@ -142,40 +187,6 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
                 placeholder="Select Bidding Type"
                 value={field.value}
                 error={errors?.bidding && errors.bidding.message}
-              />
-            )}
-          />
-        </div>
-        <div className="col-span-1">
-          <Controller
-            name="tax"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <SelectInput
-              {...register("tax")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
-                options={taxOpt}
-                placeholder="Select Tax Type"
-                value={field.value}
-                error={errors?.tax && errors.tax.message}
-              />
-            )}
-          />
-        </div>
-        <div className="col-span-1">
-          <Controller
-            name="shipping"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <SelectInput
-              {...register("shipping")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
-                options={shippingOption}
-                placeholder="Select Shipping Type"
-                value={field.value}
-                error={errors?.shipping && errors.shipping.message}
               />
             )}
           />
@@ -228,7 +239,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
             )}
           />
         </div>
-        <div className="col-span-3">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
           <Controller
             name="description"
             control={control}
@@ -238,12 +249,13 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
                 placeholder="Enter Product Description"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={flag}
                 error={errors?.description && errors.description.message}
               />
             )}
           />
         </div>
-        <div className="col-span-3">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
@@ -252,14 +264,14 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
-          <div className="col-span-1">
-          <img key={index} src={URL.createObjectURL(img)} alt={img.name} className="object-contain h-[150px]  rounded-2xl"/>
+          <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1">
+          <img key={index} src={URL.createObjectURL(img)} alt={img.name} className="object-cover h-[150px] min-w-full max-w-full  rounded-2xl"/>
           </div>
        ))}
             </>
 
         )}
-        <div className="col-span-3 flex mx-auto">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2 flex mx-auto">
           <Button
             value="Submit"
             width={150}
@@ -276,3 +288,4 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images }) => {
 };
 
 export default GrainsCerealsForm;
+

@@ -1,38 +1,112 @@
-import React from "react";
+import React,{useState, useMemo} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import TextAreaInput from "components/common/base/TextAreaInput";
-import DateInput from "components/common/base/DateInput"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import {
   packagingType,
   weightUnitType,
-  yesNoOption,
-  taxOpt,
-  shippingOption,
   seedTypeOption,
   seedRegionOption
 } from "helpers/constant";
 import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { SeedFormSchema } from "helpers/schema";
+import { useSelector } from "react-redux";
+import { isEmpty } from "lodash";
+import useClient from "hooks/useClient";
+import debounce from 'lodash/debounce';
+import { CircularProgress } from "@mui/material";
 
-const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
+const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
+
+  const [searchLoader,setSearchLoader] = useState(false)
+  const [searchNameData, setNameSearchData] = useState([])
+  const {api} = useClient()
+  const loader = useSelector((state)=> state.products.newProductLoader)
+  const flag = defaultValues && isEmpty(defaultValues) ? false : true
   const {
     control,
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(SeedFormSchema),
+    defaultValues
   });
+
+
+  const handleSearchProduct = useMemo(() => debounce((value, category) => {
+    if(!value){
+      setNameSearchData([])
+      setSearchLoader(false)
+    }
+    if(!value) return
+    const payload = {
+      query:value,
+      category:category
+    }
+    setNameSearchData([])
+    setSearchLoader(true)
+    api.post("/api/product/search", payload)
+    .then((res)=>{
+      const response = res.data && res.data.data ? res.data.data : []
+      setSearchLoader(false)
+      setNameSearchData(response)
+    })
+    .catch((err)=>{
+      setSearchLoader(false)
+      setNameSearchData([])
+    })
+  }, 500), []);
+
+
+  const handleSetName = (name) => {
+    if(!name) return
+    setValue("name", name);
+    setNameSearchData([])
+  }
 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-6 gap-4">
-        <div className="col-span-3">
+      <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6 relative">
+          <>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...register("name")}
+                placeholder="Enter Seed Name"
+                value={field.value}
+                onChange={(e) => {
+                  handleSearchProduct(e.target.value)
+                  field.onChange(e.target.value)
+                }}
+                disabled={flag}
+                error={errors?.name && errors.name.message}
+              />
+            )}
+          />
+             {((searchLoader) || (searchNameData && searchNameData.length > 0)) && (
+              <div className="absolute top-[60px] right-0 left-0 max-h-[200px] p-5 overflow-y-auto bg-white shadow-dashboard rounded-lg z-50">
+                {searchLoader && (
+                <CircularProgress sze={28} style={{color:"#668968"}}/>
+                )}
+                {!searchLoader && searchNameData && searchNameData.length > 0 && searchNameData.map((item, index) => (
+                  <div key={index} className="hover:bg-[#f5f6f7] hover:cursor-pointer p-1" onClick={()=> handleSetName(item.name)}>
+                  <p className="font-Roboto text-[16px]">{item.name && item.name}</p>
+                  </div>
+                ))}
+              </div>
+               )}
+          </>
+        </div>
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="brand"
             control={control}
@@ -47,22 +121,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             )}
           />
         </div>
-        <div className="col-span-3">
-          <Controller
-            name="seed"
-            control={control}
-            render={({ field }) => (
-              <FormInput
-                {...register("seed")}
-                placeholder="Enter Seed Name"
-                value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.seed && errors.seed.message}
-              />
-            )}
-          />
-        </div>
-        <div className="col-span-3">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedVariety"
             control={control}
@@ -77,7 +136,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             )}
           />
         </div>
-        <div className="col-span-3">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedType"
             control={control}
@@ -93,7 +152,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             )}
           />
         </div>
-        <div className="col-span-3">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="suitableRegion"
             control={control}
@@ -109,7 +168,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             )}
           />
         </div>
-        <div className="col-span-3">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedWeight"
             control={control}
@@ -124,7 +183,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             )}
           />
         </div>
-        <div className="col-span-2">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="pkgType"
             control={control}
@@ -132,33 +191,35 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             render={({ field }) => (
               <SelectInput
               {...register("pkgType")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
                 options={packagingType}
                 placeholder="Select Packaging Type"
                 value={field.value}
+                onChange={(selectedOption) => field.onChange(selectedOption)}
+                disabled={flag}
                 error={errors?.pkgType && errors.pkgType.message}
               />
             )}
           />
         </div>
-        <div className="col-span-2">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="weightUnit"
             control={control}
             defaultValue={null}
             render={({ field }) => (
               <SelectInput
-              {...register("weightUnit")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
+              {...register("weightUnit")}  
                 options={weightUnitType}
                 placeholder="Select Unit Type"
                 value={field.value}
+                onChange={(selectedOption) => field.onChange(selectedOption)}
+                disabled={flag}
                 error={errors?.weightUnit && errors.weightUnit.message}
               />
             )}
           />
         </div>
-        <div className="col-span-2">
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="pkgWeight"
             control={control}
@@ -169,28 +230,13 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={flag}
                 error={errors?.pkgWeight && errors.pkgWeight.message}
               />
             )}
           />
         </div>
-        <div className="col-span-3">
-          <Controller
-            name="pkgQuantity"
-            control={control}
-            render={({ field }) => (
-              <FormInput
-                {...register("pkgQuantity")}
-                placeholder="Enter Package Quantity"
-                value={field.value}
-                type="number"
-                onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.pkgQuantity && errors.pkgQuantity.message}
-              />
-            )}
-          />
-        </div>
-        <div className="col-span-3">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="price"
             control={control}
@@ -206,41 +252,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             )}
           />
         </div>
-        <div className="col-span-3">
-          <Controller
-            name="tax"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <SelectInput
-              {...register("tax")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
-                options={taxOpt}
-                placeholder="Select Tax Type"
-                value={field.value}
-                error={errors?.tax && errors.tax.message}
-              />
-            )}
-          />
-        </div>
-        <div className="col-span-3">
-          <Controller
-            name="shipping"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <SelectInput
-              {...register("shipping")}
-                onChange={(selectedOption) => field.onChange(selectedOption)}
-                options={shippingOption}
-                placeholder="Select Shipping Type"
-                value={field.value}
-                error={errors?.shipping && errors.shipping.message}
-              />
-            )}
-          />
-        </div> 
-        <div className="col-span-6">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="description"
             control={control}
@@ -250,12 +262,13 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
                 placeholder="Enter Product Description"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={flag}
                 error={errors?.description && errors.description.message}
               />
             )}
           />
         </div>
-        <div className="col-span-6">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
@@ -264,8 +277,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
-          <div className="col-span-1">
-          <img key={index} src={URL.createObjectURL(img)} alt={img.name} className="object-contain h-[150px]  rounded-2xl"/>
+          <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-3 xs:col-span-6">
+          <img key={index} src={URL.createObjectURL(img)} alt={img.name} className="object-cover h-[150px] min-w-full max-w-full  rounded-2xl"/>
           </div>
        ))}
             </>
@@ -278,6 +291,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images }) => {
             height={45}
             variant="primary"
             type="submit"
+            disabled={(images && images.length <= 0) || loader}
+            loader={loader}
           />
         </div>
       </div>

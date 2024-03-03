@@ -18,15 +18,15 @@ const HomeDashboard = () => {
   return (
     <Layout>
     <div className="p-4">
-      <div className="grid grid-cols-2 space-x-5">
-        <div className="bg-white col-span-1 p-5 rounded-2xl border-t-secondary border-b-secondary border-l-primary border-r-primary border-2">
+      <div className="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 2xl:space-x-5 xl:space-x-5 lg:space-x-3 md:space-x-0 sm:space-x-0 xs:space-x-0 2xl:space-y-0 xl:space-y-0 lg:space-y-0  md:space-y-5 sm:space-y-5 xs:space-y-5">
+        <div className="bg-white p-5 rounded-2xl border-t-secondary border-b-secondary border-l-primary border-r-primary border-2">
           <p className="text-[28px] font-bold font-RobotoBold text-primary">
             Total Order
           </p>
           <div className="flex justify-center mt-5">
             <div className="w-[150px] h-[150px] rounded-full items-center justify-center flex bg-primary">
               {productAnalyticLoader ? <CircularProgress size={36} style={{color:"#fff"}}/> : (
-              <p className="font-RobotoBold text-white text-[50px]">{productAnalyticData.totalBuys}</p>
+              <p className="font-RobotoBold text-white text-[50px]">{productAnalyticData.totalRequest}</p>
               )}
             </div>
           </div>
