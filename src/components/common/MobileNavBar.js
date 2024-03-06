@@ -136,7 +136,7 @@ const MobileNavBar = () => {
                 </div>
             )}
             <Modal isOpen={roleOpen} toggle={() => setRoleOpen(false)} title="Confirmation">
-                <h1 className="text-primary font-bold text-[15px]">{`Are you really willing to define your role as a ${role === "seller" ? "Buyer" : "Seller"} ?`}</h1>
+                <h1 className="text-primary font-bold text-[15px]">{`Are you willing to define your role as a ${role === "seller" ? "Buyer" : "Seller"} ?`}</h1>
                 <div className="flex justify-center mt-6">
                     <Button width={120} height={40} value="Yes Sure" loader={roleLoader} disabled={roleLoader} onClick={switchUser} />
                 </div>

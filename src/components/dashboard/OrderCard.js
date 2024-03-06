@@ -21,7 +21,7 @@ const OrderCard = ({data, seeOrder}) => {
       </p>
       <p className="font-RobotoBold text-primary text-[16px] truncate">
         Product Price:{" "}
-        <span className="text-black font-Roboto  ">{`${data.price && data.price} PRs`}</span>
+        <span className="text-black font-Roboto  ">{`${data.price && data.price}/- PKR`}</span>
       </p>
       <p className="font-RobotoBold text-primary text-[16px] truncate">
         Total Order:{" "}

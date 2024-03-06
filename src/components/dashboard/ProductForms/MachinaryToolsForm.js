@@ -12,7 +12,6 @@ import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { MachinaryFormSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
-import { isEmpty } from "lodash";
 import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
@@ -36,7 +35,6 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues }) => {
   const [searchNameData, setNameSearchData] = useState([])
   const {api} = useClient()
   const loader = useSelector((state)=> state.products.newProductLoader)
-  const flag = defaultValues && isEmpty(defaultValues) ? false : true
 
   const handleSearchProduct = useMemo(() => debounce((value, category) => {
     if(!value){
@@ -86,7 +84,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues }) => {
                   handleSearchProduct(e.target.value)
                   field.onChange(e.target.value)
                 }}
-                disabled={flag}
+                disabled={defaultValues.name ? true : false}
                 error={errors?.name && errors.name.message}
               />
             )}
@@ -220,7 +218,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues }) => {
                 placeholder="Enter Product Description"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={flag}
+                disabled={defaultValues.description ? true : false}
                 error={errors?.description && errors.description.message}
               />
             )}

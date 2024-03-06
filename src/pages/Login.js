@@ -23,17 +23,27 @@ const Login = () => {
   const [loader, setLoader] = useState(false);
   const [otpFlag, setOtpFlag] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
-  const [userNum, setUserNum] = useState("");
   const [userId, setUserId] = useState("");
 
   const handleLogin = (val) => {
-    const phoneWithoutFirstDigit = val.phone && val.phone.slice(1);
+
+    if (!val || !val.phone || !val.phone.length) {
+      eSnack("Invalid phone number provided");
+      return;
+    }
+
+    const phoneWithoutFirstDigit = val.phone.slice(1);
+    if (!/^\d+$/.test(phoneWithoutFirstDigit) || phoneWithoutFirstDigit.length !== 10) {
+      eSnack("Invalid phone number format");
+      return;
+    }
+
     const payload = {
       type: selectedRole,
-      phone: phoneWithoutFirstDigit ? `92${phoneWithoutFirstDigit}` : undefined,
+      phone: `92${phoneWithoutFirstDigit}`,
     };
+
     setLoader(true);
-      setUserNum(val.phone);
     api.post("/api/auth/password/less/login",payload)
       .then((res) => {
         const response = res.data && res.data.data;
@@ -134,7 +144,6 @@ const Login = () => {
         {selectedRole && otpFlag && (
           <EnterOtpForm
             onSubmit={handleEnterOtp}
-            num={userNum}
           />
         )}
       </div>

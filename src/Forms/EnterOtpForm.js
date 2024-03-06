@@ -7,7 +7,7 @@ import { otpSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
 import {useWindowSize} from 'react-use';
 
-const EnterPhoneEmailForm = ({ onSubmit, num}) => {
+const EnterPhoneEmailForm = ({ onSubmit}) => {
   const {
     control,
     register,
@@ -26,7 +26,7 @@ const {width} = useWindowSize()
         <span className="font-bold text-primary font-RobotoBold text-[18px]">
           Note:{" "}
         </span>{" "}
-        {num && `We can send otp code in this number (${num})`}
+        {`Please enter your OTP sent on your mobile instead of`}
       </p>
       <div className="mt-5">
         <Controller

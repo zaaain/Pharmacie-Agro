@@ -14,7 +14,6 @@ import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { SeedFormSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
-import { isEmpty } from "lodash";
 import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
@@ -26,7 +25,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
   const [searchNameData, setNameSearchData] = useState([])
   const {api} = useClient()
   const loader = useSelector((state)=> state.products.newProductLoader)
-  const flag = defaultValues && isEmpty(defaultValues) ? false : true
+
   const {
     control,
     register,
@@ -88,7 +87,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
                   handleSearchProduct(e.target.value)
                   field.onChange(e.target.value)
                 }}
-                disabled={flag}
+                disabled={defaultValues.name ? true : false}
                 error={errors?.name && errors.name.message}
               />
             )}
@@ -196,7 +195,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
                 placeholder="Select Packaging Type"
                 value={field.value}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
-                disabled={flag}
+                disabled={defaultValues.pkgType ? true : false}
                 error={errors?.pkgType && errors.pkgType.message}
               />
             )}
@@ -214,7 +213,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
                 placeholder="Select Unit Type"
                 value={field.value}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
-                disabled={flag}
+                disabled={defaultValues.weightUnit ? true : false}
                 error={errors?.weightUnit && errors.weightUnit.message}
               />
             )}
@@ -231,7 +230,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={flag}
+                disabled={defaultValues.pkgType ? true : false}
                 error={errors?.pkgWeight && errors.pkgWeight.message}
               />
             )}
@@ -279,7 +278,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
                 placeholder="Enter Product Description"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={flag}
+                disabled={defaultValues.description ? true : false}
                 error={errors?.description && errors.description.message}
               />
             )}

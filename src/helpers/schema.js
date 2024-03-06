@@ -28,13 +28,14 @@ export const otpSchema = yup.object().shape({
     }),
 });
 
-export const userRegisterSchema = (type) => {
+export const userRegisterSchema = (type, shopFlag) => {
 
   let schema = yup.object().shape({
     name: yup.string().required("Please enter name."),
     district: yup.string(),
     tehsil: yup.string(),
     city: yup.string(),
+    shopName:yup.string(),
     address: yup.string(),
   });
 
@@ -46,7 +47,11 @@ export const userRegisterSchema = (type) => {
       address: yup.string().required("Please enter address."),
     });
   }
-
+    if (type === "seller" && shopFlag) {
+    schema = schema.shape({
+      shopName: yup.string().required("Please enter shop name."),
+    });
+  }
   return schema;
 }
 
@@ -145,9 +150,21 @@ export const BioUpdateSchema = yup.object().shape({
   description: yup.string().required("😠 Please enter description."),
 });
 
-export const updateAddLocationSchema = yup.object().shape({
-  district: yup.string().required("Please enter district name."),
-  tehsil: yup.string().required("Please enter tehsil name."),
-  city: yup.string().required("Please enter city name."),
-  address: yup.string().required("Please enter address."),
-});
+export const updateAddLocationSchema = (flag) => {
+
+  let schema = yup.object().shape({
+    shopName:yup.string(),
+    district: yup.string().required("Please enter district name."),
+    tehsil: yup.string().required("Please enter tehsil name."),
+    city: yup.string().required("Please enter city name."),
+    address: yup.string().required("Please enter address."),
+  });
+
+  if (flag) {
+    schema = schema.shape({
+      shopName: yup.string().required("Please enter shop name."),
+    });
+  }
+
+  return schema;
+}

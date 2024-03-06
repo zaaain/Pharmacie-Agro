@@ -27,49 +27,49 @@ const categoryData = [
     id: 1,
     name: "Fruits",
     val: "fruits",
-    img: imgUrl + "/category/fruits.jpg",
+    img: imgUrl + "/category/Fruits.png",
   },
   {
     id: 2,
     name: "Vegetables",
     val: "vegetables",
-    img: imgUrl + "/category/vegetables.jpg",
+    img: imgUrl + "/category/Veges.png",
   },
   {
     id: 3,
     name: "Fertilizers",
     val: "fertilizers",
-    img: imgUrl + "/category/fertilizers.png",
+    img: imgUrl + "/category/Fertilizer.png",
   },
   {
     id: 4,
     name: "Fiber & Oil Seed Crops",
     val: "FiberOilSeedCrops",
-    img: imgUrl + "/category/fiberOil.jpg",
+    img: imgUrl + "/category/Oilandfibrecrops.png",
   },
   {
     id: 5,
     name: "Grains & Cereals",
     val: "grainsCereals",
-    img: imgUrl + "/category/Grains&Cereals.jpg",
+    img: imgUrl + "/category/GrainandCerealCrop.png",
   },
   {
     id: 6,
     name: "Plant Pathology & Entomology",
     val: "plantPathologyEntomology",
-    img: imgUrl + "/category/PlantPathology&Entomology.jpg",
+    img: imgUrl + "/category/Entomolgy.png",
   },
   {
     id: 7,
     name: "Seed Varieties",
     val: "seedVarieties",
-    img: imgUrl + "/category/SeedVarieties.jpg",
+    img: imgUrl + "/category/SeedVarieties.png",
   },
   {
     id: 8,
     name: "Machinary & Tools",
     val: "machinaryTools",
-    img: imgUrl + "/category/Machinary&Tools.jpg",
+    img: imgUrl + "/category/Machineryandtools.png",
   },
 ];
 
@@ -150,11 +150,6 @@ const AddNewProduct = () => {
     }
 
     const formData = new FormData();
-    // let address = val.addressId;
-    // delete val.addressId;
-    // for(let i = 0; i < address.length; i++){
-    //   formData.append("addressId[" + i + "]", address[i].id);
-    // }
     Object.keys(val).forEach((key) => {
         formData.append(key, val[key]);
     });
@@ -235,7 +230,7 @@ const AddNewProduct = () => {
                     src={item.img}
                     alt={item.name}
                     draggable={false}
-                    className="rounded-xl max-h-[150px] object-cover min-h-[150px] min-w-[150px]"
+                    className="rounded-xl max-h-[150px] object-contain min-h-[150px] min-w-[150px]"
                   />
                   <p className="mt-5 font-Roboto text-[16px]">{item.name}</p>
                 </div>
@@ -267,7 +262,7 @@ const AddNewProduct = () => {
                 )}
                 {!searchLoader && searchData && searchData.length > 0 && searchData.map((item, index) => (
                   <div className="hover:bg-[#f5f6f7] hover:cursor-pointer p-3" onClick={()=> handleSelectedProduct(item)}>
-                  <p className="font-Roboto text-[16px]" key={index}>{item.name && item.name}</p>
+                  <p className="font-Roboto text-[16px]" key={index}>{`${item.name && item.name} ${item.brand ? `( ${item.brand} )` : "" }`}</p>
                   </div>
                 ))}
               </div>

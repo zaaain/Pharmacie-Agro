@@ -3,6 +3,7 @@ import AsynStorage from "helpers/asyncLocalStorage";
 import history from "utils/history";
 
 export default class Client {
+  
   constructor() {
     this.token = AsynStorage.getItem("jwt");
     this.url = "https://agronomics.vercel.app";
@@ -25,6 +26,7 @@ export default class Client {
         if (err.response.status === 401) {
           localStorage.removeItem("jwt");
           history.push("/auth/login");
+          window.location.reload()
         }
         if (err.response && err.response) {
           return Promise.reject(err.response.data);
@@ -37,6 +39,7 @@ export default class Client {
   get(url) {
     return this.client.get(url);
   }
+
   post(url, payload) {
     return this.client.post(url, payload);
   }

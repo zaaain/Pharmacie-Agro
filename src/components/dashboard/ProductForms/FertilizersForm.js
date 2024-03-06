@@ -1,4 +1,4 @@
-import React,{useState, useMemo} from "react";
+import React,{useState, useMemo, useEffect} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import TextAreaInput from "components/common/base/TextAreaInput";
@@ -11,10 +11,10 @@ import {
 import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { FertilizersFormSchema } from "helpers/schema";
+import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from "react-redux";
 import useSnackMsg from "hooks/useSnackMsg";
-import { isEmpty } from "lodash";
 import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
@@ -29,7 +29,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
   const [searchLoader,setSearchLoader] = useState(false)
   const [searchNameData, setNameSearchData] = useState([])
   const {api} = useClient()
-  const defalutFlag = defaultValues && isEmpty(defaultValues) ? false : true
+  const [chemFlag, setChemFlag] = useState(false);
   
   const {
     control,
@@ -56,9 +56,17 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
     setFlag(isEmpty);
   };
 
-  const handleAddNewChem = () => {
+  const handleAddNewChem = (index) => {
+    if(!chemFlag) return
     setChemicals([...chemicals, { name: "", percentage: "" }]);
     setFlag(true);
+  };
+
+  const handleRemoveChem = (index) => {
+    if(!chemFlag || chemicals.length === 1) return
+    const updatedChemicals = [...chemicals];
+    updatedChemicals.splice(index, 1);
+    setChemicals(updatedChemicals);
   };
 
   const onSubmitNow = (val) => {
@@ -102,6 +110,15 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
     setNameSearchData([])
   }
 
+  useEffect(()=>{
+    const flag = chemicals.some((item)=> item.name && item.percentage)
+    if(flag){
+      setChemFlag(true)
+    }else{
+      setChemFlag(false)
+    }
+  },[chemicals])
+
   return (
     <form onSubmit={handleSubmit(onSubmitNow)}>
       <div className="grid 2xl:grid-cols-6 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 gap-4 items-center">
@@ -119,7 +136,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
                   handleSearchProduct(e.target.value)
                   field.onChange(e.target.value)
                 }}
-                disabled={defalutFlag}
+                disabled={defaultValues.name ? true : false}
                 error={errors?.name && errors.name.message}
               />
             )}
@@ -148,6 +165,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
                 placeholder="Brand Name"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.brand ? true : false}
                 error={errors?.brand && errors.brand.message}
               />
             )}
@@ -176,9 +194,12 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
               />
       
         </div>
-        <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
-              <div className="bg-primary p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer" onClick={handleAddNewChem}>
+        <div className="2xl:col-span-1 flex items-center xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
+              <div className={`${!chemFlag ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={handleAddNewChem}>
                 <AddIcon style={{color:"white"}}/>
+              </div>
+              <div className={`${!chemFlag || chemicals.length === 1 ? "bg-[#eaeaea]" : "bg-primary"} ml-5 p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={()=>handleRemoveChem(index)}>
+                <CloseIcon style={{color:"white"}}/>
               </div>
         </div>
         </>
@@ -194,26 +215,8 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={defalutFlag}
+                disabled={defaultValues.number ? true : false}
                 error={errors?.pkgWeight && errors.pkgWeight.message}
-              />
-            )}
-          />
-        </div>
-        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
-          <Controller
-            name="pkgType"
-            control={control}
-            render={({ field }) => (
-              <SelectInput
-                {...register("pkgType")}
-                placeholder="Packaging Type"
-                value={field.value}
-                options={packagingType}
-                type="number"
-                onChange={(e) => field.onChange(e.target.value)}
-                disabled={defalutFlag}
-                error={errors?.pkgType && errors.pkgType.message}
               />
             )}
           />
@@ -229,12 +232,30 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
                 value={field.value}
                 options={weightUnitType}
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={defalutFlag}
+                disabled={defaultValues.weightUnit ? true : false}
                 error={errors?.weightUnit && errors.weightUnit.message}
               />
             )}
           />
-        </div>  
+        </div> 
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
+          <Controller
+            name="pkgType"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                {...register("pkgType")}
+                placeholder="Packaging Type"
+                value={field.value}
+                options={packagingType}
+                type="number"
+                onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.pkgType ? true : false}
+                error={errors?.pkgType && errors.pkgType.message}
+              />
+            )}
+          />
+        </div> 
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="price"
@@ -278,7 +299,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues  }) => {
                 placeholder="Enter Product Description"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={defalutFlag}
+                disabled={defaultValues.description ? true : false}
                 error={errors?.description && errors.description.message}
               />
             )}

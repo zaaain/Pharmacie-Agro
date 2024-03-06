@@ -86,7 +86,7 @@ const RoutesMain = () => {
       </Routes>
   
       {registerFlag && (
-        <Modal isOpen={open} title={`Please Enter Info`}>
+        <Modal isOpen={true} title={`Please Enter Info`}>
           <SignUpForm onSubmit={handleRegisterUser} />
         </Modal>
       )}

@@ -133,7 +133,7 @@ const Home = () => {
             <img
               src={content.img}
               alt="img"
-              className="w-full md:h-[450px] sm:h-[400px] xs:h-[300px] bg-contain"
+              className="w-full md:h-[450px] sm:h-[400px] xs:h-[300px] object-cover"
             />
           </div>
           <div className="flex flex-col col-span-1 xs:justify-center xs:items-center">

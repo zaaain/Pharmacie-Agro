@@ -226,7 +226,7 @@ console.log("productDetailData", productDetailData)
             <div className="flex flex-col justify-center items-center">
             {productDetailData.price && (
             <p className=" text-[18px] text-primary font-Roboto mt-3">
-              Price: <span className="text-black font-Roboto capitalize ">{productDetailData.price && productDetailData.price} PRs</span>
+              Price: <span className="text-black font-Roboto capitalize ">{productDetailData.price && productDetailData.price}/- PKR</span>
             </p>
             )}
             {role && role !== "seller" && (

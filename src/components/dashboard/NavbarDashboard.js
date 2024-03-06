@@ -36,7 +36,7 @@ const NavbarDashboard = () => {
             />
         </div>
         <Modal isOpen={roleOpen} toggle={()=> setRoleOpen(false)} title="Confirmation">
-      <h1 className="text-primary font-bold text-[18px]">Are you really willing to define your role as a buyer ?</h1>
+      <h1 className="text-primary font-bold text-[18px]">Are you willing to define your role as a buyer ?</h1>
       <div className="flex justify-center mt-6"> 
             <Button width={150} height={45} value="Yes Sure" loader={roleLoader} disabled={roleLoader} onClick={switchUser}/>
       </div>
