@@ -76,28 +76,28 @@ const categoryData = [
 function getCategoryComponent(val, handleAddNew,images, handleImagesChange, selectProductData) {
   if (!val) return null;
   if (val === "Fruits") {
-    return <FruitsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <FruitsForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Vegetables") {
-    return <VegetablesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <VegetablesForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Fertilizers") {
-    return <FertilizersForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <FertilizersForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Fiber & Oil Seed Crops") {
-    return <FiberOilSeedCropsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <FiberOilSeedCropsForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Grains & Cereals") {
-    return <GrainsCerealsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <GrainsCerealsForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Plant Pathology & Entomology") {
-    return <PlantPathologyEntomologyForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <PlantPathologyEntomologyForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Seed Varieties") {
-    return <SeedVarietiesForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <SeedVarietiesForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Machinary & Tools") {
-    return <MachinaryToolsForm onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+    return <MachinaryToolsForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
 }
 

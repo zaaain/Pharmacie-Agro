@@ -20,7 +20,7 @@ import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
 
-const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValues  }) => {
+const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
 
   const loader = useSelector((state)=> state.products.newProductLoader)
   const [chemicals, setChemicals] = useState([{ name: "", percentage: "" }]);
@@ -69,17 +69,21 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     setChemicals(updatedChemicals);
   };
 
-  const onSubmitNow = (val) => {
+  const onSubmitNow = async (val) => {
     if (flag) {
       eSnack("Please complete formula");
       return;
     }
-  
+    const count = await chemicals && chemicals.reduce((accumulator, item) => accumulator + parseFloat(item.percentage), 0);
+    if (count > 100) {
+      eSnack("The total sum of chemical percentages cannot exceed 100.");
+      return;
+    }
     Object.assign(val, { composition: JSON.stringify(chemicals) });
     onSubmit(val);
   };
 
-  const handleSearchProduct = useMemo(() => debounce((value, category) => {
+  const handleSearchProduct = useMemo(() => debounce((value) => {
     if(!value){
       setNameSearchData([])
       setSearchLoader(false)
@@ -118,6 +122,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
       setChemFlag(false)
     }
   },[chemicals])
+
 
   return (
     <form onSubmit={handleSubmit(onSubmitNow)}>
@@ -185,9 +190,9 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     
         </div>
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
-  
               <FormInput
                 type="number"
+                id="percentage"
                 placeholder="Enter Percentage"
                 value={chem.percentage}
                 onChange={(e) => handleInputChange(index, "percentage", e.target.value)}

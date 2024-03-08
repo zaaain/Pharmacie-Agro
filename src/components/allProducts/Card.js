@@ -17,7 +17,7 @@ const Card = ({ data }) => {
       <div className="text-center py-3">
         <p className="text-[16px] font-Roboto truncate capitalize">{data.ProductType}</p>
         <p className="text-[16px] font-Roboto truncate capitalize">{data.name ? data.name : data.brand ? data.brand : ""}</p>
-        <p className="text-[16px] font-RobotoBold">{`PKR: ${data.price}`}</p>
+        <p className="text-[16px] font-RobotoBold">{`PKR: ${data.price.toLocaleString()}`}</p>
       </div>
       <div
         onClick={() => navigate(`/products/details?id=${data.id}`)}

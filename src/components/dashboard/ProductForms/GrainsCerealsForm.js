@@ -20,7 +20,7 @@ import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
 
-const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues }) => {
+const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category }) => {
   const {
     control,
     register,
@@ -38,7 +38,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues }) => {
   const loader = useSelector((state)=> state.products.newProductLoader)
 
 
-  const handleSearchProduct = useMemo(() => debounce((value, category) => {
+  const handleSearchProduct = useMemo(() => debounce((value) => {
     if(!value){
       setNameSearchData([])
       setSearchLoader(false)

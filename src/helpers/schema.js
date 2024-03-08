@@ -153,7 +153,7 @@ export const BioUpdateSchema = yup.object().shape({
 export const updateAddLocationSchema = (flag) => {
 
   let schema = yup.object().shape({
-    shopName:yup.string(),
+    shop:yup.string(),
     district: yup.string().required("Please enter district name."),
     tehsil: yup.string().required("Please enter tehsil name."),
     city: yup.string().required("Please enter city name."),
@@ -162,7 +162,7 @@ export const updateAddLocationSchema = (flag) => {
 
   if (flag) {
     schema = schema.shape({
-      shopName: yup.string().required("Please enter shop name."),
+      shop: yup.string().required("Please enter shop name."),
     });
   }
 

@@ -17,7 +17,7 @@ import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
 
-const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues }) => {
+const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, category }) => {
 
   const [proType, setProType] =useState("")
 
@@ -36,7 +36,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues }) => {
   const {api} = useClient()
   const loader = useSelector((state)=> state.products.newProductLoader)
 
-  const handleSearchProduct = useMemo(() => debounce((value, category) => {
+  const handleSearchProduct = useMemo(() => debounce((value) => {
     if(!value){
       setNameSearchData([])
       setSearchLoader(false)

@@ -1,10 +1,11 @@
-import React,{ useState} from "react";
+import React,{ useEffect, useState} from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import useSnackMsg from "hooks/useSnackMsg";
 import Modal from "components/common/base/Modal";
 import SignUpForm from "Forms/SignUpForm";
 import { userRegister, getProfile, getAllAddress } from "../redux/slices/authSlice/authAction";
 import { useDispatch, useSelector } from "react-redux";
+import useClearReducer from "hooks/useClearReducer";
 //
 import Home from "pages/Home";
 import Login from "pages/Login";
@@ -32,6 +33,7 @@ const RoutesMain = () => {
   const authReducer = useSelector((state) => state.auth);
   const { profileData, profileLoader, role } = authReducer;
   const { name } = profileData;
+  const clearReducer = useClearReducer()
   const registerFlag =
     !pathname.includes("/auth") && jwt && !name && !profileLoader
       ? true
@@ -46,6 +48,7 @@ const RoutesMain = () => {
         tehsil: val.tehsil ? val.tehsil : undefined,
         city: val.city ? val.city : undefined,
         address: val.address ? val.address : undefined,
+        shop: val.shopName ? val.shopName : undefined,
       }
     };
     const payload = role && role === "seller" ? values : val
@@ -60,6 +63,11 @@ const RoutesMain = () => {
         eSnack(err.message ? err.message : "Something is went wrong");
       });
   };
+
+  useEffect(()=>{
+    if(jwt) return
+    clearReducer()
+  },[])
 
 
   return (

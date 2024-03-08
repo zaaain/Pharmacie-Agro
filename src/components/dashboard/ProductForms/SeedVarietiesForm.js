@@ -19,7 +19,7 @@ import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
 
-const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
+const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , category}) => {
 
   const [searchLoader,setSearchLoader] = useState(false)
   const [searchNameData, setNameSearchData] = useState([])
@@ -38,7 +38,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues }) => {
   });
 
 
-  const handleSearchProduct = useMemo(() => debounce((value, category) => {
+  const handleSearchProduct = useMemo(() => debounce((value) => {
     if(!value){
       setNameSearchData([])
       setSearchLoader(false)

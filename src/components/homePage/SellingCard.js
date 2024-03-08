@@ -12,7 +12,7 @@ const SellingCard = ({ data }) => {
       <div className="text-center py-3">
         <p className="text-[16px] font-Roboto">{data.category}</p>
         <p className="text-[16px] font-Roboto">{data.name}</p>
-        <p className="text-[16px] font-RobotoBold">{`PKR: ${data.price}`}</p>
+        <p className="text-[16px] font-RobotoBold">{`PKR: ${data.price.toLocaleString()}`}</p>
       </div>
       <div className="bg-gradient rounded-b-2xl p-2 flex justify-end">
         <div>

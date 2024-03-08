@@ -180,37 +180,31 @@ console.log("productDetailData", productDetailData)
                  {productDetailData.composition && productDetailData.composition.length > 0 && (
             <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
               <p className=" text-[18px] text-primary font-Roboto">Product Composition:</p>
+              <div className="grid grid-cols-2 gap-3">
             {productDetailData.composition && productDetailData.composition.length > 0 && productDetailData.composition.map((item, index)=>(
-              <>
-              {item.name && (
-            <p className="text-[16px] text-primary font-RobotoBold truncate">Name:
-            <span className="text-balance font-Roboto text-black">{item.name}</span>
-            
-          </p>
-          )}
-          {item.value && (
-            <p className="text-[16px] text-primary font-RobotoBold truncate">Percentage:
-            <span className="text-balance font-Roboto text-black">{item.value}</span>
-          </p>
-          )}
+              <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2 xs:col-span-2 p-2 bg-white shadow-card rounded-lg">
+                <p className="text-primary font-bold text-[14px]">Name: <span className="text-black font-normal">{item.name}</span></p>
+                <p className="text-primary font-bold text-[14px]">Percentage: <span className="text-black font-normal">{item.percentage}%</span></p>
           
-</>
+</div>
 
             ))}
+             </div>
             </div>
             )}
+           
           {productDetailData.user && productDetailData.address && productDetailData.address.length > 0 && (
             <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
               <p className=" text-[18px] text-primary font-Roboto">Product Location:</p>
               <div className="grid grid-cols-2 gap-3">
             {productDetailData.address && productDetailData.address.length > 0 && productDetailData.address.map((item, index)=>(
-            //  <p className="text-[18px] text-black font-Roboto capitalize">
-            //   {`${index+ 1}. ${item.address}, ${item.tehsil}, ${item.city}, ${item.district}`}
-            //   </p>
             <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2 xs:col-span-2 p-2 bg-white shadow-card rounded-lg">
               <p className="text-primary font-bold text-[14px]">City: <span className="text-black font-normal">{item.city}</span></p>
               <p className="text-primary font-bold text-[14px]">District: <span className="text-black font-normal">{item.district}</span></p>
               <p className="text-primary font-bold text-[14px]">Tehsil: <span className="text-black font-normal">{item.tehsil}</span></p>
+              {item.shop && (
+                <p className="text-primary font-bold text-[14px]">Shop: <span className="text-black font-normal">{item.shop}</span></p>
+              )}
               <p className="text-primary font-bold text-[14px]">Address: <span className="text-black font-normal">{item.address}</span></p>
               </div>
             ))}
@@ -225,9 +219,14 @@ console.log("productDetailData", productDetailData)
             <p className="text-primary font-RobotoBold text-[22px] text-center">Pricing</p>
             <div className="flex flex-col justify-center items-center">
             {productDetailData.price && (
+              <>
             <p className=" text-[18px] text-primary font-Roboto mt-3">
-              Price: <span className="text-black font-Roboto capitalize ">{productDetailData.price && productDetailData.price}/- PKR</span>
+              {productDetailData.ProductType === "Machinary & Tools" ? "Price" : "Price Per Package"}:
             </p>
+                  <p className=" text-[16px] font-Roboto mt-3 text-black capitalize">
+                  {productDetailData.price && productDetailData.price.toLocaleString()}/- PKR
+                </p>
+                </>
             )}
             {role && role !== "seller" && (
             <>

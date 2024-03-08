@@ -27,12 +27,21 @@ const LocCard = ({data, handleDeleteAddress, countFlag, onUpdate}) => {
       </span>{" "}
       {data.city && data.city}
     </p>
+    {data.shop &&  (
+          <p className="font-Roboto text-[16px] truncate">
+          <span className="font-Roboto text-primary text-[18px]">
+            Shop Name:
+          </span>{" "}
+          {data.shop && data.shop}
+        </p>
+    )}
     <p className="font-Roboto text-[16px] truncate">
       <span className="font-Roboto text-primary text-[18px]">
         Addreess:
       </span>{" "}
       {data.address && data.address}
     </p>
+
     <div className="flex items-center justify-between mt-5">
       <Button
         variant="primary"

@@ -27,7 +27,7 @@ const ProductCard = ({data}) => {
         </p>
         <p className="font-RobotoBold text-primary text-[16px] truncate">
           Product Price:{" "}
-          <span className="text-black font-Roboto  ">{data.price && `${data.price}/- PKR`}</span>
+          <span className="text-black font-Roboto  ">{data.price && `${data.price.toLocaleString()}/- PKR`}</span>
         </p>
       </div>
 

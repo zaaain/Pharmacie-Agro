@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { userRegisterSchema } from "helpers/schema";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { districtsOption, tehsilsOption, citiesOptions } from "helpers/constant";
+import SelectInput from "components/common/base/SelectInput";
 
 const SignUpForm = ({onSubmit}) => {
 
@@ -48,10 +50,11 @@ const SignUpForm = ({onSubmit}) => {
               name="district"
               control={control}
               render={({ field }) => (
-                <FormInput
+                <SelectInput
                   {...register("district")}
-                  placeholder="Enter District Name"
+                  placeholder="Select District"
                   value={field.value}
+                  options={districtsOption}
                   onChange={(e) => field.onChange(e.target.value)}
                   error={errors?.district && errors.district.message}
                 />
@@ -63,10 +66,11 @@ const SignUpForm = ({onSubmit}) => {
               name="tehsil"
               control={control}
               render={({ field }) => (
-                <FormInput
+                <SelectInput
                   {...register("tehsil")}
-                  placeholder="Enter Tehsil Name"
+                  placeholder="Select Tehsil"
                   value={field.value}
+                  options={tehsilsOption}
                   onChange={(e) => field.onChange(e.target.value)}
                   error={errors?.tehsil && errors.tehsil.message}
                 />
@@ -78,10 +82,11 @@ const SignUpForm = ({onSubmit}) => {
               name="city"
               control={control}
               render={({ field }) => (
-                <FormInput
+                <SelectInput
                   {...register("city")}
-                  placeholder="Enter City Name"
+                  placeholder="Select City"
                   value={field.value}
+                  options={citiesOptions}
                   onChange={(e) => field.onChange(e.target.value)}
                   error={errors?.city && errors.city.message}
                 />
