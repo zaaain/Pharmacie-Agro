@@ -102,7 +102,7 @@ const MobileNavbarDashboard = () => {
                                 Requests
                             </p>
                             <p className={`text-[16px] font-RobotoBold pb-2 hover:text-primary hover:cursor-pointer ${location.pathname === "/bids" && "text-primary"}`}
-                                onClick={() => handleRoute("requests")}
+                                onClick={() => handleRoute("bids")}
                             >
                                 Bids
                             </p>

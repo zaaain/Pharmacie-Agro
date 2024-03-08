@@ -77,7 +77,7 @@ const Requests = () => {
                   )}
                     {item.user.phone && (
                     <p className="font-Roboto text-[16px] truncate text-primary">
-                    Phone: <span className="font-Roboto text-black">{item.user.phone && "0" + item.user.phone.replace(/^92/, "")}</span>
+                    Phone: <span className="font-Roboto text-black">{item.user.phone && "0" + item.user.phone.replace(/^0|92/, "")}</span>
                     </p>
                   )}
                 </div>

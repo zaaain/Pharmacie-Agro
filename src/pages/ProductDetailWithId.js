@@ -123,7 +123,7 @@ console.log("productDetailData", productDetailData)
             <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.name && productDetailData.user.name}</p>
           )}
                {productDetailData && productDetailData.user && productDetailData.user.phone && (
-            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.phone && "0" + productDetailData.user.phone.replace(/^92/, "")}</p>
+            <p className="text-primary font-RobotoBold text-[22px] pt-2">{productDetailData.user.phone && "0" + productDetailData.user.phone.replace(/^0|92/, "")}</p>
           )}
             </div>
           </div>

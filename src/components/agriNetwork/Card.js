@@ -18,7 +18,7 @@ const Card = ({data}) => {
         }
        
         {data.phone && (
-        <p className='text-[16px] font-RobotoBold mt-1 truncate'>{data.phone && "0" + data.phone.replace(/^92/, "")}</p>
+        <p className='text-[16px] font-RobotoBold mt-1 truncate'>{data.phone && "0" + data.phone.replace(/^0|92/, "")}</p>
         )}
       </div>
       <div onClick={()=>navigate(`/agri-network/products?id=${data.id}`)} className='h-[60px] bg-gradient rounded-b-xl mt-5 cursor-pointer flex items-center justify-center'>

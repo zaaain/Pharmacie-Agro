@@ -12,7 +12,7 @@ const BioInfoForm = ({handleUpdateBio}) => {
 
   const defaultValues = {
     name: profileData.name,
-    phone: profileData.phone && "0" + profileData.phone.replace(/^92/, ""),
+    phone: profileData.phone && "0" + profileData.phone.replace(/^0|92/, ""),
     description: profileData.description
   };
   const {

@@ -75,8 +75,8 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
       return;
     }
     const count = await chemicals && chemicals.reduce((accumulator, item) => accumulator + parseFloat(item.percentage), 0);
-    if (count > 100) {
-      eSnack("The total sum of chemical percentages cannot exceed 100.");
+    if (count !== 100) {
+      eSnack("The total sum of chemical percentages cannot 100.");
       return;
     }
     Object.assign(val, { composition: JSON.stringify(chemicals) });

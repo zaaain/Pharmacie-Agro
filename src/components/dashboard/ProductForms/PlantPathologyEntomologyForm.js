@@ -75,7 +75,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
       return;
     }
     const count = await chemicals && chemicals.reduce((accumulator, item) => accumulator + parseFloat(item.percentage), 0);
-    if (count > 100) {
+    if (count !== 100) {
       eSnack("The total sum of chemical percentages cannot exceed 100.");
       return;
     }
