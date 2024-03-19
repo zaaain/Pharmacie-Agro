@@ -14,13 +14,15 @@ import { Button } from "components/common/base/button";
 import ImageInput from "components/common/base/ImageInput";
 import { FruitsFormSchema } from "helpers/schema";
 import { useSelector } from "react-redux";
-import { isEmpty } from "lodash";
 import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
+import { isEmpty } from "lodash";
 
 const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category }) => {
+
+  const schemaFlag = isEmpty(defaultValues) ? true : false
   const {
     control,
     register,
@@ -28,7 +30,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(FruitsFormSchema),
+    resolver: yupResolver(FruitsFormSchema(schemaFlag)),
     defaultValues
   });
 
@@ -68,6 +70,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
     setValue("name", name);
     setNameSearchData([])
   }
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -117,7 +120,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
                 placeholder="Select Packaging Type"
                 value={field.value}
                 onChange={(selectedOption) => field.onChange(selectedOption)}
-                disabled={defaultValues.pkgType ? true : false}
+                disabled={defaultValues.pkgWeight ? true : false}
                 error={errors?.pkgType && errors.pkgType.message}
               />
             )}
@@ -141,7 +144,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
-        <div className="col-span-1">
+        <div className={`${isEmpty(defaultValues) ? `col-span-3` : `col-span-1`}`}>
           <Controller
             name="pkgWeight"
             control={control}
@@ -158,6 +161,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+        {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="price"
@@ -174,6 +178,8 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="bidding"
@@ -191,6 +197,8 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="shelfLifeStart"
@@ -207,6 +215,8 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="shelfLifeEnd"
@@ -223,6 +233,8 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="availableFrom"
@@ -239,6 +251,8 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
           <Controller
             name="addressId"
@@ -255,6 +269,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+         )}
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
           <Controller
             name="description"
@@ -271,12 +286,14 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             )}
           />
         </div>
+        {isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
               />
         </div>
+        )}
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
@@ -292,7 +309,7 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
             value="Submit"
             width={150}
             height={45}
-            disabled={(images && images.length <= 0) || loader}
+            disabled={(isEmpty(defaultValues) && images && images.length <= 0) || loader}
             loader={loader}
             variant="primary"
             type="submit"
@@ -304,4 +321,3 @@ const GrainsCerealsForm = ({ onSubmit, onImages, images, defaultValues, category
 };
 
 export default GrainsCerealsForm;
-

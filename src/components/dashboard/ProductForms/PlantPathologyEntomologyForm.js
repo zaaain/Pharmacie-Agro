@@ -19,11 +19,13 @@ import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
+import { isEmpty } from "lodash";
 
 const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
 
+  const schemaFlag = isEmpty(defaultValues) ? true : false
   const loader = useSelector((state)=> state.products.newProductLoader)
-  const [chemicals, setChemicals] = useState([{ name: "", percentage: "" }]);
+  const [chemicals, setChemicals] = useState([{ name: "",}]);
   const [flag, setFlag] = useState(true);
   const {eSnack} = useSnackMsg()
   const [searchLoader,setSearchLoader] = useState(false)
@@ -38,7 +40,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(FertilizersFormSchema),
+    resolver: yupResolver(FertilizersFormSchema(schemaFlag)),
     defaultValues
   });
 
@@ -51,14 +53,14 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   const checkEmptyFields = (chemicalsArray) => {
     const isEmpty = chemicalsArray.some(
-      (chem) => chem.name.trim() === "" || chem.percentage.trim() === ""
+      (chem) => chem.name.trim() === ""
     );
     setFlag(isEmpty);
   };
 
-  const handleAddNewChem = (index) => {
+  const handleAddNewChem = () => {
     if(!chemFlag) return
-    setChemicals([...chemicals, { name: "", percentage: "" }]);
+    setChemicals([...chemicals, { name: ""}]);
     setFlag(true);
   };
 
@@ -70,13 +72,8 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
   };
 
   const onSubmitNow = async (val) => {
-    if (flag) {
-      eSnack("Please complete formula");
-      return;
-    }
-    const count = await chemicals && chemicals.reduce((accumulator, item) => accumulator + parseFloat(item.percentage), 0);
-    if (count !== 100) {
-      eSnack("The total sum of chemical percentages cannot exceed 100.");
+    if (!isEmpty(defaultValues) && flag) {
+      eSnack("Please add at least one active ingredients");
       return;
     }
     Object.assign(val, { composition: JSON.stringify(chemicals) });
@@ -115,7 +112,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
   }
 
   useEffect(()=>{
-    const flag = chemicals.some((item)=> item.name && item.percentage)
+    const flag = chemicals.some((item)=> item.name)
     if(flag){
       setChemFlag(true)
     }else{
@@ -157,7 +154,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
                   </div>
                 ))}
               </div>
-               )}
+              )}
           </>
         </div>
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1 ">
@@ -176,28 +173,20 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             )}
           />
         </div>
+        {!isEmpty(defaultValues) && (
+        <>
         {chemicals.map((chem, index) => (
         <>
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
+        <div className="2xl:col-span-5 xl:col-span-5 lg:col-span-5 md:col-span-2 sm:col-span-1 xs:col-span-1">
  
               <FormInput
                 options={packagingType}
-                placeholder="Composition Name"
+                placeholder="Active Ingredients"
                 value={chem.name}
                 onChange={(e) => handleInputChange(index, "name", e.target.value)}
                 error={errors?.composition && errors.composition.message}
               />
     
-        </div>
-        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
-              <FormInput
-                type="number"
-                id="percentage"
-                placeholder="Enter Percentage"
-                value={chem.percentage}
-                onChange={(e) => handleInputChange(index, "percentage", e.target.value)}
-              />
-      
         </div>
         <div className="2xl:col-span-1 flex items-center xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
               <div className={`${!chemFlag ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={handleAddNewChem}>
@@ -209,6 +198,8 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
         </div>
         </>
         ))}
+        </>
+        )}
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="pkgWeight"
@@ -220,7 +211,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={defaultValues.number ? true : false}
+                disabled={defaultValues.pkgWeight ? true : false}
                 error={errors?.pkgWeight && errors.pkgWeight.message}
               />
             )}
@@ -260,8 +251,9 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
               />
             )}
           />
-        </div> 
-        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
+        </div>
+        {!isEmpty(defaultValues) && (
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="price"
             control={control}
@@ -278,7 +270,9 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             )}
           />
         </div>
-        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
+        )}
+        {!isEmpty(defaultValues) && (
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="addressId"
             control={control}
@@ -293,7 +287,8 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
               />
             )}
           />
-        </div>  
+        </div>
+        )}  
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="description"
@@ -310,12 +305,14 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             )}
           />
         </div>
+        {isEmpty(defaultValues) && (
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
               />
         </div>
+        )}
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
@@ -334,7 +331,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             variant="primary"
             type="submit"
             loader={loader}
-            disabled={(images && images.length <= 0) || loader}
+            disabled={(isEmpty(defaultValues) && images && images.length <= 0) || loader}
           />
         </div>
       </div>

@@ -18,9 +18,11 @@ import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
+import { isEmpty } from "lodash";
 
 const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , category}) => {
 
+  const schemaFlag = isEmpty(defaultValues) ? true : false
   const [searchLoader,setSearchLoader] = useState(false)
   const [searchNameData, setNameSearchData] = useState([])
   const {api} = useClient()
@@ -33,7 +35,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(SeedFormSchema),
+    resolver: yupResolver(SeedFormSchema(schemaFlag)),
     defaultValues
   });
 
@@ -115,12 +117,14 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
                 {...register("brand")}
                 placeholder="Enter Brand Name"
                 value={field.value}
+                disabled={defaultValues.brand ? true : false}
                 onChange={(e) => field.onChange(e.target.value)}
                 error={errors?.brand && errors.brand.message}
               />
             )}
           />
         </div>
+        {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedVariety"
@@ -136,6 +140,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
+        )}
+        {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedType"
@@ -152,6 +158,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
+        )}
+        {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="suitableRegion"
@@ -168,6 +176,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
+        )}
+        {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedWeight"
@@ -183,7 +193,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
-        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-6 xs:col-span-6">
+        )}
+        <div className={`${isEmpty(defaultValues) ? `md:col-span-3 sm:col-span-6 xs:col-span-6` : `2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-6 xs:col-span-6`}`}>
           <Controller
             name="pkgType"
             control={control}
@@ -219,7 +230,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
+        <div className={`${isEmpty(defaultValues) ? `col-span-6` : `2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6`}`}>
           <Controller
             name="pkgWeight"
             control={control}
@@ -236,6 +247,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
+        {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="price"
@@ -252,6 +264,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
+        )}
+        {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="addressId"
@@ -267,7 +281,8 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
               />
             )}
           />
-        </div> 
+        </div>
+        )}
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="description"
@@ -284,12 +299,14 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
+        {isEmpty(defaultValues) && (
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
               />
         </div>
+        )}
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
@@ -307,7 +324,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             height={45}
             variant="primary"
             type="submit"
-            disabled={(images && images.length <= 0) || loader}
+            disabled={(isEmpty(defaultValues) && images && images.length <= 0) || loader}
             loader={loader}
           />
         </div>

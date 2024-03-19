@@ -139,12 +139,12 @@ const AddNewProduct = () => {
 
     Object.assign(val,{
       ProductType:selectedCategory,
-      addressId: val.addressId && val.addressId.length > 0 && JSON.stringify(val.addressId.map((item)=> item.id))
     })
    
     if(!isEmpty(selectProductData)){
       Object.assign(val,{
         isAlreadyExists:true,
+        addressId: val.addressId && val.addressId.length > 0 && JSON.stringify(val.addressId.map((item)=> item.id)),
         productId:selectProductData.id
       })
     }
@@ -154,9 +154,10 @@ const AddNewProduct = () => {
         formData.append(key, val[key]);
     });
 
+    if(isEmpty(selectProductData)){
     images.forEach((image, index) => {
         formData.append(`images`, image);
-    });
+    })};
 
     dispatch(addNewProduct(formData)).unwrap()
     .then((res)=>{
@@ -217,7 +218,7 @@ const AddNewProduct = () => {
         {!selectedCategory && (
           <>
             <p className="font-Roboto text-primary text-[24px]">
-              Select your product category before adding a product !
+              Please Select Product Category
             </p>
             <div className="grid grid-cols-12 gap-5 mt-5">
               {categoryData.map((item) => (

@@ -28,3 +28,9 @@ export const getProductsAnalytic = createAsyncThunk("product/analytic", async ()
   const response = await api.get(`/api/product/analytic`);
   return response.data;
 });
+
+
+export const listProduct = createAsyncThunk("product/list", async (payload) => {
+  const response = await api.postFormData("/api/product/add", payload);
+  return response.data;
+});

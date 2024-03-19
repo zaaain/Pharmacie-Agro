@@ -9,7 +9,7 @@ const ProductCard = ({data}) => {
        <img
         className="max-h-[150px] min-h-[150px] max-w-[150px] min-w-[150px] rounded-full mx-auto my-2"
         draggable={false}
-        src={`${imgPath}${data.image[0]}`}
+        src={data.image && data.image.length > 0 && `${imgPath}${data.image[0]}`}
         alt="avatar"
       /> 
       <div className="p-3 leading-6">
@@ -30,15 +30,6 @@ const ProductCard = ({data}) => {
           <span className="text-black font-Roboto  ">{data.price && `${data.price.toLocaleString()}/- PKR`}</span>
         </p>
       </div>
-
-      {/* <div className="flex justify-between">
-        <button className="h-[50px] w-[120px] text-white font-RobotoBold rounded-bl-xl rounded-tr-xl bg-primary">
-          Delete
-        </button>
-        <button className="h-[50px] w-[120px] text-white font-RobotoBold rounded-br-xl rounded-tl-xl bg-primary">
-          Update
-        </button>
-      </div> */}
     </div>
   );
 };

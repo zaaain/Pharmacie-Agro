@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from "react";
+import React, {useState, useMemo , useEffect} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import TextAreaInput from "components/common/base/TextAreaInput";
@@ -16,11 +16,14 @@ import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
+import { isEmpty } from "lodash";
 
 const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, category }) => {
 
-  const [proType, setProType] =useState("")
+  console.log("defalutVal",defaultValues )
 
+  const [proType, setProType] =useState("")
+  const schemaFlag = isEmpty(defaultValues) ? true : false
   const {
     control,
     register,
@@ -28,7 +31,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(MachinaryFormSchema(proType)),
+    resolver: yupResolver(MachinaryFormSchema(proType,schemaFlag)),
     defaultValues
   });
   const [searchLoader,setSearchLoader] = useState(false)
@@ -160,6 +163,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
        />
             </div>
         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-2 xs:col-span-4">
           <Controller
             name="model"
@@ -175,7 +179,8 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
             )}
           />
         </div>
-     
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-2 xs:col-span-4">
           <Controller
             name="price"
@@ -192,6 +197,8 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
             )}
           />
         </div>
+         )}
+        {!isEmpty(defaultValues) && (
         <div className="col-span-4">
           <Controller
             name="addressId"
@@ -207,7 +214,8 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
               />
             )}
           />
-        </div> 
+        </div>
+        )}
         <div className="col-span-4 ">
           <Controller
             name="description"
@@ -224,12 +232,14 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
             )}
           />
         </div>
+        {isEmpty(defaultValues) && (
         <div className="col-span-4">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
               />
         </div>
+        )}
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
@@ -245,7 +255,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
             value="Submit"
             width={150}
             height={45}
-            disabled={(images && images.length <= 0) || loader}
+            disabled={(isEmpty(defaultValues) && images && images.length <= 0) || loader}
             loader={loader}
             variant="primary"
             type="submit"

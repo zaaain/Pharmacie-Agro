@@ -18,8 +18,11 @@ import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
+import { isEmpty } from "lodash";
 
 const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => {
+
+  const schemaFlag = isEmpty(defaultValues) ? true : false
   const {
     control,
     register,
@@ -27,7 +30,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(FruitsFormSchema),
+    resolver: yupResolver(FruitsFormSchema(schemaFlag)),
     defaultValues
   });
 
@@ -141,7 +144,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
-        <div className="col-span-1">
+        <div className={`${isEmpty(defaultValues) ? `col-span-3` : `col-span-1`}`}>
           <Controller
             name="pkgWeight"
             control={control}
@@ -158,6 +161,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+        {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="price"
@@ -174,6 +178,8 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="bidding"
@@ -191,6 +197,8 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="shelfLifeStart"
@@ -207,6 +215,8 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="shelfLifeEnd"
@@ -223,6 +233,8 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="col-span-1">
           <Controller
             name="availableFrom"
@@ -239,6 +251,8 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+         )}
+         {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
           <Controller
             name="addressId"
@@ -255,6 +269,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+         )}
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
           <Controller
             name="description"
@@ -271,12 +286,14 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
+        {isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
               />
         </div>
+        )}
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
@@ -292,7 +309,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             value="Submit"
             width={150}
             height={45}
-            disabled={(images && images.length <= 0) || loader}
+            disabled={(isEmpty(defaultValues) && images && images.length <= 0) || loader}
             loader={loader}
             variant="primary"
             type="submit"
