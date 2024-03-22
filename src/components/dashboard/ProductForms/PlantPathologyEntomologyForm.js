@@ -25,7 +25,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   const schemaFlag = isEmpty(defaultValues) ? true : false
   const loader = useSelector((state)=> state.products.newProductLoader)
-  const [chemicals, setChemicals] = useState([{ name: "",}]);
+  const [chemicals, setChemicals] = useState([{ name: ""}]);
   const [flag, setFlag] = useState(true);
   const {eSnack} = useSnackMsg()
   const [searchLoader,setSearchLoader] = useState(false)
@@ -43,6 +43,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     resolver: yupResolver(FertilizersFormSchema(schemaFlag)),
     defaultValues
   });
+
 
   const handleInputChange = (index, fieldName, value) => {
     const updatedChemicals = [...chemicals];
@@ -72,7 +73,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
   };
 
   const onSubmitNow = async (val) => {
-    if (!isEmpty(defaultValues) && flag) {
+    if (isEmpty(defaultValues) && flag) {
       eSnack("Please add at least one active ingredients");
       return;
     }
@@ -120,6 +121,13 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     }
   },[chemicals])
 
+  useEffect(()=>{
+    if(defaultValues && defaultValues.composition && defaultValues.composition.length > 0){
+      const chem = defaultValues.composition.map((item)=> ({name:item.name}))
+      setChemicals(chem)
+      
+    }
+  },[])
 
   return (
     <form onSubmit={handleSubmit(onSubmitNow)}>
@@ -173,21 +181,22 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             )}
           />
         </div>
-        {!isEmpty(defaultValues) && (
         <>
         {chemicals.map((chem, index) => (
         <>
-        <div className="2xl:col-span-5 xl:col-span-5 lg:col-span-5 md:col-span-2 sm:col-span-1 xs:col-span-1">
+        <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-6 xl:col-span-6 lg:col-span-6` :`2xl:col-span-5 xl:col-span-5 lg:col-span-5`}   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
  
               <FormInput
                 options={packagingType}
                 placeholder="Active Ingredients"
                 value={chem.name}
                 onChange={(e) => handleInputChange(index, "name", e.target.value)}
+                disabled={chem.name && !isEmpty(defaultValues) ? true : false }
                 error={errors?.composition && errors.composition.message}
               />
     
         </div>
+        {isEmpty(defaultValues) && (
         <div className="2xl:col-span-1 flex items-center xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
               <div className={`${!chemFlag ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={handleAddNewChem}>
                 <AddIcon style={{color:"white"}}/>
@@ -196,10 +205,11 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
                 <CloseIcon style={{color:"white"}}/>
               </div>
         </div>
+        )}
         </>
         ))}
         </>
-        )}
+        {/* )} */}
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="pkgWeight"

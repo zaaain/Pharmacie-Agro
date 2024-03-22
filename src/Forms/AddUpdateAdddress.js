@@ -26,6 +26,8 @@ const AddUpdateAdddress = ({onSubmit, defaultValues}) => {
     defaultValues
   });
 
+  console.log("err", errors)
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-5">

@@ -14,7 +14,7 @@ const DashboardSidebar = () => {
   return (
     <div className="py-5 w-full">
       <img
-        className="rounded-full mx-auto pb-3 w-[120] h-[120px]"
+        className="rounded-full object-cover mx-auto pb-3 w-[120] h-[120px]"
         draggable={false}
         src={profileData && profileData.avatar ? `${imgPath}${profileData.avatar}` : imgUrl + "/kisan.png"}
         alt="avatar"

@@ -22,7 +22,7 @@ const NavbarDashboard = () => {
                 draggable={false}
                 src={imgUrl + "/logo.png"}
                 alt="avatar"
-                className="w-[180px] h-[60px]"
+                className="w-[180px] h-[60px] object-contain"
             />
             <p />
           

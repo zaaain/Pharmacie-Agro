@@ -167,7 +167,7 @@ console.log("productDetailData", productDetailData)
               Available From: <span className="text-black font-Roboto capitalize">{productDetailData.availableFrom && productDetailData.availableFrom}</span>
             </p>
             )}
-                   {productDetailData.shelfLifeStart && (
+            {productDetailData.shelfLifeStart && (
             <p className=" text-[18px] text-primary font-Roboto">
               Shelf Life Start: <span className="text-black font-Roboto capitalize">{productDetailData.shelfLifeStart && productDetailData.shelfLifeStart}</span>
             </p>
@@ -177,6 +177,21 @@ console.log("productDetailData", productDetailData)
               Shelf Life End: <span className="text-black font-Roboto capitalize">{productDetailData.shelfLifeEnd && productDetailData.shelfLifeEnd}</span>
             </p>
             )}
+            {productDetailData.condition && (
+            <p className=" text-[18px] text-primary font-Roboto">
+              Condition: <span className="text-black font-Roboto capitalize">{productDetailData.condition && productDetailData.condition}</span>
+            </p>
+            )}
+            {productDetailData.horsePower && (
+            <p className=" text-[18px] text-primary font-Roboto">
+              Horse Power: <span className="text-black font-Roboto capitalize">{productDetailData.horsePower && productDetailData.horsePower}</span>
+            </p>
+            )}
+            {productDetailData.model && (
+            <p className=" text-[18px] text-primary font-Roboto">
+              Model: <span className="text-black font-Roboto capitalize">{productDetailData.model && productDetailData.model}</span>
+            </p>
+            )}
                  {productDetailData.composition && productDetailData.composition.length > 0 && (
             <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
               <p className=" text-[18px] text-primary font-Roboto">Product Composition:</p>
@@ -184,7 +199,7 @@ console.log("productDetailData", productDetailData)
             {productDetailData.composition && productDetailData.composition.length > 0 && productDetailData.composition.map((item, index)=>(
               <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2 xs:col-span-2 p-2 bg-white shadow-card rounded-lg">
                 <p className="text-primary font-bold text-[14px]">Name: <span className="text-black font-normal">{item.name}</span></p>
-                <p className="text-primary font-bold text-[14px]">Percentage: <span className="text-black font-normal">{item.percentage}%</span></p>
+                {/* <p className="text-primary font-bold text-[14px]">Percentage: <span className="text-black font-normal">{item.percentage}%</span></p> */}
           
 </div>
 

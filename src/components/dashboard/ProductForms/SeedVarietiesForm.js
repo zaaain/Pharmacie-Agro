@@ -124,7 +124,7 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
             )}
           />
         </div>
-        {!isEmpty(defaultValues) && (
+        
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedVariety"
@@ -135,13 +135,13 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
                 placeholder="Enter Seed Variety"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.seedVariety ? true : false}
                 error={errors?.seedVariety && errors.seedVariety.message}
               />
             )}
           />
         </div>
-        )}
-        {!isEmpty(defaultValues) && (
+     
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="seedType"
@@ -153,14 +153,15 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
                 options={seedTypeOption}
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.seedType ? true : false}
                 error={errors?.seedType && errors.seedType.message}
               />
             )}
           />
         </div>
-        )}
-        {!isEmpty(defaultValues) && (
-        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-6 xs:col-span-6">
+    
+       
+        <div className={`${isEmpty(defaultValues)  ? `2xl:col-span-3 xl:col-span-3 lg:col-span-3` : `2xl:col-span-2 xl:col-span-2 lg:col-span-2` }  md:col-span-3 sm:col-span-6 xs:col-span-6`}>
           <Controller
             name="suitableRegion"
             control={control}
@@ -171,14 +172,15 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
                 options={seedRegionOption}
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.suitableRegion ? true : false}
                 error={errors?.suitableRegion && errors.suitableRegion.message}
               />
             )}
           />
         </div>
-        )}
-        {!isEmpty(defaultValues) && (
-        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-3 sm:col-span-6 xs:col-span-6">
+
+       
+        <div className={`${isEmpty(defaultValues)  ? `2xl:col-span-3 xl:col-span-3 lg:col-span-3` : `2xl:col-span-2 xl:col-span-2 lg:col-span-2` }   md:col-span-3 sm:col-span-6 xs:col-span-6`}>
           <Controller
             name="seedWeight"
             control={control}
@@ -188,12 +190,13 @@ const SeedVarietiesForm = ({ onSubmit, onImages, images, defaultValues , categor
                 placeholder="Enter Seed Weight (gram)"
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.seedWeight ? true : false}
                 error={errors?.seedWeight && errors.seedWeight.message}
               />
             )}
           />
         </div>
-        )}
+        
         <div className={`${isEmpty(defaultValues) ? `md:col-span-3 sm:col-span-6 xs:col-span-6` : `2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-6 sm:col-span-6 xs:col-span-6`}`}>
           <Controller
             name="pkgType"

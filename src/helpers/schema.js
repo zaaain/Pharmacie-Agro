@@ -73,7 +73,15 @@ export const FruitsFormSchema = (flag) => {
 
   if (!flag) {
     schema = schema.shape({
-      price: yup.string().required("Please enter price."),
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
       bidding: yup.string().required("Please select bidding."),
       shelfLifeStart: yup.string().required("Please select shelf start date."),
       shelfLifeEnd: yup.string().required("Please select shelf end date."),
@@ -101,7 +109,15 @@ export const FertilizersFormSchema = (flag) => {
 
   if (!flag) {
     schema = schema.shape({
-      price: yup.string().required("Please enter price."),
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
       addressId: yup.array()
       .min(1, 'Please select address.')
       .typeError('Please select address.').required('Please select address.')
@@ -119,21 +135,25 @@ export const SeedFormSchema = (flag) => {
     weightUnit: yup.string().required("Please select weight unit."),
     pkgWeight: yup.string().required("Please enter weight weight."),
     description: yup.string().required("Please enter description."),
-    seedVariety: yup.string(),
-    seedType: yup.string(),
-    suitableRegion: yup.string(),
-    seedWeight: yup.string(),
+    seedVariety: yup.string().required("Please enter seed variety."),
+    seedType: yup.string().required("Please select seed type."),
+    suitableRegion: yup.string().required("Please select region."),
+    seedWeight: yup.string().required("Please enter seed weight."),
     price: yup.string(),
     addressId: yup.array(),
   });
 
   if (!flag) {
     schema = schema.shape({
-      seedVariety: yup.string().required("Please enter seed variety."),
-      seedType: yup.string().required("Please select seed type."),
-      suitableRegion: yup.string().required("Please select region."),
-      seedWeight: yup.string().required("Please enter seed weight."),
-      price: yup.string().required("Please enter price."),
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
       addressId: yup.array()
       .min(1, 'Please select address.')
       .typeError('Please select address.').required('Please select address.')
@@ -146,7 +166,6 @@ export const SeedFormSchema = (flag) => {
 export const MachinaryFormSchema = (type,flag) => {
   let schema = yup.object().shape({
     condition: yup.string(),
-    horsePower: yup.string(),
     model: yup.string(),
     price: yup.string(),
     addressId: yup.array(),
@@ -157,7 +176,15 @@ export const MachinaryFormSchema = (type,flag) => {
 
   if(!flag){
     schema = schema.shape({
-      price: yup.string().required("Please enter price."),
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
       model: yup.string().required("Please enter modal."),
       addressId: yup.array()
       .min(1, 'Please select address.')
@@ -172,7 +199,11 @@ export const MachinaryFormSchema = (type,flag) => {
         .required("Please select condition."),
     });
   }
-
+  if (type !== "Machinary") {
+    schema = schema.shape({
+      horsePower: yup.string().nullable(),
+    });
+  }
   if (type === "Machinary") {
     schema = schema.shape({
       horsePower: yup
@@ -194,9 +225,7 @@ export const BioUpdateSchema = yup.object().shape({
 });
 
 export const updateAddLocationSchema = (flag) => {
-
   let schema = yup.object().shape({
-    shop:yup.string(),
     district: yup.string().required("Please enter district name."),
     tehsil: yup.string().required("Please enter tehsil name."),
     city: yup.string().required("Please enter city name."),
@@ -206,6 +235,11 @@ export const updateAddLocationSchema = (flag) => {
   if (flag) {
     schema = schema.shape({
       shop: yup.string().required("Please enter shop name."),
+    });
+  } else {
+    // If flag is false, allow 'shop' to be nullable
+    schema = schema.shape({
+      shop: yup.string().nullable(), // Allow shop to be nullable
     });
   }
 

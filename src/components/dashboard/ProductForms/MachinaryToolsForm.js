@@ -69,6 +69,13 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
     setValue("name", name);
     setNameSearchData([])
   }
+console.log("err",errors)
+
+  useEffect(()=>{
+    if(!isEmpty(defaultValues) && defaultValues.type){
+      setProType(defaultValues.type)
+    }
+  },[])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -121,6 +128,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
                 options={machinaryToolsOption}
                 placeholder="Select Product Type"
                 value={field.value}
+                disabled={defaultValues.type ? true : false}
                 error={errors?.type && errors.type.message}
               />
             )}
@@ -139,6 +147,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
                     options={toolCondition}
                     placeholder="Select Condition"
                     value={field.value}
+                    disabled={defaultValues.condition ? true : false}
                     error={errors?.condition && errors.condition.message}
                   />
                 )}
@@ -157,6 +166,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
              type="number"
              value={field.value}
              onChange={(e) => field.onChange(e.target.value)}
+             disabled={defaultValues.horsePower ? true : false}
              error={errors?.horsePower && errors.horsePower.message}
            />
          )}

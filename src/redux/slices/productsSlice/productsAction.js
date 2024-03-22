@@ -15,7 +15,7 @@ export const getAllProduct = createAsyncThunk("product/all", async () => {
 });
 
 export const getProductWithCategory = createAsyncThunk("product/category", async (category) => {
-  const response = await api.get(`/api/product/listings/${category}?skip=0`);
+  const response = await api.post(`api/product/listings`,{productType:category});
   return response.data;
 });
 
