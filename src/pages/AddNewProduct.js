@@ -39,7 +39,7 @@ const categoryData = [
     id: 3,
     name: "Fertilizers",
     val: "fertilizers",
-    img: imgUrl + "/category/Fertilizer.png",
+    img: imgUrl + "/category/fertilizer.png",
   },
   {
     id: 4,
