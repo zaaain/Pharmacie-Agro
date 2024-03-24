@@ -50,7 +50,7 @@ const LocCard = ({data, handleDeleteAddress, countFlag, onUpdate}) => {
         height={40}
         onClick={()=>onUpdate(data)}
       />
-      <Button
+      {/* <Button
         variant="primary"
         width={120}
         value="Delete"
@@ -58,7 +58,7 @@ const LocCard = ({data, handleDeleteAddress, countFlag, onUpdate}) => {
         // loader={deleteAddressLoader}
         disabled={deleteAddressLoader || countFlag}
         onClick={()=>handleDeleteAddress(data.id)}
-      />
+      /> */}
     </div>
   </div>
   )

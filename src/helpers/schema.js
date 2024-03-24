@@ -130,6 +130,7 @@ export const FertilizersFormSchema = (flag) => {
 export const SeedFormSchema = (flag) => {
 
   let schema = yup.object().shape({
+    name: yup.string().required("Please enter name."),
     brand: yup.string().required("Please enter brand."),
     pkgType: yup.string().required("Please select package type."),
     weightUnit: yup.string().required("Please select weight unit."),
