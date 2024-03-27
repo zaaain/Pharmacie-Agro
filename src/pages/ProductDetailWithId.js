@@ -195,12 +195,12 @@ console.log("productDetailData", productDetailData)
                  {productDetailData.composition && productDetailData.composition.length > 0 && (
             <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
               <p className=" text-[18px] text-primary font-Roboto">Product Composition:</p>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3">
             {productDetailData.composition && productDetailData.composition.length > 0 && productDetailData.composition.map((item, index)=>(
-              <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2 xs:col-span-2 p-2 bg-white shadow-card rounded-lg">
-                <p className="text-primary font-bold text-[14px] truncate">Name: <span className="text-black font-normal">{item.name}</span></p>
-                <p className="text-primary font-bold text-[14px] truncate">Unit: <span className="text-black font-normal">{item.unit}</span></p>
-                <p className="text-primary font-bold text-[14px] truncate">Volume: <span className="text-black font-normal">{item.volume}</span></p>
+              <div className="col-span-1 p-2 bg-white shadow-card rounded-lg">
+                <p className="text-primary font-bold text-[14px]">{index + 1}: <span className="text-black font-normal">{`${item.name && item.name}${item.volume && `;${item.volume}`}${item.unit && item.unit}`}</span></p>
+                {/* <p className="text-primary font-bold text-[14px] truncate">Unit: <span className="text-black font-normal">{item.unit}</span></p>
+                <p className="text-primary font-bold text-[14px] truncate">Volume: <span className="text-black font-normal">{item.volume}</span></p> */}
               </div>
 
             ))}

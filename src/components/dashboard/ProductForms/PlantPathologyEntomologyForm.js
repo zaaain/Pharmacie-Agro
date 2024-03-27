@@ -54,7 +54,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   const checkEmptyFields = (chemicalsArray) => {
     const isEmpty = chemicalsArray.some(
-      (chem) => chem.name.trim() === "" || chem.unit.trim() === "" || chem.volume.trim() === ""
+      (chem) => chem.name.trim() === ""
     );
     setFlag(isEmpty);
   };
@@ -74,7 +74,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   const onSubmitNow = async (val) => {
     if (isEmpty(defaultValues) && flag) {
-      eSnack("Please add at least one active ingredients");
+      eSnack("First, add the active ingredient.");
       return;
     }
     Object.assign(val, { composition: JSON.stringify(chemicals) });
@@ -113,7 +113,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
   }
 
   useEffect(()=>{
-    const flag = chemicals.some((item)=> item.name && item.unit && item.volume)
+    const flag = chemicals.some((item)=> item.name)
     if(flag){
       setChemFlag(true)
     }else{
@@ -123,7 +123,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   useEffect(()=>{
     if(defaultValues && defaultValues.composition && defaultValues.composition.length > 0){
-      const chem = defaultValues.composition.map((item)=> ({name:item.name, unit:item.unit , volume:item.volume}))
+      const chem = defaultValues.composition.map((item)=> ({name:item.name, unit:item.unit ? item.unit : "" , volume:item.volume ? item.volume : "" }))
       setChemicals(chem)
       
     }
@@ -194,24 +194,24 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
               />
     
         </div>
-        <div className={`   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
-              <SelectInput
-                placeholder="Weight Unit"
-                value={chem.unit}
-                options={weightUnitType}
-                onChange={(e) => handleInputChange(index, "unit", e.target.value)}
-                disabled={chem.unit && !isEmpty(defaultValues) ? true : false }
-              />
-        </div>
         <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-2 xl:col-span-2 lg:col-span-2` : `2xl:col-span-1 xl:col-span-1 lg:col-span-1`}    md:col-span-2 sm:col-span-1 xs:col-span-1`}>
               <FormInput
-                placeholder="Volume"
+                placeholder="Concentration"
                 type="number"
                 value={chem.volume}
                 onChange={(e) => handleInputChange(index, "volume", e.target.value)}
                 disabled={chem.volume && !isEmpty(defaultValues) ? true : false }
               />
     
+        </div>
+        <div className={`   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
+              <SelectInput
+                placeholder="Unit"
+                value={chem.unit}
+                options={weightUnitType}
+                onChange={(e) => handleInputChange(index, "unit", e.target.value)}
+                disabled={chem.unit && !isEmpty(defaultValues) ? true : false }
+              />
         </div>
         {isEmpty(defaultValues) && (
         <div className="2xl:col-span-1 flex items-center xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
