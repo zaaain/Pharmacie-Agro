@@ -25,7 +25,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   const schemaFlag = isEmpty(defaultValues) ? true : false
   const loader = useSelector((state)=> state.products.newProductLoader)
-  const [chemicals, setChemicals] = useState([{ name: ""}]);
+  const [chemicals, setChemicals] = useState([{ name: "", unit:"", volume:""}]);
   const [flag, setFlag] = useState(true);
   const {eSnack} = useSnackMsg()
   const [searchLoader,setSearchLoader] = useState(false)
@@ -54,14 +54,14 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   const checkEmptyFields = (chemicalsArray) => {
     const isEmpty = chemicalsArray.some(
-      (chem) => chem.name.trim() === ""
+      (chem) => chem.name.trim() === "" || chem.unit.trim() === "" || chem.volume.trim() === ""
     );
     setFlag(isEmpty);
   };
 
   const handleAddNewChem = () => {
     if(!chemFlag) return
-    setChemicals([...chemicals, { name: ""}]);
+    setChemicals([...chemicals, { name: "", unit:"", volume:"" }]);
     setFlag(true);
   };
 
@@ -113,7 +113,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
   }
 
   useEffect(()=>{
-    const flag = chemicals.some((item)=> item.name)
+    const flag = chemicals.some((item)=> item.name && item.unit && item.volume)
     if(flag){
       setChemFlag(true)
     }else{
@@ -123,7 +123,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
 
   useEffect(()=>{
     if(defaultValues && defaultValues.composition && defaultValues.composition.length > 0){
-      const chem = defaultValues.composition.map((item)=> ({name:item.name}))
+      const chem = defaultValues.composition.map((item)=> ({name:item.name, unit:item.unit , volume:item.volume}))
       setChemicals(chem)
       
     }
@@ -184,15 +184,32 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
         <>
         {chemicals.map((chem, index) => (
         <>
-        <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-6 xl:col-span-6 lg:col-span-6` :`2xl:col-span-5 xl:col-span-5 lg:col-span-5`}   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
- 
+        {/* <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-6 xl:col-span-6 lg:col-span-6` :`2xl:col-span-5 xl:col-span-5 lg:col-span-5`}   md:col-span-2 sm:col-span-1 xs:col-span-1`}> */}
+        <div className={`2xl:col-span-2 xl:col-span-2 lg:col-span-2   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
               <FormInput
-                options={packagingType}
                 placeholder="Active Ingredients"
                 value={chem.name}
                 onChange={(e) => handleInputChange(index, "name", e.target.value)}
                 disabled={chem.name && !isEmpty(defaultValues) ? true : false }
-                error={errors?.composition && errors.composition.message}
+              />
+    
+        </div>
+        <div className={`   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
+              <SelectInput
+                placeholder="Weight Unit"
+                value={chem.unit}
+                options={weightUnitType}
+                onChange={(e) => handleInputChange(index, "unit", e.target.value)}
+                disabled={chem.unit && !isEmpty(defaultValues) ? true : false }
+              />
+        </div>
+        <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-2 xl:col-span-2 lg:col-span-2` : `2xl:col-span-1 xl:col-span-1 lg:col-span-1`}    md:col-span-2 sm:col-span-1 xs:col-span-1`}>
+              <FormInput
+                placeholder="Volume"
+                type="number"
+                value={chem.volume}
+                onChange={(e) => handleInputChange(index, "volume", e.target.value)}
+                disabled={chem.volume && !isEmpty(defaultValues) ? true : false }
               />
     
         </div>
@@ -201,10 +218,11 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
               <div className={`${!chemFlag ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={handleAddNewChem}>
                 <AddIcon style={{color:"white"}}/>
               </div>
-              <div className={`${!chemFlag || chemicals.length === 1 ? "bg-[#eaeaea]" : "bg-primary"} ml-5 p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={()=>handleRemoveChem(index)}>
+              <div className={`${!chemFlag || chemicals.length === 1 ? "bg-[#eaeaea]" : "bg-secondary"} ml-5 p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={()=>handleRemoveChem(index)}>
                 <CloseIcon style={{color:"white"}}/>
               </div>
         </div>
+      
         )}
         </>
         ))}

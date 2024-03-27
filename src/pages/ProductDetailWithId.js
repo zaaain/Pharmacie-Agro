@@ -198,10 +198,10 @@ console.log("productDetailData", productDetailData)
               <div className="grid grid-cols-2 gap-3">
             {productDetailData.composition && productDetailData.composition.length > 0 && productDetailData.composition.map((item, index)=>(
               <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2 xs:col-span-2 p-2 bg-white shadow-card rounded-lg">
-                <p className="text-primary font-bold text-[14px]">Name: <span className="text-black font-normal">{item.name}</span></p>
-                {/* <p className="text-primary font-bold text-[14px]">Percentage: <span className="text-black font-normal">{item.percentage}%</span></p> */}
-          
-</div>
+                <p className="text-primary font-bold text-[14px] truncate">Name: <span className="text-black font-normal">{item.name}</span></p>
+                <p className="text-primary font-bold text-[14px] truncate">Unit: <span className="text-black font-normal">{item.unit}</span></p>
+                <p className="text-primary font-bold text-[14px] truncate">Volume: <span className="text-black font-normal">{item.volume}</span></p>
+              </div>
 
             ))}
              </div>
