@@ -55,7 +55,7 @@ const Requests = () => {
         )}
         {!loader && data && data.length === 0 && (
           <div className="col-span-12 flex items-center justify-center">
-            <p className="font-Roboto text-[18px]">You have not recived any Order !</p>
+            <p className="font-Roboto text-[18px]">You have not recived any requests !</p>
           </div>
         )}
         {!loader && data && data.length > 0 && data.map((item, index) => (

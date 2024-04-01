@@ -23,17 +23,24 @@ export const category = [
 ];
 
 export const packagingType = [
-  { id: 1, label: "Plastic Bags", value: "plasticBag" },
-  { id: 2, label: "Cloth Bags", value: "clothBag" },
-  { id: 3, label: "Burlap Bags", value: "burlapBags" },
-  { id: 4, label: "Boxes / Crates", value: "boxesCrates" },
+  { id: 1, label: "Blastic Bottle", value: "blasticBottle" },
+  { id: 2, label: "Plastic Bags", value: "plasticBag" },
+  { id: 3, label: "Aluminium Bottle", value: "aluminiumBottle" },
+  { id: 4, label: "Cloth Bags", value: "clothBag" },
+  { id: 5, label: "Burlap Bags", value: "burlapBags" },
+  { id: 6, label: "Boxes / Crates", value: "boxesCrates" },
 ]
 
 export const weightUnitType = [
-  { id: 1, label: "Kg", value: "kg" },
-  { id: 2, label: "Liter", value: "liter" },
-  { id: 3, label: "Dozen", value: "dozen" },
-  { id: 4, label: "Sankara", value: "sankara" },
+  { id: 1, label: "Gram", value: "gram" },
+  { id: 2, label: "Milligram ", value: "milligram " },
+  { id: 3, label: "Kg", value: "kg" },
+  { id: 4, label: "Liter", value: "liter" },
+  { id: 5, label: "Milliliter ", value: "milliliter " },
+  { id: 6, label: "Dozen", value: "dozen" },
+  { id: 7, label: "Sankara", value: "sankara" },
+  { id: 8, label: "Percentage  ", value: "percentage" },
+  { id: 8, label: "Mun", value: "mun" },
 ]
 
 export const yesNoOption = [

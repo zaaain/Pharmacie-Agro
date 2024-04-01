@@ -55,72 +55,143 @@ export const userRegisterSchema = (type, shopFlag) => {
   return schema;
 }
 
-export const FruitsFormSchema = yup.object().shape({
-  name: yup.string().required("Please enter name."),
-  pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
-  weightUnit: yup.string().required("Please select weight unit."),
-  pkgWeight: yup.string().required("Please enter package weight."),
-  price: yup.string().required("Please enter price."),
-  bidding: yup.string().required("Please select bidding."),
-  shelfLifeStart: yup.string().required("Please select shelf start date."),
-  shelfLifeEnd: yup.string().required("Please select shelf end date."),
-  availableFrom: yup.string().required("Please select available from."),
-  description: yup.string().required("Please enter description."),
-  addressId: yup.array()
-  .min(1, 'Please select address.')
-  .typeError('Please select address.').required('Please select address.')
+export const FruitsFormSchema = (flag) => {
 
-});
+  let schema = yup.object().shape({
+    name: yup.string().required("Please enter name."),
+    pkgType: yup.string().typeError("Please select package type.").required("Please select package type."),
+    weightUnit: yup.string().required("Please select weight unit."),
+    pkgWeight: yup.string().required("Please enter package weight."),
+    description: yup.string().required("Please enter description."),
+    price: yup.string(),
+    bidding: yup.string(),
+    shelfLifeStart: yup.string(),
+    shelfLifeEnd: yup.string(),
+    availableFrom: yup.string(),
+    addressId: yup.array(),
+  });
 
-export const FertilizersFormSchema = yup.object().shape({
-  name: yup.string().required("Please enter name."),
-  brand: yup.string().required("Please enter brand name."),
-  pkgWeight: yup.string().required("Please enter weight weight."),
-  pkgType: yup.string().required("Please select package type."),
-  weightUnit: yup.string().required("Please select weight unit."), 
-  // pkgQuantity: yup.string().required("Please enter package quantity."),
-  price: yup.string().required("Please enter price."),
-  // tax: yup.string().required("Please select tax."),
-  // shipping: yup.string().required("Please select shipping type."),
-  description: yup.string().required("Please enter description."),
-  addressId: yup.array()
-  .min(1, 'Please select address.')
-  .typeError('Please select address.').required('Please select address.')
-});
+  if (!flag) {
+    schema = schema.shape({
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
+      bidding: yup.string().required("Please select bidding."),
+      shelfLifeStart: yup.string().required("Please select shelf start date."),
+      shelfLifeEnd: yup.string().required("Please select shelf end date."),
+      availableFrom: yup.string().required("Please select available from."),
+      addressId: yup.array()
+      .min(1, 'Please select address.')
+      .typeError('Please select address.').required('Please select address.')
+    });
+  }
+  return schema;
+}
 
-export const SeedFormSchema = yup.object().shape({
-  brand: yup.string().required("Please enter brand."),
-  // seed: yup.string().required("Please enter seed name."),
-  seedVariety: yup.string().required("Please enter seed variety."),
-  seedType: yup.string().required("Please select seed type."),
-  suitableRegion: yup.string().required("Please select region."),
-  seedWeight: yup.string().required("Please enter seed weight."),
-  pkgType: yup.string().required("Please select package type."),
-  weightUnit: yup.string().required("Please select weight unit."),
-  pkgWeight: yup.string().required("Please enter weight weight."),
-  // pkgQuantity: yup.string().required("Please enter package quantity."),
-  price: yup.string().required("Please enter price."),
-  // tax: yup.string().required("Please select tax."),
-  // shipping: yup.string().required("Please select shipping type."),
-  description: yup.string().required("Please enter description."),
-  addressId: yup.array()
-  .min(1, 'Please select address.')
-  .typeError('Please select address.').required('Please select address.')
-});
+export const FertilizersFormSchema = (flag) => {
 
-export const MachinaryFormSchema = (type) => {
+  let schema = yup.object().shape({
+    name: yup.string().required("Please enter name."),
+    brand: yup.string().required("Please enter brand name."),
+    pkgWeight: yup.string().required("Please enter weight weight."),
+    pkgType: yup.string().required("Please select package type."),
+    weightUnit: yup.string().required("Please select weight unit."), 
+    description: yup.string().required("Please enter description."),
+    price: yup.string(),
+    addressId: yup.array(),
+  });
+
+  if (!flag) {
+    schema = schema.shape({
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
+      addressId: yup.array()
+      .min(1, 'Please select address.')
+      .typeError('Please select address.').required('Please select address.')
+    });
+  }
+  return schema;
+}
+
+
+export const SeedFormSchema = (flag) => {
+
+  let schema = yup.object().shape({
+    name: yup.string().required("Please enter name."),
+    brand: yup.string().required("Please enter brand."),
+    pkgType: yup.string().required("Please select package type."),
+    weightUnit: yup.string().required("Please select weight unit."),
+    pkgWeight: yup.string().required("Please enter weight weight."),
+    description: yup.string().required("Please enter description."),
+    seedVariety: yup.string().required("Please enter seed variety."),
+    seedType: yup.string().required("Please select seed type."),
+    suitableRegion: yup.string().required("Please select region."),
+    seedWeight: yup.string().required("Please enter seed weight."),
+    price: yup.string(),
+    addressId: yup.array(),
+  });
+
+  if (!flag) {
+    schema = schema.shape({
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
+      addressId: yup.array()
+      .min(1, 'Please select address.')
+      .typeError('Please select address.').required('Please select address.')
+    });
+  }
+  return schema;
+}
+
+
+export const MachinaryFormSchema = (type,flag) => {
   let schema = yup.object().shape({
     condition: yup.string(),
-    horsePower: yup.string(),
+    model: yup.string(),
+    price: yup.string(),
+    addressId: yup.array(),
     description: yup.string().required("Please enter description."),
     type: yup.string().required("Please enter product type."),
-    name: yup.string().required("Please enter name."),
-    model: yup.string().required("Please enter modal."),
-    price: yup.string().required("Please enter price."),
-    addressId: yup.array()
-    .min(1, 'Please select address.')
-    .typeError('Please select address.').required('Please select address.')
+    name: yup.string().required("Please enter name.")
   });
+
+  if(!flag){
+    schema = schema.shape({
+      price: yup.string().required("Please enter price.").test(
+        'is-positive',
+        'Price must be a positive number',
+        value => {
+          if (!value) return false;
+          const price = parseFloat(value);
+          return price > 0;
+        }
+      ),
+      model: yup.string().required("Please enter modal."),
+      addressId: yup.array()
+      .min(1, 'Please select address.')
+      .typeError('Please select address.').required('Please select address.')
+    });
+  }
 
   if (type === "Tool" || type === "Machinary") {
     schema = schema.shape({
@@ -129,7 +200,11 @@ export const MachinaryFormSchema = (type) => {
         .required("Please select condition."),
     });
   }
-
+  if (type !== "Machinary") {
+    schema = schema.shape({
+      horsePower: yup.string().nullable(),
+    });
+  }
   if (type === "Machinary") {
     schema = schema.shape({
       horsePower: yup
@@ -151,9 +226,7 @@ export const BioUpdateSchema = yup.object().shape({
 });
 
 export const updateAddLocationSchema = (flag) => {
-
   let schema = yup.object().shape({
-    shop:yup.string(),
     district: yup.string().required("Please enter district name."),
     tehsil: yup.string().required("Please enter tehsil name."),
     city: yup.string().required("Please enter city name."),
@@ -163,6 +236,11 @@ export const updateAddLocationSchema = (flag) => {
   if (flag) {
     schema = schema.shape({
       shop: yup.string().required("Please enter shop name."),
+    });
+  } else {
+    // If flag is false, allow 'shop' to be nullable
+    schema = schema.shape({
+      shop: yup.string().nullable(), // Allow shop to be nullable
     });
   }
 

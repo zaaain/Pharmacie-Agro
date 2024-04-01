@@ -19,11 +19,13 @@ import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
+import { isEmpty } from "lodash";
 
 const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
 
+  const schemaFlag = isEmpty(defaultValues) ? true : false
   const loader = useSelector((state)=> state.products.newProductLoader)
-  const [chemicals, setChemicals] = useState([{ name: "", percentage: "" }]);
+  const [chemicals, setChemicals] = useState([{ name: "", unit:"", volume:""}]);
   const [flag, setFlag] = useState(true);
   const {eSnack} = useSnackMsg()
   const [searchLoader,setSearchLoader] = useState(false)
@@ -38,9 +40,10 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(FertilizersFormSchema),
+    resolver: yupResolver(FertilizersFormSchema(schemaFlag)),
     defaultValues
   });
+
 
   const handleInputChange = (index, fieldName, value) => {
     const updatedChemicals = [...chemicals];
@@ -51,14 +54,14 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
 
   const checkEmptyFields = (chemicalsArray) => {
     const isEmpty = chemicalsArray.some(
-      (chem) => chem.name.trim() === "" || chem.percentage.trim() === ""
+      (chem) => chem.name.trim() === ""
     );
     setFlag(isEmpty);
   };
 
-  const handleAddNewChem = (index) => {
+  const handleAddNewChem = () => {
     if(!chemFlag) return
-    setChemicals([...chemicals, { name: "", percentage: "" }]);
+    setChemicals([...chemicals, { name: "", unit:"", volume:"" }]);
     setFlag(true);
   };
 
@@ -70,13 +73,8 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
   };
 
   const onSubmitNow = async (val) => {
-    if (flag) {
-      eSnack("Please complete formula");
-      return;
-    }
-    const count = await chemicals && chemicals.reduce((accumulator, item) => accumulator + parseFloat(item.percentage), 0);
-    if (count !== 100) {
-      eSnack("The total sum of chemical percentages cannot 100.");
+    if (isEmpty(defaultValues) && flag) {
+      eSnack("First, add the active ingredient.");
       return;
     }
     Object.assign(val, { composition: JSON.stringify(chemicals) });
@@ -115,7 +113,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
   }
 
   useEffect(()=>{
-    const flag = chemicals.some((item)=> item.name && item.percentage)
+    const flag = chemicals.some((item)=> item.name)
     if(flag){
       setChemFlag(true)
     }else{
@@ -123,6 +121,13 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
     }
   },[chemicals])
 
+  useEffect(()=>{
+    if(defaultValues && defaultValues.composition && defaultValues.composition.length > 0){
+      const chem = defaultValues.composition.map((item)=> ({name:item.name, unit:item.unit ? item.unit : "" , volume:item.volume ? item.volume : "" }))
+      setChemicals(chem)
+      
+    }
+  },[])
 
   return (
     <form onSubmit={handleSubmit(onSubmitNow)}>
@@ -157,7 +162,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
                   </div>
                 ))}
               </div>
-               )}
+              )}
           </>
         </div>
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1 ">
@@ -176,39 +181,53 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             )}
           />
         </div>
+        <>
         {chemicals.map((chem, index) => (
         <>
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
- 
+        {/* <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-6 xl:col-span-6 lg:col-span-6` :`2xl:col-span-5 xl:col-span-5 lg:col-span-5`}   md:col-span-2 sm:col-span-1 xs:col-span-1`}> */}
+        <div className={`2xl:col-span-2 xl:col-span-2 lg:col-span-2   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
               <FormInput
-                options={packagingType}
-                placeholder="Composition Name"
+                placeholder="Active Ingredients"
                 value={chem.name}
                 onChange={(e) => handleInputChange(index, "name", e.target.value)}
-                error={errors?.composition && errors.composition.message}
+                disabled={chem.name && !isEmpty(defaultValues) ? true : false }
               />
     
         </div>
-        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
+        <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-2 xl:col-span-2 lg:col-span-2` : `2xl:col-span-1 xl:col-span-1 lg:col-span-1`}    md:col-span-2 sm:col-span-1 xs:col-span-1`}>
               <FormInput
+                placeholder="Concentration"
                 type="number"
-                id="percentage"
-                placeholder="Enter Percentage"
-                value={chem.percentage}
-                onChange={(e) => handleInputChange(index, "percentage", e.target.value)}
+                value={chem.volume}
+                onChange={(e) => handleInputChange(index, "volume", e.target.value)}
+                disabled={chem.volume && !isEmpty(defaultValues) ? true : false }
               />
-      
+    
         </div>
+        <div className={`   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
+              <SelectInput
+                placeholder="Unit"
+                value={chem.unit}
+                options={weightUnitType}
+                onChange={(e) => handleInputChange(index, "unit", e.target.value)}
+                disabled={chem.unit && !isEmpty(defaultValues) ? true : false }
+              />
+        </div>
+        {isEmpty(defaultValues) && (
         <div className="2xl:col-span-1 flex items-center xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
               <div className={`${!chemFlag ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={handleAddNewChem}>
                 <AddIcon style={{color:"white"}}/>
               </div>
-              <div className={`${!chemFlag || chemicals.length === 1 ? "bg-[#eaeaea]" : "bg-primary"} ml-5 p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={()=>handleRemoveChem(index)}>
+              <div className={`${!chemFlag || chemicals.length === 1 ? "bg-[#eaeaea]" : "bg-secondary"} ml-5 p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={()=>handleRemoveChem(index)}>
                 <CloseIcon style={{color:"white"}}/>
               </div>
         </div>
+      
+        )}
         </>
         ))}
+        </>
+        {/* )} */}
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="pkgWeight"
@@ -220,7 +239,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
                 value={field.value}
                 type="number"
                 onChange={(e) => field.onChange(e.target.value)}
-                disabled={defaultValues.number ? true : false}
+                disabled={defaultValues.pkgWeight ? true : false}
                 error={errors?.pkgWeight && errors.pkgWeight.message}
               />
             )}
@@ -260,8 +279,9 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
               />
             )}
           />
-        </div> 
-        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
+        </div>
+        {!isEmpty(defaultValues) && (
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="price"
             control={control}
@@ -278,7 +298,9 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             )}
           />
         </div>
-        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
+        )}
+        {!isEmpty(defaultValues) && (
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="addressId"
             control={control}
@@ -293,7 +315,8 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
               />
             )}
           />
-        </div>  
+        </div>
+        )}  
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="description"
@@ -310,12 +333,14 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             )}
           />
         </div>
+        {isEmpty(defaultValues) && (
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
               />
         </div>
+        )}
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
@@ -334,7 +359,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             variant="primary"
             type="submit"
             loader={loader}
-            disabled={(images && images.length <= 0) || loader}
+            disabled={(isEmpty(defaultValues) && images && images.length <= 0) || loader}
           />
         </div>
       </div>

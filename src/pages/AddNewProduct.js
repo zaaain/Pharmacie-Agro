@@ -39,7 +39,7 @@ const categoryData = [
     id: 3,
     name: "Fertilizers",
     val: "fertilizers",
-    img: imgUrl + "/category/Fertilizer.png",
+    img: imgUrl + "/category/fertilizer.png",
   },
   {
     id: 4,
@@ -138,13 +138,13 @@ const AddNewProduct = () => {
   const handleAddNew = (val) => {
 
     Object.assign(val,{
-      ProductType:selectedCategory,
-      addressId: val.addressId && val.addressId.length > 0 && JSON.stringify(val.addressId.map((item)=> item.id))
+      productType:selectedCategory,
     })
    
     if(!isEmpty(selectProductData)){
       Object.assign(val,{
         isAlreadyExists:true,
+        addressId: val.addressId && val.addressId.length > 0 && JSON.stringify(val.addressId.map((item)=> item.id)),
         productId:selectProductData.id
       })
     }
@@ -154,13 +154,14 @@ const AddNewProduct = () => {
         formData.append(key, val[key]);
     });
 
+    if(isEmpty(selectProductData)){
     images.forEach((image, index) => {
         formData.append(`images`, image);
-    });
+    })};
 
     dispatch(addNewProduct(formData)).unwrap()
     .then((res)=>{
-      sSnack("Successfully new product added !")
+      sSnack(!isEmpty(selectProductData) ? `Your product has been added to the list. Thank you!` : `Thank you for adding the product!`)
       navigate("/products/my")
     })
     .catch((err)=>{
@@ -217,7 +218,7 @@ const AddNewProduct = () => {
         {!selectedCategory && (
           <>
             <p className="font-Roboto text-primary text-[24px]">
-              Select your product category before adding a product !
+              Please Select Product Category
             </p>
             <div className="grid grid-cols-12 gap-5 mt-5">
               {categoryData.map((item) => (
@@ -248,7 +249,7 @@ const AddNewProduct = () => {
         {selectedCategory && !newProductFlag && (
           <>
             <p className="font-Roboto text-primary text-[24px] mt-5">
-              Do you want to search for a product ?
+            You search for the name of your product and list it.
             </p>
             <div className="mt-5 relative">
               <FormInput placeholder="Search Product" onChange={(e)=>handleSearchProduct(e.target.value, selectedCategory)}/>
@@ -268,11 +269,11 @@ const AddNewProduct = () => {
               </div>
                )}
             </div>
-            <p className="font-Roboto text-primary text-[24px] mt-10">
-              Are you interested in adding a new product ?
+            <p className="font-Roboto text-primary text-[16px] mt-10">
+            Note: If your product is not in the list, you can click on the 'Add New' button to add it. We will review and add it to the list soon.
             </p>
             <div className="mt-5">
-              <Button value="Yes" width={150} height={50} onClick={() => setNewProductFlag(true)} />
+              <Button value="Add New" width={150} height={50} onClick={() => setNewProductFlag(true)} />
             </div>
           </>
         )}

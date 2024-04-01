@@ -15,7 +15,7 @@ export const getAllProduct = createAsyncThunk("product/all", async () => {
 });
 
 export const getProductWithCategory = createAsyncThunk("product/category", async (category) => {
-  const response = await api.get(`/api/product/listings/${category}?skip=0`);
+  const response = await api.post(`api/product/listings`,{productType:category});
   return response.data;
 });
 
@@ -26,5 +26,11 @@ export const getProductDetails = createAsyncThunk("product/details", async (id) 
 
 export const getProductsAnalytic = createAsyncThunk("product/analytic", async () => {
   const response = await api.get(`/api/product/analytic`);
+  return response.data;
+});
+
+
+export const listProduct = createAsyncThunk("product/list", async (payload) => {
+  const response = await api.postFormData("/api/product/add", payload);
   return response.data;
 });
