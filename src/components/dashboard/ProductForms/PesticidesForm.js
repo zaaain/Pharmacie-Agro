@@ -22,7 +22,7 @@ import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
 import { isEmpty } from "lodash";
 
-const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
+const PesticidesForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
 
   const schemaFlag = isEmpty(defaultValues) ? true : false
   const loader = useSelector((state)=> state.products.newProductLoader)
@@ -474,5 +474,5 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
   );
 };
 
-export default FertilizersForm;
+export default PesticidesForm;
 

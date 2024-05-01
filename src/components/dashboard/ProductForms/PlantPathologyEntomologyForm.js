@@ -2,6 +2,7 @@ import React,{useState, useMemo, useEffect} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import TextAreaInput from "components/common/base/TextAreaInput";
+import DateInput from "components/common/base/DateInput"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -32,6 +33,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
   const [searchNameData, setNameSearchData] = useState([])
   const {api} = useClient()
   const [chemFlag, setChemFlag] = useState(false);
+  const [diseases, setDiseases] = useState([''])
   
   const {
     control,
@@ -129,6 +131,34 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     }
   },[])
 
+
+  useEffect(()=>{
+    if(defaultValues.disease && defaultValues.disease.length > 0){
+      setDiseases(defaultValues.disease)
+    }
+  },[])
+  
+  const handleAddDisease = () => {
+    const flag = diseases.some((item) => item === "")
+    if(flag) return
+    setDiseases([...diseases, '']);
+  };
+
+  const handleRemoveDisease = (index) => {
+    if(diseases && diseases.length === 1) return
+    const updatedDiseases = [...diseases];
+    updatedDiseases.splice(index, 1); // Remove the disease at the specified index
+    setDiseases(updatedDiseases);
+  };
+
+  const handleDiseaseChange = (value, index) => {
+    const updatedDiseases = [...diseases];
+    updatedDiseases[index] = value;
+    setDiseases(updatedDiseases);
+  };
+
+
+
   return (
     <form onSubmit={handleSubmit(onSubmitNow)}>
       <div className="grid 2xl:grid-cols-6 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 gap-4 items-center">
@@ -177,6 +207,40 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
                 onChange={(e) => field.onChange(e.target.value)}
                 disabled={defaultValues.brand ? true : false}
                 error={errors?.brand && errors.brand.message}
+              />
+            )}
+          />
+        </div>
+
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
+          <Controller
+            name="subProductType"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...register("subProductType")}
+                placeholder="Enter Sub Product Type"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.subProductType ? true : false}
+                error={errors?.subProductType && errors.subProductType.message}
+              />
+            )}
+          />
+        </div>
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
+          <Controller
+            name="areaCovered"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...register("areaCovered")}
+                placeholder="Enter Area Covered"
+                value={field.value}
+                type="number"
+                onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.areaCovered ? true : false}
+                error={errors?.areaCovered && errors.areaCovered.message}
               />
             )}
           />
@@ -280,6 +344,28 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             )}
           />
         </div>
+        {diseases && diseases.length > 0 && diseases.map((disease,index)=>(
+          <>
+        <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-6 xl:col-span-6 lg:col-span-6` :`2xl:col-span-5 xl:col-span-5 lg:col-span-5`}   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
+            <FormInput
+                placeholder="Enter Disease"
+                value={disease}
+                onChange={(e) => handleDiseaseChange(e.target.value, index)}
+                disabled={disease && !isEmpty(defaultValues) ? true : false }
+            />
+        </div>
+        {isEmpty(defaultValues) && (
+        <div className="2xl:col-span-1 flex items-center xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
+              <div onClick={handleAddDisease} className={` ${!disease ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`}>
+                <AddIcon style={{color:"white"}}/>
+              </div >
+              <div  onClick={() => handleRemoveDisease(index)}  className={` ${!disease || diseases.length === 1 ? "bg-[#eaeaea]" : "bg-secondary"} ml-5 p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`}>
+                <CloseIcon style={{color:"white"}}/>
+              </div>
+        </div>
+        )}
+        </>
+        ))}
         {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
@@ -316,7 +402,25 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             )}
           />
         </div>
-        )}  
+        )}
+          {!isEmpty(defaultValues) && (
+            <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
+            <Controller
+              name="expiryDate"
+              control={control}
+              defaultValue={null}
+              render={({ field }) => (
+                <DateInput
+                  {...register("expiryDate")}
+                  placeholder="Select Expiry Date  Date"
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  error={errors?.expiryDate && errors.expiryDate.message}
+                />
+              )}
+            />
+          </div>
+        )}
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="description"

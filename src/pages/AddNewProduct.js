@@ -9,6 +9,7 @@ import GrainsCerealsForm from "components/dashboard/ProductForms/GrainsCerealsFo
 import PlantPathologyEntomologyForm from "components/dashboard/ProductForms/PlantPathologyEntomologyForm";
 import SeedVarietiesForm from "components/dashboard/ProductForms/SeedVarietiesForm";
 import MachinaryToolsForm from "components/dashboard/ProductForms/MachinaryToolsForm";
+import PesticidesForm from "components/dashboard/ProductForms/PesticidesForm";
 import FormInput from "components/common/base/FormInput";
 import { Button } from "components/common/base/button";
 import { imgUrl } from "helpers/path";
@@ -39,34 +40,40 @@ const categoryData = [
     id: 3,
     name: "Fertilizers",
     val: "fertilizers",
-    img: imgUrl + "/category/fertilizer.png",
+    img: imgUrl + "/category/Fertilizer.png",
   },
   {
     id: 4,
+    name: "Pesticides",
+    val: "pesticides",
+    img: imgUrl + "/category/Pesticide.png",
+  },
+  {
+    id: 5,
     name: "Fiber & Oil Seed Crops",
     val: "FiberOilSeedCrops",
     img: imgUrl + "/category/Oilandfibrecrops.png",
   },
   {
-    id: 5,
+    id: 6,
     name: "Grains & Cereals",
     val: "grainsCereals",
     img: imgUrl + "/category/GrainandCerealCrop.png",
   },
   {
-    id: 6,
+    id: 7,
     name: "Plant Pathology & Entomology",
     val: "plantPathologyEntomology",
     img: imgUrl + "/category/Entomolgy.png",
   },
   {
-    id: 7,
+    id: 8,
     name: "Seed Varieties",
     val: "seedVarieties",
     img: imgUrl + "/category/SeedVarieties.png",
   },
   {
-    id: 8,
+    id: 9,
     name: "Machinary & Tools",
     val: "machinaryTools",
     img: imgUrl + "/category/Machineryandtools.png",
@@ -83,6 +90,9 @@ function getCategoryComponent(val, handleAddNew,images, handleImagesChange, sele
   }
   if (val === "Fertilizers") {
     return <FertilizersForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
+  }
+  if (val === "Pesticides") {
+    return <PesticidesForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
   }
   if (val === "Fiber & Oil Seed Crops") {
     return <FiberOilSeedCropsForm category={val} onSubmit={handleAddNew} images={images} onImages={handleImagesChange} defaultValues={!isEmpty(selectProductData) ? selectProductData : {}}/>;
