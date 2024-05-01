@@ -1,7 +1,6 @@
 import React,{useState, useMemo, useEffect} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
-import DateInput from "components/common/base/DateInput"
 import TextAreaInput from "components/common/base/TextAreaInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
@@ -22,7 +21,7 @@ import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
 import { isEmpty } from "lodash";
 
-const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
+const PesticidesForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
 
   const schemaFlag = isEmpty(defaultValues) ? true : false
   const loader = useSelector((state)=> state.products.newProductLoader)
@@ -182,73 +181,6 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             )}
           />
         </div>
-
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
-          <Controller
-            name="subProductType"
-            control={control}
-            render={({ field }) => (
-              <FormInput
-                {...register("subProductType")}
-                placeholder="Enter Sub Product Type"
-                value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
-                disabled={defaultValues.subProductType ? true : false}
-                error={errors?.subProductType && errors.subProductType.message}
-              />
-            )}
-          />
-        </div>
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
-          <Controller
-            name="areaCovered"
-            control={control}
-            render={({ field }) => (
-              <FormInput
-                {...register("areaCovered")}
-                placeholder="Enter Area Covered"
-                value={field.value}
-                type="number"
-                onChange={(e) => field.onChange(e.target.value)}
-                disabled={defaultValues.areaCovered ? true : false}
-                error={errors?.areaCovered && errors.areaCovered.message}
-              />
-            )}
-          />
-        </div>
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
-          <Controller
-            name="expiryDate"
-            control={control}
-            defaultValue={null}
-            render={({ field }) => (
-              <DateInput
-                {...register("expiryDate")}
-                placeholder="Select Expiry Date  Date"
-                value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
-                error={errors?.expiryDate && errors.expiryDate.message}
-              />
-            )}
-          />
-        </div>
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
-          <Controller
-            name="disease"
-            control={control}
-            render={({ field }) => (
-              <FormInput
-                {...register("disease")}
-                placeholder="Enter Disease"
-                value={field.value}
-                onChange={(e) => field.onChange(e.target.value)}
-                disabled={defaultValues.disease ? true : false}
-                error={errors?.disease && errors.disease.message}
-              />
-            )}
-          />
-        </div>
-
         <>
         {chemicals.map((chem, index) => (
         <>
@@ -277,6 +209,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
         </>
         ))}
         </>
+        {/* )} */}
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="pkgWeight"
@@ -416,5 +349,5 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
   );
 };
 
-export default FertilizersForm;
+export default PesticidesForm;
 
