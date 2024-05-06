@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails, getProductsAnalytic} from "./productsAction";
+import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails, getProductsAnalytic, searchProduct} from "./productsAction";
 
 // Initial state
 const initialState = {
@@ -12,6 +12,9 @@ const initialState = {
   productMsg:"Please Search Product",
   productDetailData:{},
   productAnalyticData:{},
+  searchProductData:[],
+  searchProductLoader:false,
+  // searchProductMsg:"xyz .."
 };
 
 // Actual Slice
@@ -76,18 +79,33 @@ export const productSlice = createSlice({
     builder.addCase(getProductDetails.rejected, (state) => {
       state.productDetailLoader = false;
     });
-        //Product Analytic
-        builder.addCase(getProductsAnalytic.pending, (state) => {
+    //Product Analytic
+    builder.addCase(getProductsAnalytic.pending, (state) => {
           state.productAnalyticLoader = true;
           state.productAnalyticData = {}
-        });
-        builder.addCase(getProductsAnalytic.fulfilled, (state, { payload }) => {
-          state.productAnalyticLoader = false;
-          state.productAnalyticData = payload.data
-        });
-        builder.addCase(getProductsAnalytic.rejected, (state) => {
-          state.productAnalyticLoader = false;
-        });
+    });
+    builder.addCase(getProductsAnalytic.fulfilled, (state, { payload }) => {
+      state.productAnalyticLoader = false;
+      state.productAnalyticData = payload.data
+    });
+    builder.addCase(getProductsAnalytic.rejected, (state) => {
+        state.productAnalyticLoader = false;
+    });
+    //Add New Product
+    builder.addCase(searchProduct.pending, (state) => {
+      state.searchProductLoader = true;
+      state.productMsg = "";
+      state.productsData= []
+    });
+    builder.addCase(searchProduct.fulfilled, (state, { payload }) => {
+      state.searchProductLoader = false;
+      state.productsData = payload.data;
+      state.productMsg = payload.data && payload.data.length <= 0 ? "Sorry no products availavle in this search" : "";
+    });
+    builder.addCase(searchProduct.rejected, (state) => {
+      state.searchProductLoader = false;
+      state.productMsg ="Sorry something is went wrong try again"
+    });
   },
 });
 

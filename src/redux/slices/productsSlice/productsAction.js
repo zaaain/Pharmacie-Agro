@@ -34,3 +34,9 @@ export const listProduct = createAsyncThunk("product/list", async (payload) => {
   const response = await api.postFormData("/api/product/add", payload);
   return response.data;
 });
+
+
+export const searchProduct = createAsyncThunk("product/search", async (payload) => {
+  const response = await api.post("/api/product/search", payload);
+  return response.data;
+});

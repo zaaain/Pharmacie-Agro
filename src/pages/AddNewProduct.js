@@ -22,6 +22,8 @@ import useClient from "hooks/useClient";
 import debounce from 'lodash/debounce';
 import { CircularProgress } from "@mui/material";
 import { isEmpty } from "lodash";
+import SearchProductForm from "Forms/SearchProductForm";
+import Modal from "components/common/base/Modal";
 
 const categoryData = [
   {
@@ -124,6 +126,7 @@ const AddNewProduct = () => {
   const [searchData, setSearchData] = useState([])
   const [searchMsg,setSearchMsg] = useState("")
   const [selectProductData, setSelectProductData] = useState({})
+  const [searchFlag,setSearchFlag] = useState(false)
 
   const handleSelectCategory = (val) => {
     if (!val) return;
@@ -250,7 +253,7 @@ const AddNewProduct = () => {
           </>
         )}
         {selectedCategory && (
-               <div className="flex mb-2 z-10 bg-white sticky ">
+            <div className="flex mb-2 z-10 bg-white sticky ">
                <div className="shadow-dashboard p-2 rounded-lg flex items-center cursor-pointer" onClick={handleGoBack}>
                <ArrowBackIcon/> 
                </div>
@@ -258,11 +261,11 @@ const AddNewProduct = () => {
         )}
         {selectedCategory && !newProductFlag && (
           <>
-            <p className="font-Roboto text-primary text-[24px] mt-5">
+            {/* <p className="font-Roboto text-primary text-[24px] mt-5">
             You search for the name of your product and list it.
-            </p>
-            <div className="mt-5 relative">
-              <FormInput placeholder="Search Product" onChange={(e)=>handleSearchProduct(e.target.value, selectedCategory)}/>
+            </p> */}
+            <div className="flex justify-between items-center mb-5">
+              {/* <FormInput placeholder="Search Product" onChange={(e)=>handleSearchProduct(e.target.value, selectedCategory)}/>
               {((searchLoader) || (searchData && searchData.length > 0) || (searchMsg)) && (
               <div className="absolute top-[70px] right-0 left-0 max-h-[200px] p-5 overflow-y-auto bg-white shadow-dashboard rounded-2xl">
                 {searchLoader && (
@@ -277,14 +280,18 @@ const AddNewProduct = () => {
                   </div>
                 ))}
               </div>
-               )}
-            </div>
-            <p className="font-Roboto text-primary text-[16px] mt-10">
+               )} */}
+               {/* <SearchProductForm/> */}
+               <p className="font-Roboto text-primary text-[16px] ">
             Note: If your product is not in the list, you can click on the 'Add New' button to add it. We will review and add it to the list soon.
             </p>
-            <div className="mt-5">
-              <Button value="Add New" width={150} height={50} onClick={() => setNewProductFlag(true)} />
+            <Button value="Add New" width={150} height={50} onClick={() => setNewProductFlag(true)} />
             </div>
+            <Button value="Apply Filter" width={150} height={50} onClick={() => setSearchFlag(true)} />
+            {/* <SearchProductForm/>  */}
+            {/* <div className="mt-5">
+              
+            </div> */}
           </>
         )}
         {selectedCategory && newProductFlag && (
@@ -293,6 +300,9 @@ const AddNewProduct = () => {
           </div>
         )}
       </div>
+      <Modal isOpen={searchFlag} toggle={() => setSearchFlag(false)} title="Search Product">
+        <SearchProductForm/>
+      </Modal>
     </Layout>
   );
 };

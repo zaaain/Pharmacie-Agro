@@ -1,14 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import Layout from "layout/BaseLayout";
 import Filter from "components/allProducts/Filter";
 import Card from "components/allProducts/Card";
-import { getAllProduct, getProductWithCategory } from "../redux/slices/productsSlice/productsAction";
+import { getAllProduct, getProductWithCategory, searchProduct } from "../redux/slices/productsSlice/productsAction";
 import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@mui/material";
+import Modal from "components/common/base/Modal";
+import SearchProductForm from "Forms/SearchProductForm";
 
 const AllProducts = () => {
 
   const dispatch = useDispatch()
+  const [flag,setFlag] = useState(false)
   const {allProductLoader, productWithCategoryLoader, productsData, productMsg} = useSelector((state)=> state.products)
 
   const handleGetAllPro = () => {
@@ -20,11 +23,26 @@ const AllProducts = () => {
     dispatch(getProductWithCategory(val.category))
   }
 
+  const handleSearch = (val) => {
+  
+    const payload = {
+      query: val.query ? val.query : undefined,
+      brand: val.brand ? val.brand : undefined,
+      category: val.category ? val.category : undefined,
+      subCategory: val.category && val.subCategory ? val.subCategory : undefined,
+      composition: val.composition && val.composition.length > 0 ? val.composition : undefined
+    }
+
+    dispatch(searchProduct(payload))
+    setFlag(false)
+  }
+
   return (
+    <>
     <Layout>
       <div className="w-[95%] mx-auto my-10">
         <div>
-          <Filter handleGetAllPro={handleGetAllPro} handleGetCategoryPro={handleGetCategoryPro}/>
+          <Filter handleGetAllPro={handleGetAllPro} handleGetCategoryPro={handleGetCategoryPro} onFilter={()=>setFlag(true)}/>
         </div>
         <div className="grid grid-cols-12 gap-5 mt-[60px]">
           {(allProductLoader || productWithCategoryLoader ) && (
@@ -46,6 +64,10 @@ const AllProducts = () => {
         </div>
       </div>
     </Layout>
+    <Modal isOpen={flag} toggle={() => setFlag(false)} title="Search Products">
+      <SearchProductForm handleSearch={handleSearch}/>
+    </Modal>
+    </>
   );
 };
 

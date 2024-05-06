@@ -20,6 +20,7 @@ export const category = [
   },
   { id: 7, label: "Seed Varieties", value: "Seed Varieties" },
   { id: 8, label: "Machinary & Tools", value: "Machinary & Tools" },
+  { id: 9, label: "Pesticides", value: "Pesticides" },
 ];
 
 export const packagingType = [

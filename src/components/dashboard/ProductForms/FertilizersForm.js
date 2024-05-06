@@ -241,7 +241,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
                 {...register("areaCovered")}
                 placeholder="Enter Area Covered"
                 value={field.value}
-                type="number"
+                // type="number"
                 onChange={(e) => field.onChange(e.target.value)}
                 disabled={defaultValues.areaCovered ? true : false}
                 error={errors?.areaCovered && errors.areaCovered.message}
