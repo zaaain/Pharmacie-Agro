@@ -24,6 +24,11 @@ const Filter = ({ handleGetCategoryPro, handleGetAllPro, onFilter }) => {
     (state) => state.products
   );
 
+  const handleSearchProduct = (e) => {
+    e.preventDefault();
+    onFilter()
+  }
+
   return (
     <form onSubmit={handleSubmit(handleGetCategoryPro)}>
     <div className="p-3 bg-white shadow-dashboard rounded-xl grid grid-cols-6 gap-3 items-center">
@@ -65,8 +70,8 @@ const Filter = ({ handleGetCategoryPro, handleGetAllPro, onFilter }) => {
           value="Search Product"
           width={width > 420 ? 150 :120}
           height={45}
-          type="button"
-          onClick={onFilter}
+          // type="button"
+          onClick={handleSearchProduct}
           loader={searchProductLoader}
           disabled={allProductLoader || productWithCategoryLoader || searchProductLoader}
         />

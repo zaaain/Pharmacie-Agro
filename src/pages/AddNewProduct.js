@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import withAuth from "Hoc/withAuth";
 import Layout from "layout/DashboardLayout"
 import FruitsForm from "components/dashboard/ProductForms/FruitsForm";
@@ -10,20 +10,17 @@ import PlantPathologyEntomologyForm from "components/dashboard/ProductForms/Plan
 import SeedVarietiesForm from "components/dashboard/ProductForms/SeedVarietiesForm";
 import MachinaryToolsForm from "components/dashboard/ProductForms/MachinaryToolsForm";
 import PesticidesForm from "components/dashboard/ProductForms/PesticidesForm";
-import FormInput from "components/common/base/FormInput";
-import { Button } from "components/common/base/button";
 import { imgUrl } from "helpers/path";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {addNewProduct} from "../redux/slices/productsSlice/productsAction"
 import { useNavigate } from "react-router-dom";
 import useSnackMsg from "hooks/useSnackMsg";
-import useClient from "hooks/useClient";
-import debounce from 'lodash/debounce';
-import { CircularProgress } from "@mui/material";
 import { isEmpty } from "lodash";
 import SearchProductForm from "Forms/SearchProductForm";
-import Modal from "components/common/base/Modal";
+import { searchProduct } from "../redux/slices/productsSlice/productsAction";
+import ProductCard from "components/dashboard/SearchProductCard";
+import { clearProduct } from "../redux/slices/productsSlice/productsReducer";
 
 const categoryData = [
   {
@@ -121,12 +118,8 @@ const AddNewProduct = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {eSnack, sSnack} = useSnackMsg()
-  const {api} = useClient()
-  const [searchLoader,setSearchLoader] = useState(false)
-  const [searchData, setSearchData] = useState([])
-  const [searchMsg,setSearchMsg] = useState("")
   const [selectProductData, setSelectProductData] = useState({})
-  const [searchFlag,setSearchFlag] = useState(false)
+  const {productsData, productMsg} = useSelector((state)=> state.products)
 
   const handleSelectCategory = (val) => {
     if (!val) return;
@@ -143,9 +136,7 @@ const AddNewProduct = () => {
     setImages([])
     setNewProductFlag(false)
     setSelectProductData({})
-    setSearchData([])
-    setSearchLoader(false)
-    setSearchMsg("")
+    dispatch(clearProduct())
   }
 
   const handleAddNew = (val) => {
@@ -186,36 +177,6 @@ const AddNewProduct = () => {
     handleGoBack()
   },[])
 
-  const handleSearchProduct = useMemo(() => debounce((value, category) => {
-    if(!value){
-      setSearchData([])
-      setSearchLoader(false)
-      setSearchMsg("")
-    }
-    if(!value) return
-    const payload = {
-      query:value,
-      category:category
-    }
-    setSearchData([])
-    setSearchLoader(true)
-    setSearchMsg("")
-    api.post("/api/product/search", payload)
-    .then((res)=>{
-      const response = res.data && res.data.data ? res.data.data : []
-      setSearchLoader(false)
-      setSearchData(response)
-      if(response && response.length === 0){
-      setSearchMsg("No products were found matching your search criteria.");
-      }
-    })
-    .catch((err)=>{
-      setSearchLoader(false)
-      setSearchData([])
-      setSearchMsg("")
-    })
-  }, 500), []);
-
 
   const handleSelectedProduct = (data) => {
     if(isEmpty(data)) return
@@ -223,7 +184,16 @@ const AddNewProduct = () => {
     setNewProductFlag(true)
   }
 
-
+const handleSearch = (val) => {
+  const payload = {
+    query: val.query ? val.query : undefined,
+    brand: val.brand ? val.brand : undefined,
+    category: val.category ? val.category : undefined,
+    subCategory: val.category && val.subCategory ? val.subCategory : undefined,
+    composition: val.composition && val.composition.length > 0 ? val.composition : undefined
+  }
+  dispatch(searchProduct(payload))
+}
 
   return (
     <Layout>
@@ -261,10 +231,12 @@ const AddNewProduct = () => {
         )}
         {selectedCategory && !newProductFlag && (
           <>
+          <div className=" p-5 shadow-card bg-white rounded-xl">
+             <SearchProductForm cate={selectedCategory} handleSearch={handleSearch}/>
             {/* <p className="font-Roboto text-primary text-[24px] mt-5">
             You search for the name of your product and list it.
             </p> */}
-            <div className="flex justify-between items-center mb-5">
+            {/* <div className="flex justify-between items-center mb-5"> */}
               {/* <FormInput placeholder="Search Product" onChange={(e)=>handleSearchProduct(e.target.value, selectedCategory)}/>
               {((searchLoader) || (searchData && searchData.length > 0) || (searchMsg)) && (
               <div className="absolute top-[70px] right-0 left-0 max-h-[200px] p-5 overflow-y-auto bg-white shadow-dashboard rounded-2xl">
@@ -282,16 +254,27 @@ const AddNewProduct = () => {
               </div>
                )} */}
                {/* <SearchProductForm/> */}
-               <p className="font-Roboto text-primary text-[16px] ">
+               {/* <p className="font-Roboto text-primary text-[16px] ">
             Note: If your product is not in the list, you can click on the 'Add New' button to add it. We will review and add it to the list soon.
             </p>
             <Button value="Add New" width={150} height={50} onClick={() => setNewProductFlag(true)} />
-            </div>
-            <Button value="Apply Filter" width={150} height={50} onClick={() => setSearchFlag(true)} />
+            </div> */}
+            {/* <Button value="Apply Filter" width={150} height={50} onClick={() => setSearchFlag(true)} /> */}
             {/* <SearchProductForm/>  */}
             {/* <div className="mt-5">
               
             </div> */}
+          </div>
+          <div className="mt-5 grid grid-cols-3 gap-5">
+            {productMsg && (
+              <p>{productMsg}</p>
+            )}
+          {productsData && productsData.length > 0 && productsData.map((item, index)=>(
+            <div className="col-span-1" key={index}>
+              <ProductCard data={item} onSelect={handleSelectedProduct}/>
+            </div>
+          ))}
+          </div>
           </>
         )}
         {selectedCategory && newProductFlag && (
@@ -300,9 +283,6 @@ const AddNewProduct = () => {
           </div>
         )}
       </div>
-      <Modal isOpen={searchFlag} toggle={() => setSearchFlag(false)} title="Search Product">
-        <SearchProductForm/>
-      </Modal>
     </Layout>
   );
 };

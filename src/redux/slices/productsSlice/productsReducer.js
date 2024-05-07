@@ -25,6 +25,11 @@ export const productSlice = createSlice({
     logoutProducts: (state) => {
       return initialState;
     },
+    
+    clearProduct: (state,) => {
+      state.productsData = [];
+      state.productMsg ="Please Search Product"
+    }
   },
   extraReducers: (builder) => {
     //Add New Product
@@ -109,5 +114,5 @@ export const productSlice = createSlice({
   },
 });
 
-export const { logoutProducts } = productSlice.actions;
+export const { logoutProducts , clearProduct} = productSlice.actions;
 export default productSlice.reducer;

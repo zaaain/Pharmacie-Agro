@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { imgPath } from "helpers/path";
-import Chip from "components/common/base/chip";
 
 const Card = ({ data }) => {
  
