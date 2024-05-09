@@ -2,7 +2,6 @@ import React,{useState, useMemo, useEffect} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import TextAreaInput from "components/common/base/TextAreaInput";
-import DateInput from "components/common/base/DateInput"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import {
@@ -10,6 +9,7 @@ import {
   weightUnitType,
 } from "helpers/constant";
 import { Button } from "components/common/base/button";
+import DateInput from "components/common/base/DateInput"
 import ImageInput from "components/common/base/ImageInput";
 import { FertilizersFormSchema } from "helpers/schema";
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,7 +22,7 @@ import { CircularProgress } from "@mui/material";
 import AddressInput from "components/common/base/AddressInput";
 import { isEmpty } from "lodash";
 
-const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
+const PesticidesForm = ({ onSubmit, onImages, images, defaultValues , category }) => {
 
   const schemaFlag = isEmpty(defaultValues) ? true : false
   const loader = useSelector((state)=> state.products.newProductLoader)
@@ -79,7 +79,14 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
       eSnack("First, add the active ingredient.");
       return;
     }
+    const disFlag = diseases.some((item) => item === "")
+    if(disFlag){
+      eSnack("First, Please add the disease name.");
+      return;
+    }
     Object.assign(val, { composition: JSON.stringify(chemicals) });
+    Object.assign(val, { disease: JSON.stringify(diseases)});
+    // console.log("final val", val)
     onSubmit(val);
   };
 
@@ -131,7 +138,6 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     }
   },[])
 
-
   useEffect(()=>{
     if(defaultValues.disease && defaultValues.disease.length > 0){
       setDiseases(defaultValues.disease)
@@ -156,8 +162,6 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
     updatedDiseases[index] = value;
     setDiseases(updatedDiseases);
   };
-
-
 
   return (
     <form onSubmit={handleSubmit(onSubmitNow)}>
@@ -211,7 +215,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
             )}
           />
         </div>
-
+        
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="subProductType"
@@ -291,7 +295,6 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
         </>
         ))}
         </>
-        {/* )} */}
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="pkgWeight"
@@ -403,7 +406,7 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
           />
         </div>
         )}
-          {!isEmpty(defaultValues) && (
+        {!isEmpty(defaultValues) && (
             <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
             <Controller
               name="expiryDate"
@@ -471,5 +474,5 @@ const PlantPathologyEntomologyForm = ({ onSubmit, onImages, images, defaultValue
   );
 };
 
-export default PlantPathologyEntomologyForm;
+export default PesticidesForm;
 

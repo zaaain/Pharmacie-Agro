@@ -19,6 +19,7 @@ import AddNewProduct from "pages/AddNewProduct";
 import Profile from "pages/Profile";
 import Requests from "pages/Requests";
 import Bids from "pages/Bids";
+import CompositionProduct from "pages/CompositionProduct";
 import NotFound from "pages/NotFound" 
 //
 
@@ -89,6 +90,7 @@ const RoutesMain = () => {
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/requests" element={<Requests />} />
         <Route exact path="/bids" element={<Bids />} />
+        <Route exact path="/composition" element={<CompositionProduct />} />
         <Route exact path="/not-found" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/not-found" />}/>
       </Routes>

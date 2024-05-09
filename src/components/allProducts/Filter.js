@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import FormInput from "components/common/base/FormInput";
 import SelectInput from "components/common/base/SelectInput";
 import { Button } from "components/common/base/button";
@@ -9,7 +9,8 @@ import { useForm, Controller } from "react-hook-form";
 import { productsCategorySchema } from "helpers/schema";
 import {useWindowSize} from 'react-use';
 
-const Filter = ({ handleGetCategoryPro, handleGetAllPro }) => {
+const Filter = ({ handleGetCategoryPro, handleGetAllPro, onFilter, value }) => {
+  const defaultValues = {category:value ? value : ""}
   const {
     control,
     register,
@@ -17,13 +18,18 @@ const Filter = ({ handleGetCategoryPro, handleGetAllPro }) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(productsCategorySchema),
-    // defaultValues,
+    defaultValues
   });
   const {width} = useWindowSize()
 
-  const { allProductLoader, productWithCategoryLoader } = useSelector(
+  const { allProductLoader, productWithCategoryLoader, searchProductLoader } = useSelector(
     (state) => state.products
   );
+
+  const handleSearchProduct = (e) => {
+    e.preventDefault();
+    onFilter()
+  }
 
   return (
     <form onSubmit={handleSubmit(handleGetCategoryPro)}>
@@ -51,16 +57,25 @@ const Filter = ({ handleGetCategoryPro, handleGetAllPro }) => {
           width={width > 420 ? 150 :120}
           height={45}
           loader={productWithCategoryLoader}
-          disabled={allProductLoader || productWithCategoryLoader}
+          disabled={allProductLoader || productWithCategoryLoader || searchProductLoader}
           type="submit"
         />
-        <Button
+        {/* <Button
           value="All Product"
           width={width > 420 ? 150 :120}
           height={45}
           onClick={handleGetAllPro}
           loader={allProductLoader}
           disabled={allProductLoader || productWithCategoryLoader}
+        /> */}
+        <Button
+          value="Filter"
+          width={width > 420 ? 150 :120}
+          height={45}
+          // type="button"
+          onClick={handleSearchProduct}
+          loader={searchProductLoader}
+          disabled={allProductLoader || productWithCategoryLoader || searchProductLoader}
         />
       </div>
     </div>

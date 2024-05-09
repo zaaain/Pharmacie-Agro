@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails, getProductsAnalytic} from "./productsAction";
+import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails, getProductsAnalytic, searchProduct, searchByProduct} from "./productsAction";
 
 // Initial state
 const initialState = {
@@ -12,6 +12,12 @@ const initialState = {
   productMsg:"Please Search Product",
   productDetailData:{},
   productAnalyticData:{},
+  searchProductData:[],
+  searchProductLoader:false,
+  searchByProductLoader: false,
+  searchByProductMsg: "Please Search Product",
+  searchByProductData: [],
+  // searchProductMsg:"xyz .."
 };
 
 // Actual Slice
@@ -22,6 +28,11 @@ export const productSlice = createSlice({
     logoutProducts: (state) => {
       return initialState;
     },
+    
+    clearProduct: (state,) => {
+      state.searchByProductData = [];
+      state.searchByProductMsg ="Please Search Product"
+    }
   },
   extraReducers: (builder) => {
     //Add New Product
@@ -76,20 +87,50 @@ export const productSlice = createSlice({
     builder.addCase(getProductDetails.rejected, (state) => {
       state.productDetailLoader = false;
     });
-        //Product Analytic
-        builder.addCase(getProductsAnalytic.pending, (state) => {
+    //Product Analytic
+    builder.addCase(getProductsAnalytic.pending, (state) => {
           state.productAnalyticLoader = true;
           state.productAnalyticData = {}
-        });
-        builder.addCase(getProductsAnalytic.fulfilled, (state, { payload }) => {
-          state.productAnalyticLoader = false;
-          state.productAnalyticData = payload.data
-        });
-        builder.addCase(getProductsAnalytic.rejected, (state) => {
-          state.productAnalyticLoader = false;
-        });
+    });
+    builder.addCase(getProductsAnalytic.fulfilled, (state, { payload }) => {
+      state.productAnalyticLoader = false;
+      state.productAnalyticData = payload.data
+    });
+    builder.addCase(getProductsAnalytic.rejected, (state) => {
+        state.productAnalyticLoader = false;
+    });
+    //Search By Product
+    builder.addCase(searchProduct.pending, (state) => {
+      state.searchProductLoader = true;
+      state.productMsg = "";
+      state.productsData= []
+    });
+    builder.addCase(searchProduct.fulfilled, (state, { payload }) => {
+      state.searchProductLoader = false;
+      state.productsData = payload.data;
+      state.productMsg = payload.data && payload.data.length <= 0 ? "Sorry no products availavle in this search" : "";
+    });
+    builder.addCase(searchProduct.rejected, (state) => {
+      state.searchProductLoader = false;
+      state.productMsg ="Sorry something is went wrong try again"
+    });
+    //Search By Product
+    builder.addCase(searchByProduct.pending, (state) => {
+      state.searchByProductLoader = true;
+      state.searchByProductMsg = "";
+      state.searchByProductData= []
+    });
+    builder.addCase(searchByProduct.fulfilled, (state, { payload }) => {
+      state.searchByProductLoader = false;
+      state.searchByProductData = payload.data;
+      state.searchByProductMsg = payload.data && payload.data.length <= 0 ? "Sorry no products availavle in this search" : "";
+    });
+    builder.addCase(searchByProduct.rejected, (state) => {
+      state.searchByProductLoader = false;
+      state.searchByProductMsg ="Sorry something is went wrong try again"
+    });
   },
 });
 
-export const { logoutProducts } = productSlice.actions;
+export const { logoutProducts , clearProduct} = productSlice.actions;
 export default productSlice.reducer;

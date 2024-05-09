@@ -137,11 +137,17 @@ console.log("productDetailData", productDetailData)
               Product Type: <span className="text-black font-Roboto capitalize">{productDetailData.ProductType && productDetailData.ProductType}</span>
             </p>
             )}
+            {productDetailData.subProductType && (
+            <p className=" text-[18px] text-primary font-Roboto">
+              Sub Product Type: <span className="text-black font-Roboto capitalize">{productDetailData.pkgType && productDetailData.subProductType}</span>
+            </p>
+            )}
             {productDetailData.name && (
             <p className=" text-[18px] text-primary font-Roboto">
               Product Name: <span className="text-black font-Roboto capitalize">{productDetailData.name && productDetailData.name}</span>
             </p>
             )}
+    
             {productDetailData.brand && (
             <p className=" text-[18px] text-primary font-Roboto">
               Product Brand: <span className="text-black font-Roboto capitalize">{productDetailData.brand && productDetailData.brand}</span>
@@ -160,6 +166,16 @@ console.log("productDetailData", productDetailData)
             {productDetailData.pkgType && (
             <p className=" text-[18px] text-primary font-Roboto">
               Package Type: <span className="text-black font-Roboto capitalize">{productDetailData.pkgType && getPkgType(productDetailData.pkgType)}</span>
+            </p>
+            )}
+            {productDetailData.areaCovered && (
+            <p className=" text-[18px] text-primary font-Roboto">
+              Area Covered: <span className="text-black font-Roboto capitalize">{productDetailData.pkgType && productDetailData.areaCovered}</span>
+            </p>
+            )}
+            {productDetailData.expiryDate && (
+            <p className=" text-[18px] text-primary font-Roboto">
+              Expiry Date: <span className="text-black font-Roboto capitalize">{productDetailData.pkgType && productDetailData.expiryDate}</span>
             </p>
             )}
             {productDetailData.availableFrom && (
@@ -192,15 +208,28 @@ console.log("productDetailData", productDetailData)
               Model: <span className="text-black font-Roboto capitalize">{productDetailData.model && productDetailData.model}</span>
             </p>
             )}
+
+            {productDetailData.disease && productDetailData.disease.length > 0 && (
+            <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
+              <p className=" text-[18px] text-primary font-Roboto">Disease Name:</p>
+              <div className="grid grid-cols-1 gap-3">
+            {productDetailData.disease && productDetailData.disease.length > 0 && productDetailData.disease.map((item, index)=>(
+              <div className="col-span-1 p-2 bg-white shadow-card rounded-lg">
+                <p className="text-primary font-bold text-[14px]">{index + 1}: <span className="text-black font-normal">{item}</span></p>
+              </div>
+
+            ))}
+             </div>
+            </div>
+            )}
+
                  {productDetailData.composition && productDetailData.composition.length > 0 && (
             <div className="mt-2 bg-[#f5f6f7] rounded-lg p-1">
               <p className=" text-[18px] text-primary font-Roboto">Product Composition:</p>
               <div className="grid grid-cols-1 gap-3">
             {productDetailData.composition && productDetailData.composition.length > 0 && productDetailData.composition.map((item, index)=>(
               <div className="col-span-1 p-2 bg-white shadow-card rounded-lg">
-                <p className="text-primary font-bold text-[14px]">{index + 1}: <span className="text-black font-normal">{`${item.name && item.name}${item.volume && `;${item.volume}`}${item.unit && item.unit}`}</span></p>
-                {/* <p className="text-primary font-bold text-[14px] truncate">Unit: <span className="text-black font-normal">{item.unit}</span></p>
-                <p className="text-primary font-bold text-[14px] truncate">Volume: <span className="text-black font-normal">{item.volume}</span></p> */}
+                <p className="text-primary font-bold text-[14px]">{index + 1}: <span className="text-black font-normal">{`${item.name && item.name}${item.volume && `; ${item.volume}`}${item.unit && item.unit === "percentage" ? "%" : item.unit}`}</span></p>
               </div>
 
             ))}

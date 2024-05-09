@@ -74,8 +74,8 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 gap-4">
-        <div className="col-span-1 relative">
+      <div className="grid grid-cols-6 gap-4">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6 relative">
           <>
           <Controller
             name="name"
@@ -108,7 +108,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
                )}
           </>
         </div>
-        <div className="col-span-1">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6">
           <Controller
             name="pkgType"
             control={control}
@@ -126,7 +126,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
-        <div className="col-span-1">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6">
           <Controller
             name="weightUnit"
             control={control}
@@ -144,7 +144,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
             )}
           />
         </div>
-        <div className={`${isEmpty(defaultValues) ? `col-span-3` : `col-span-1`}`}>
+        <div className={`${isEmpty(defaultValues) ? `2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6` : `2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6`}`}>
           <Controller
             name="pkgWeight"
             control={control}
@@ -162,7 +162,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
           />
         </div>
         {!isEmpty(defaultValues) && (
-        <div className="col-span-1">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6">
           <Controller
             name="price"
             control={control}
@@ -180,7 +180,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
         </div>
          )}
          {!isEmpty(defaultValues) && (
-        <div className="col-span-1">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6">
           <Controller
             name="bidding"
             control={control}
@@ -199,7 +199,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
         </div>
          )}
          {!isEmpty(defaultValues) && (
-        <div className="col-span-1">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6">
           <Controller
             name="shelfLifeStart"
             control={control}
@@ -217,7 +217,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
         </div>
          )}
          {!isEmpty(defaultValues) && (
-        <div className="col-span-1">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6">
           <Controller
             name="shelfLifeEnd"
             control={control}
@@ -235,7 +235,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
         </div>
          )}
          {!isEmpty(defaultValues) && (
-        <div className="col-span-1">
+        <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-6 xs:col-span-6">
           <Controller
             name="availableFrom"
             control={control}
@@ -253,7 +253,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
         </div>
          )}
          {!isEmpty(defaultValues) && (
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="addressId"
             control={control}
@@ -270,7 +270,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
           />
         </div>
          )}
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="description"
             control={control}
@@ -287,7 +287,7 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
           />
         </div>
         {isEmpty(defaultValues) && (
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6">
               <ImageInput
               placeholder="Enter Product Image"
               onChange={onImages}            
@@ -297,14 +297,14 @@ const FruitsForm = ({ onSubmit, onImages, images, defaultValues, category }) => 
         {images && images.length > 0 && (
         <>
           {images.map((img, index) => (
-          <div className="2xl:col-span-1 xl:col-span-1 lg:col-span-1 md:col-span-1">
+          <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-3 xs:col-span-6">
           <img key={index} src={URL.createObjectURL(img)} alt={img.name} className="object-cover h-[150px] min-w-full max-w-full  rounded-2xl"/>
           </div>
        ))}
             </>
 
         )}
-        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-2 md:col-span-2 flex mx-auto">
+        <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-6 xs:col-span-6 flex mx-auto">
           <Button
             value="Submit"
             width={150}

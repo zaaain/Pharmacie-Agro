@@ -9,6 +9,7 @@ import {
   weightUnitType,
 } from "helpers/constant";
 import { Button } from "components/common/base/button";
+import DateInput from "components/common/base/DateInput"
 import ImageInput from "components/common/base/ImageInput";
 import { FertilizersFormSchema } from "helpers/schema";
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,6 +33,7 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
   const [searchNameData, setNameSearchData] = useState([])
   const {api} = useClient()
   const [chemFlag, setChemFlag] = useState(false);
+  const [diseases, setDiseases] = useState([''])
   
   const {
     control,
@@ -77,7 +79,14 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
       eSnack("First, add the active ingredient.");
       return;
     }
+    const disFlag = diseases.some((item) => item === "")
+    if(disFlag){
+      eSnack("First, Please add the disease name.");
+      return;
+    }
     Object.assign(val, { composition: JSON.stringify(chemicals) });
+    Object.assign(val, { disease: JSON.stringify(diseases)});
+    // console.log("final val", val)
     onSubmit(val);
   };
 
@@ -128,6 +137,31 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
       
     }
   },[])
+
+  useEffect(()=>{
+    if(defaultValues.disease && defaultValues.disease.length > 0){
+      setDiseases(defaultValues.disease)
+    }
+  },[])
+  
+  const handleAddDisease = () => {
+    const flag = diseases.some((item) => item === "")
+    if(flag) return
+    setDiseases([...diseases, '']);
+  };
+
+  const handleRemoveDisease = (index) => {
+    if(diseases && diseases.length === 1) return
+    const updatedDiseases = [...diseases];
+    updatedDiseases.splice(index, 1); // Remove the disease at the specified index
+    setDiseases(updatedDiseases);
+  };
+
+  const handleDiseaseChange = (value, index) => {
+    const updatedDiseases = [...diseases];
+    updatedDiseases[index] = value;
+    setDiseases(updatedDiseases);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmitNow)}>
@@ -181,6 +215,40 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             )}
           />
         </div>
+        
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
+          <Controller
+            name="subProductType"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...register("subProductType")}
+                placeholder="Enter Sub Product Type"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.subProductType ? true : false}
+                error={errors?.subProductType && errors.subProductType.message}
+              />
+            )}
+          />
+        </div>
+        <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
+          <Controller
+            name="areaCovered"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...register("areaCovered")}
+                placeholder="Enter Area Covered"
+                value={field.value}
+                // type="number"
+                onChange={(e) => field.onChange(e.target.value)}
+                disabled={defaultValues.areaCovered ? true : false}
+                error={errors?.areaCovered && errors.areaCovered.message}
+              />
+            )}
+          />
+        </div>
         <>
         {chemicals.map((chem, index) => (
         <>
@@ -227,7 +295,6 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
         </>
         ))}
         </>
-        {/* )} */}
         <div className="2xl:col-span-2 xl:col-span-2 lg:col-span-2 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="pkgWeight"
@@ -280,6 +347,28 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             )}
           />
         </div>
+        {diseases && diseases.length > 0 && diseases.map((disease,index)=>(
+          <>
+        <div className={`${!isEmpty(defaultValues) ? `2xl:col-span-6 xl:col-span-6 lg:col-span-6` :`2xl:col-span-5 xl:col-span-5 lg:col-span-5`}   md:col-span-2 sm:col-span-1 xs:col-span-1`}>
+            <FormInput
+                placeholder="Enter Disease"
+                value={disease}
+                onChange={(e) => handleDiseaseChange(e.target.value, index)}
+                disabled={disease && !isEmpty(defaultValues) ? true : false }
+            />
+        </div>
+        {isEmpty(defaultValues) && (
+        <div className="2xl:col-span-1 flex items-center xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-1 xs:col-span-1">
+              <div onClick={handleAddDisease} className={` ${!disease ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`}>
+                <AddIcon style={{color:"white"}}/>
+              </div >
+              <div  onClick={() => handleRemoveDisease(index)}  className={` ${!disease || diseases.length === 1 ? "bg-[#eaeaea]" : "bg-secondary"} ml-5 p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`}>
+                <CloseIcon style={{color:"white"}}/>
+              </div>
+        </div>
+        )}
+        </>
+        ))}
         {!isEmpty(defaultValues) && (
         <div className="2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
@@ -316,7 +405,25 @@ const FertilizersForm = ({ onSubmit, onImages, images, defaultValues , category 
             )}
           />
         </div>
-        )}  
+        )}
+        {!isEmpty(defaultValues) && (
+            <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
+            <Controller
+              name="expiryDate"
+              control={control}
+              defaultValue={null}
+              render={({ field }) => (
+                <DateInput
+                  {...register("expiryDate")}
+                  placeholder="Select Expiry Date  Date"
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  error={errors?.expiryDate && errors.expiryDate.message}
+                />
+              )}
+            />
+          </div>
+        )}
         <div className="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-2 sm:col-span-1 xs:col-span-1">
           <Controller
             name="description"

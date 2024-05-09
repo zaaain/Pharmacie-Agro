@@ -69,7 +69,7 @@ const MachinaryToolsForm = ({ onSubmit, onImages, images, defaultValues, categor
     setValue("name", name);
     setNameSearchData([])
   }
-console.log("err",errors)
+
 
   useEffect(()=>{
     if(!isEmpty(defaultValues) && defaultValues.type){

@@ -41,7 +41,7 @@ const Products = () => {
       <div className="flex justify-center mb-2 z-10 bg-white sticky top-0 p-4"> 
         <Button
           variant="primary"
-          value="List & Add Product"
+          value="Add New Product"
           height={width < 768 ? 40 : 50}
           width={width < 768 ? 160 : 200}
           onClick={()=>navigate("/products/new")}
@@ -56,7 +56,7 @@ const Products = () => {
         )}
         {!loader && data && data.length === 0 && (
           <div className="col-span-6 flex items-center justify-center">
-            <p className="font-Roboto text-[18px]">You have not listed current any product !</p>
+            <p className="font-Roboto text-[18px]">You have not added current any product !</p>
           </div>
         )}
         {!loader && data && data.length > 0 && data.map((item) => (

@@ -23,8 +23,8 @@ const Modal = ({ isOpen, toggle, title, children, fullWidth }) => {
           <div className="flex justify-center items-center h-full">
             <div className={`relative border-0 flex flex-col bg-white rounded-2xl shadow-dashboard 
             max-h-[80%] xs:max-h-[90%]
-            2xl:max-w-[50%] 2xl:min-w-[50%]
-            xl:max-w-[50%] xl:min-w-[50%]
+            2xl:max-w-[60%] 2xl:min-w-[60%]
+            xl:max-w-[60%] xl:min-w-[60%]
             lg:max-w-[60%] lg:min-w-[60%]
             md:max-w-[70%] md:min-w-[70%]
             sm:max-w-[70%] sm:min-w-[70%]
