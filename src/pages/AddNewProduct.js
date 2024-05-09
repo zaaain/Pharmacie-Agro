@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import useSnackMsg from "hooks/useSnackMsg";
 import { isEmpty } from "lodash";
 import SearchProductForm from "Forms/SearchProductForm";
-import { searchProduct } from "../redux/slices/productsSlice/productsAction";
+import { searchByProduct } from "../redux/slices/productsSlice/productsAction";
 import ProductCard from "components/dashboard/SearchProductCard";
 import { clearProduct } from "../redux/slices/productsSlice/productsReducer";
 
@@ -119,7 +119,7 @@ const AddNewProduct = () => {
   const navigate = useNavigate()
   const {eSnack, sSnack} = useSnackMsg()
   const [selectProductData, setSelectProductData] = useState({})
-  const {productsData, productMsg} = useSelector((state)=> state.products)
+  const {searchByProductData, searchByProductMsg} = useSelector((state)=> state.products)
 
   const handleSelectCategory = (val) => {
     if (!val) return;
@@ -192,7 +192,7 @@ const handleSearch = (val) => {
     subCategory: val.category && val.subCategory ? val.subCategory : undefined,
     composition: val.composition && val.composition.length > 0 ? val.composition : undefined
   }
-  dispatch(searchProduct(payload))
+  dispatch(searchByProduct(payload))
 }
 
   return (
@@ -266,11 +266,11 @@ const handleSearch = (val) => {
             </div> */}
           </div>
           <div className="mt-5 grid grid-cols-3 gap-5">
-            {productMsg && (
-              <p>{productMsg}</p>
+            {searchByProductMsg && (
+              <p className="text-primary font-RobotoBold text-[16px]">{searchByProductMsg}</p>
             )}
-          {productsData && productsData.length > 0 && productsData.map((item, index)=>(
-            <div className="col-span-1" key={index}>
+          {searchByProductData && searchByProductData.length > 0 && searchByProductData.map((item, index)=>(
+            <div className="md:col-span-1 sm:col-span-3 xs:col-span-3" key={index}>
               <ProductCard data={item} onSelect={handleSelectedProduct}/>
             </div>
           ))}

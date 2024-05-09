@@ -37,6 +37,11 @@ export const listProduct = createAsyncThunk("product/list", async (payload) => {
 
 
 export const searchProduct = createAsyncThunk("product/search", async (payload) => {
-  const response = await api.post("/api/product/search", payload);
+  const response = await api.post("api/product/listings", payload);
+  return response.data;
+});
+
+export const searchByProduct = createAsyncThunk("product/search/add", async (payload) => {
+  const response = await api.post("api/product/search", payload);
   return response.data;
 });

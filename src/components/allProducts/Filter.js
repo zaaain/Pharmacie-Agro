@@ -9,7 +9,8 @@ import { useForm, Controller } from "react-hook-form";
 import { productsCategorySchema } from "helpers/schema";
 import {useWindowSize} from 'react-use';
 
-const Filter = ({ handleGetCategoryPro, handleGetAllPro, onFilter }) => {
+const Filter = ({ handleGetCategoryPro, handleGetAllPro, onFilter, value }) => {
+  const defaultValues = {category:value ? value : ""}
   const {
     control,
     register,
@@ -17,6 +18,7 @@ const Filter = ({ handleGetCategoryPro, handleGetAllPro, onFilter }) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(productsCategorySchema),
+    defaultValues
   });
   const {width} = useWindowSize()
 
@@ -67,7 +69,7 @@ const Filter = ({ handleGetCategoryPro, handleGetAllPro, onFilter }) => {
           disabled={allProductLoader || productWithCategoryLoader}
         /> */}
         <Button
-          value="Search Product"
+          value="Filter"
           width={width > 420 ? 150 :120}
           height={45}
           // type="button"

@@ -75,21 +75,57 @@ const Selling = [
 const Category = [
   {
     id: 1,
-    title: "Fresh fruits & vegetables",
+    title: "Fruits",
     about:
-      "All the fruits & vegetables are sourced from local farms and are guaranteed to be fresh and full of flavor.",
+      "Indulge in a delightful assortment of fresh fruits, all gathered conveniently in one place for your enjoyment.",
   },
   {
     id: 2,
-    title: "Cereals & Legumes",
+    title: "Vegetables",
     about:
-      "Order now and enjoy the convenience of having a wide range of cereals and legumes.",
+      "Explore a vibrant array of fresh vegetables, all conveniently gathered in one place for your culinary adventures",
   },
   {
     id: 3,
-    title: "Fiber & Oil seed crops",
+    title: "Fertilizers",
+    about:
+      "Embark on a journey of seed exploration with our diverse collection, all conveniently gathered in one place for your planting needs.",
+  },
+  {
+    id: 4,
+    title: "Pesticides",
+    about:
+      "Discover a wide selection of pesticides, all in one convenient location.",
+  },
+  {
+    id: 5,
+    title: "Fiber & Oil Seed Crops",
     about:
       "Now you can buy a variety of fiber & oil seed crops/products in one place.",
+  },
+  {
+    id: 6,
+    title: "Plant Pathology & Entomology",
+    about:
+      "Access a comprehensive range of solutions in plant pathology and entomology, all conveniently available in one place.",
+  },
+  {
+    id: 7,
+    title: "Seed Varieties",
+    about:
+      "Now you can buy a variety of fiber & oil seed crops/products in one place.",
+  },
+  {
+    id: 8,
+    title: "Machinary & Tools",
+    about:
+      "Discover a diverse collection of machinery and tools, all conveniently located in one place.",
+  },
+  {
+    id: 9,
+    title: "Grains & Cereals",
+    about:
+      "Find an extensive assortment of grains and cereals, all accessible in a single destination.",
   },
 ];
 
@@ -191,7 +227,7 @@ const Home = () => {
           </div>
         </div>
         {/*Container 5*/}
-        <div className="bg-gradient py-10 mt-[70px]">
+        {/* <div className="bg-gradient py-10 mt-[70px]">
           <div className="flex justify-around w-[80%] mx-auto h-full items-center flex-wrap">
             <p className="text-white font-RobotoBold text-[32px] xs:text-[22px] sm:text-[28px] text-center">
               Get 25% Off On Your First Purchase!
@@ -205,7 +241,7 @@ const Home = () => {
               onClick={()=> navigate("/products/all")}
             />
           </div>
-        </div>
+        </div> */}
         {/*Container 6*/}
         {/* <div className="w-[90%] mx-auto grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-1 my-10 gap-10">
           <p className="text-canter text-[28px] 2xl:col-span-4 xl:col-span-4 lg:col-span-4 md:col-span-2 sm:col-span-2 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 font-RobotoBold xs:text-[22px]">
@@ -219,7 +255,7 @@ const Home = () => {
             ))}
         </div> */}
         {/*Container 7*/}
-        <div className="w-[90%] mx-auto grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 xs:grid-cols-1 my-10 gap-3">
+        {/* <div className="w-[90%] mx-auto grid 2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 xs:grid-cols-1 my-10 gap-3">
           <p className="text-canter 2xl:col-span-3 xl:col-span-3 sm:text-[28px] lg:col-span-3 md:col-span-3 sm:col-span-1 xs:col-span-1 mx-auto text-primary mt-10 xs:mt-0 mb-[50px] xs:mb-[20px] xs:text-[22px] font-RobotoBold">
             Customer Reviews
           </p>
@@ -229,7 +265,7 @@ const Home = () => {
                 <ReviewCard data={item} />
               </div>
             ))}
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

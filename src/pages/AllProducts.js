@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Layout from "layout/BaseLayout";
 import Filter from "components/allProducts/Filter";
 import Card from "components/allProducts/Card";
@@ -7,15 +7,53 @@ import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import Modal from "components/common/base/Modal";
 import SearchProductForm from "Forms/SearchProductForm";
+import queryString from 'query-string';
+import { useLocation, } from "react-router-dom";
 
 const AllProducts = () => {
 
   const dispatch = useDispatch()
   const [flag,setFlag] = useState(false)
+  const location = useLocation()
+  const { id } = queryString.parse(location.search);
   const {allProductLoader, productWithCategoryLoader, productsData, productMsg} = useSelector((state)=> state.products)
 
   const handleGetAllPro = () => {
     dispatch(getAllProduct())
+  }
+
+  const handleGetCategoryProName = (val) => {
+    if(!val) return
+    if(val === "Fruits"){
+      return "Fruits"
+    }
+    if(val === "Vegetables"){
+      return "Vegetables"
+    }
+    if(val === "Fertilizers"){
+      return "Fertilizers"
+    }
+    if(val === "Fiber "){
+      return "Fiber & Oil Seed Crops"
+    }
+    if(val === "Grains "){
+      return "Grains & Cereals"
+    }
+    if(val === "Plant "){
+      return "Plant Pathology & Entomology"
+    }
+    if(val === "Seed "){
+      return "Seed Varieties"
+    }
+    if(val === "Seed "){
+      return "Seed Varieties"
+    }
+    if(val === "Machinary "){
+      return "Machinary & Tools"
+    }
+    if(val === "Pesticides"){
+      return "Pesticides"
+    }
   }
 
   const handleGetCategoryPro = (val) => {
@@ -37,12 +75,17 @@ const AllProducts = () => {
     setFlag(false)
   }
 
+  useEffect(()=>{
+    if(!id) return
+    dispatch(getProductWithCategory(handleGetCategoryProName(id)))
+  },[])
+
   return (
     <>
     <Layout>
       <div className="w-[95%] mx-auto my-10">
         <div>
-          <Filter handleGetAllPro={handleGetAllPro} handleGetCategoryPro={handleGetCategoryPro} onFilter={()=>setFlag(true)}/>
+          <Filter value={id ? handleGetCategoryProName(id) : ""} handleGetAllPro={handleGetAllPro} handleGetCategoryPro={handleGetCategoryPro} onFilter={()=>setFlag(true)}/>
         </div>
         <div className="grid grid-cols-12 gap-5 mt-[60px]">
           {(allProductLoader || productWithCategoryLoader ) && (

@@ -15,7 +15,7 @@ const navigate = useNavigate()
         width={150}
         height={40}
         font="Roboto"
-        onClick={()=>navigate("/products/all")}
+        onClick={()=>navigate(`/products/all?id=${data.title}`)}
       />
     </div>
   );

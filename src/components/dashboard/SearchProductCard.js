@@ -14,20 +14,32 @@ const SearchProductCard = ({data, onSelect}) => {
       /> 
       <div className="p-3 leading-6">
         <p className="font-RobotoBold text-primary text-[16px] truncate">
-          Product Name:{" "}
+           Name:{" "}
           <span className="text-black font-Roboto  ">
             {data.name && data.name}
           </span>
         </p>
         <p className="font-RobotoBold text-primary text-[16px] truncate">
-          Product Category:{" "}
+           Category:{" "}
           <span className="text-black font-Roboto  ">
             {data.ProductType && data.ProductType}
           </span>
         </p>
+        <p className="font-RobotoBold text-primary text-[16px] truncate">
+           SubCategory:{" "}
+          <span className="text-black font-Roboto  ">
+            {data.subProductType ? data.subProductType : "N/A"}
+          </span>
+        </p>
+        <p className="font-RobotoBold text-primary text-[16px] truncate">
+           Brand:{" "}
+          <span className="text-black font-Roboto  ">
+            {data.brand ? data.brand : "N/A"}
+          </span>
+        </p>
       </div>
       <div onClick={()=>onSelect(data)} className="bg-primary cursor-pointer w-full h-[50px] rounded-b-lg flex justify-center items-center">
-        <p className="font-RobotoBold text-white text-[16px]">Added</p>
+        <p className="font-RobotoBold text-white text-[16px]">Subscribe</p>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails, getProductsAnalytic, searchProduct} from "./productsAction";
+import { addNewProduct , getAllProduct, getProductWithCategory, getProductDetails, getProductsAnalytic, searchProduct, searchByProduct} from "./productsAction";
 
 // Initial state
 const initialState = {
@@ -14,6 +14,9 @@ const initialState = {
   productAnalyticData:{},
   searchProductData:[],
   searchProductLoader:false,
+  searchByProductLoader: false,
+  searchByProductMsg: "Please Search Product",
+  searchByProductData: [],
   // searchProductMsg:"xyz .."
 };
 
@@ -27,8 +30,8 @@ export const productSlice = createSlice({
     },
     
     clearProduct: (state,) => {
-      state.productsData = [];
-      state.productMsg ="Please Search Product"
+      state.searchByProductData = [];
+      state.searchByProductMsg ="Please Search Product"
     }
   },
   extraReducers: (builder) => {
@@ -96,7 +99,7 @@ export const productSlice = createSlice({
     builder.addCase(getProductsAnalytic.rejected, (state) => {
         state.productAnalyticLoader = false;
     });
-    //Add New Product
+    //Search By Product
     builder.addCase(searchProduct.pending, (state) => {
       state.searchProductLoader = true;
       state.productMsg = "";
@@ -110,6 +113,21 @@ export const productSlice = createSlice({
     builder.addCase(searchProduct.rejected, (state) => {
       state.searchProductLoader = false;
       state.productMsg ="Sorry something is went wrong try again"
+    });
+    //Search By Product
+    builder.addCase(searchByProduct.pending, (state) => {
+      state.searchByProductLoader = true;
+      state.searchByProductMsg = "";
+      state.searchByProductData= []
+    });
+    builder.addCase(searchByProduct.fulfilled, (state, { payload }) => {
+      state.searchByProductLoader = false;
+      state.searchByProductData = payload.data;
+      state.searchByProductMsg = payload.data && payload.data.length <= 0 ? "Sorry no products availavle in this search" : "";
+    });
+    builder.addCase(searchByProduct.rejected, (state) => {
+      state.searchByProductLoader = false;
+      state.searchByProductMsg ="Sorry something is went wrong try again"
     });
   },
 });

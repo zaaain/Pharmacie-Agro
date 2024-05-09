@@ -21,7 +21,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
   const [flag, setFlag] = useState(true);
   const [chemFlag, setChemFlag] = useState(false);
   const [cateName,setCateName] = useState("")
-  const { searchProductLoader } = useSelector((state) => state.products);
+  const { searchProductLoader, searchByProductLoader } = useSelector((state) => state.products);
   const defaultValues = {
     category:cate && cate
   }
@@ -93,7 +93,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
   return (
     <form onSubmit={handleSubmit(handleSubmitNow)}>
       <div className="grid grid-cols-6 gap-5 rounded-lg">
-      <div className="col-span-6">
+      <div className="md:col-span-6 sm:col-span-6 xs:col-span-6">
         <Controller
             name="category"
             control={control}
@@ -116,7 +116,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
           />
           </div>
           {cateFlag && (cateName === "Pesticides" || cateName === "Plant Pathology & Entomology" || cateName === "Fertilizers" )  && (
-         <div className="col-span-6">
+         <div className="md:col-span-6 sm:col-span-6 xs:col-span-6">
           <Controller
             name="subCategory"
             control={control}
@@ -132,7 +132,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
           />
         </div> 
       )}
-        <div className="col-span-3">
+        <div className="md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="query"
             control={control}
@@ -147,7 +147,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
             )}
           />
         </div>
-        <div className="col-span-3">
+        <div className="md:col-span-3 sm:col-span-6 xs:col-span-6">
           <Controller
             name="brand"
             control={control}
@@ -163,10 +163,11 @@ const SearchProductForm = ({handleSearch, cate}) => {
           />
         </div>
       
-    
+        {cateFlag && (cateName === "Pesticides" || cateName === "Plant Pathology & Entomology" || cateName === "Fertilizers" )  && ( 
+          <>
         {chemicals.map((chem, index) => (
         <>
-        <div className={`col-span-2`}>
+        <div className={`md:col-span-2 sm:col-span-6 xs:col-span-6`}>
               <FormInput
                 placeholder="Active Ingredients"
                 value={chem.name}
@@ -174,7 +175,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
               />
     
         </div>
-        <div className={`col-span-1`}>
+        <div className={`md:col-span-1 sm:col-span-6 xs:col-span-6`}>
               <FormInput
                 placeholder="Concentration"
                 type="number"
@@ -183,7 +184,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
               />
     
         </div>
-        <div className={`col-span-2`}>
+        <div className={`md:col-span-2 sm:col-span-6 xs:col-span-6`}>
               <SelectInput
                 placeholder="Unit"
                 value={chem.unit}
@@ -192,7 +193,7 @@ const SearchProductForm = ({handleSearch, cate}) => {
               />
         </div>
    
-        <div className="col-span-1 flex">
+        <div className="md:col-span-1 sm:col-span-6 xs:col-span-6 flex">
               <div className={`${!chemFlag ? "bg-[#eaeaea]" : "bg-primary"} p-2 flex items-center justify-center w-[50px] rounded-2xl h-[50px] cursor-pointer`} onClick={handleAddNewChem}>
                 <AddIcon style={{color:"white"}}/>
               </div>
@@ -203,8 +204,15 @@ const SearchProductForm = ({handleSearch, cate}) => {
       
         </>
         ))}
+</>
+        )}
         <div className="col-span-6 flex justify-center">
-              <Button value="Search Here" width={150} height={45} type="submit" loader={searchProductLoader} disabled={searchProductLoader}/>
+              <Button 
+                value="Search Here" 
+                width={150} height={45} 
+                type="submit" 
+                loader={searchProductLoader || searchByProductLoader} 
+                disabled={searchProductLoader || searchByProductLoader}/>
         </div>
       </div>
     </form>
